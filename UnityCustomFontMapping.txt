@@ -1,0 +1,81 @@
+SwordSaintFont.png
+
+size = 1270 x 548
+count normal characters = 10 x 4
+normal character = 127 x 137
+thin character = 56 x 137
+
+UV width  = 0.1
+UV height = 0.25
+
+Line Spacing = <MAX CHARACTER HEIGHT>
+
+Character=<ANY>
+	Index=<ASCII CODE>
+	UV 0,177007299270073 4,371134020618557
+		X,Y=(1/(SIZE X / CHARACTER WIDTH) * CHARACTER POS X / CHARACTER WIDTH), 1 - 1/(SIZE Y / CHARACTER HEIGHT) * [CHARACTER POS Y / CHARACTER HEIGHT) + 1])
+		W,H=(1/(SIZE X / CHARACTER WIDTH),                                      1/(SIZE Y / CHARACTER HEIGHT)                                      )
+	VERT
+		X,Y=(0, 0)
+		W,H=(<CHARACTER WIDTH>, <CHARACTER HEIGHT (NEGATIVE)>)
+	Advance=<CHARACTER WIDTH>
+
+Character="O"
+	Index=79
+	UV
+		X,Y=(0.0, 0.75)
+		W,H=(0.1, 0.25)
+	VERT
+		X,Y=(0, 0)
+		W,H=(127, -37)
+	Advance=127
+
+Character="Q"
+	Index=81
+	UV
+		X,Y=(0.1, 0.75)
+		W,H=(0.1, 0.25)
+	VERT
+		X,Y=(0, 0)
+		W,H=(127, -37)
+	Advance=127
+
+Character="L"
+	Index=81
+	UV
+		X,Y=(0.0, 0.5)
+		W,H=(0.1, 0.25)
+	VERT
+		X,Y=(0, 0)
+		W,H=(127, -37)
+	Advance=127
+
+Character="A"
+	Index=65
+	UV
+		X,Y=(0.1, 0.5)
+		W,H=(0.1, 0.25)
+	VERT
+		X,Y=(0, 0)
+		W,H=(127, -37)
+	Advance=127
+
+Character="R"
+	Index=82
+	UV
+		X,Y=(0.2, 0.25)
+		W,H=(0.1, 0.25)
+	VERT
+		X,Y=(0, 0)
+		W,H=(127, -37)
+	Advance=127
+
+Character="M"
+	Index=77
+	UV
+		X,Y=(0.9, 0.75)
+		W,H=(0.1, 0.25)
+	VERT
+		X,Y=(0, 0)
+		W,H=(127, -37)
+	Advance=127
