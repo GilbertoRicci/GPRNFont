@@ -214,17 +214,15 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.numericUpDownAdvance);
             this.groupBox2.Controls.Add(this.numericUpDownIndex);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Location = new System.Drawing.Point(14, 392);
+            this.groupBox2.Location = new System.Drawing.Point(10, 392);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(148, 364);
+            this.groupBox2.Size = new System.Drawing.Size(152, 361);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Unity Font Data";
@@ -238,6 +236,11 @@
             2328306,
             0,
             0});
+            this.numericUpDownAdvance.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownAdvance.Name = "numericUpDownAdvance";
             this.numericUpDownAdvance.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownAdvance.TabIndex = 20;
@@ -276,9 +279,9 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Location = new System.Drawing.Point(14, 225);
+            this.groupBox4.Location = new System.Drawing.Point(12, 225);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(120, 128);
+            this.groupBox4.Size = new System.Drawing.Size(128, 128);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Vert";
@@ -286,63 +289,83 @@
             // numericUpDownVertH
             // 
             this.numericUpDownVertH.Enabled = false;
-            this.numericUpDownVertH.Location = new System.Drawing.Point(52, 98);
+            this.numericUpDownVertH.Location = new System.Drawing.Point(56, 98);
             this.numericUpDownVertH.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownVertH.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownVertH.Name = "numericUpDownVertH";
             this.numericUpDownVertH.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownVertH.TabIndex = 19;
-            this.numericUpDownVertH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownVertH.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // numericUpDownVertW
             // 
             this.numericUpDownVertW.Enabled = false;
-            this.numericUpDownVertW.Location = new System.Drawing.Point(52, 72);
+            this.numericUpDownVertW.Location = new System.Drawing.Point(56, 72);
             this.numericUpDownVertW.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownVertW.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownVertW.Name = "numericUpDownVertW";
             this.numericUpDownVertW.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownVertW.TabIndex = 18;
-            this.numericUpDownVertW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownVertW.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // numericUpDownVertY
             // 
             this.numericUpDownVertY.Enabled = false;
-            this.numericUpDownVertY.Location = new System.Drawing.Point(52, 46);
+            this.numericUpDownVertY.Location = new System.Drawing.Point(56, 46);
             this.numericUpDownVertY.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownVertY.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownVertY.Name = "numericUpDownVertY";
             this.numericUpDownVertY.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownVertY.TabIndex = 17;
-            this.numericUpDownVertY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownVertY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // numericUpDownVertX
             // 
             this.numericUpDownVertX.Enabled = false;
-            this.numericUpDownVertX.Location = new System.Drawing.Point(52, 20);
+            this.numericUpDownVertX.Location = new System.Drawing.Point(56, 20);
             this.numericUpDownVertX.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownVertX.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownVertX.Name = "numericUpDownVertX";
             this.numericUpDownVertX.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownVertX.TabIndex = 16;
-            this.numericUpDownVertX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownVertX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(25, 74);
+            this.label11.Location = new System.Drawing.Point(29, 74);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(21, 13);
             this.label11.TabIndex = 12;
@@ -351,7 +374,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(25, 100);
+            this.label12.Location = new System.Drawing.Point(29, 100);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(18, 13);
             this.label12.TabIndex = 14;
@@ -360,16 +383,16 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(25, 22);
+            this.label13.Location = new System.Drawing.Point(29, 22);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(14, 13);
+            this.label13.Size = new System.Drawing.Size(17, 13);
             this.label13.TabIndex = 8;
-            this.label13.Text = "X";
+            this.label13.Text = "X:";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(25, 48);
+            this.label14.Location = new System.Drawing.Point(29, 48);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(17, 13);
             this.label14.TabIndex = 10;
@@ -394,73 +417,97 @@
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Location = new System.Drawing.Point(14, 91);
+            this.groupBox3.Location = new System.Drawing.Point(12, 91);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(120, 128);
+            this.groupBox3.Size = new System.Drawing.Size(128, 128);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "UV";
             // 
             // numericUpDownUVH
             // 
+            this.numericUpDownUVH.DecimalPlaces = 10;
             this.numericUpDownUVH.Enabled = false;
-            this.numericUpDownUVH.Location = new System.Drawing.Point(52, 98);
+            this.numericUpDownUVH.Location = new System.Drawing.Point(30, 98);
             this.numericUpDownUVH.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownUVH.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownUVH.Name = "numericUpDownUVH";
-            this.numericUpDownUVH.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDownUVH.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownUVH.TabIndex = 19;
-            this.numericUpDownUVH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownUVH.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // numericUpDownUVW
             // 
+            this.numericUpDownUVW.DecimalPlaces = 10;
             this.numericUpDownUVW.Enabled = false;
-            this.numericUpDownUVW.Location = new System.Drawing.Point(52, 72);
+            this.numericUpDownUVW.Location = new System.Drawing.Point(30, 72);
             this.numericUpDownUVW.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownUVW.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownUVW.Name = "numericUpDownUVW";
-            this.numericUpDownUVW.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDownUVW.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownUVW.TabIndex = 18;
-            this.numericUpDownUVW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownUVW.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // numericUpDownUVY
             // 
+            this.numericUpDownUVY.DecimalPlaces = 10;
             this.numericUpDownUVY.Enabled = false;
-            this.numericUpDownUVY.Location = new System.Drawing.Point(52, 46);
+            this.numericUpDownUVY.Location = new System.Drawing.Point(30, 46);
             this.numericUpDownUVY.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownUVY.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownUVY.Name = "numericUpDownUVY";
-            this.numericUpDownUVY.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDownUVY.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownUVY.TabIndex = 17;
-            this.numericUpDownUVY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownUVY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // numericUpDownUVX
             // 
+            this.numericUpDownUVX.DecimalPlaces = 10;
             this.numericUpDownUVX.Enabled = false;
-            this.numericUpDownUVX.Location = new System.Drawing.Point(52, 20);
+            this.numericUpDownUVX.Location = new System.Drawing.Point(30, 20);
             this.numericUpDownUVX.Maximum = new decimal(new int[] {
             1874919423,
             2328306,
             0,
             0});
+            this.numericUpDownUVX.Minimum = new decimal(new int[] {
+            -1981284353,
+            -1966660860,
+            0,
+            -2147483648});
             this.numericUpDownUVX.Name = "numericUpDownUVX";
-            this.numericUpDownUVX.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDownUVX.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownUVX.TabIndex = 16;
-            this.numericUpDownUVX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownUVX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(25, 74);
+            this.label6.Location = new System.Drawing.Point(9, 74);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(21, 13);
             this.label6.TabIndex = 12;
@@ -469,7 +516,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(25, 100);
+            this.label7.Location = new System.Drawing.Point(9, 100);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(18, 13);
             this.label7.TabIndex = 14;
@@ -478,16 +525,16 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(25, 22);
+            this.label8.Location = new System.Drawing.Point(9, 22);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.Size = new System.Drawing.Size(17, 13);
             this.label8.TabIndex = 8;
-            this.label8.Text = "X";
+            this.label8.Text = "X:";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(25, 48);
+            this.label10.Location = new System.Drawing.Point(9, 48);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(17, 13);
             this.label10.TabIndex = 10;
@@ -508,8 +555,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.numericUpDownHeight);
             this.groupBox1.Controls.Add(this.numericUpDownWidth);
             this.groupBox1.Controls.Add(this.numericUpDownPosX);
@@ -518,9 +563,9 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(14, 245);
+            this.groupBox1.Location = new System.Drawing.Point(10, 245);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(148, 141);
+            this.groupBox1.Size = new System.Drawing.Size(152, 141);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Glyph Rectangle";

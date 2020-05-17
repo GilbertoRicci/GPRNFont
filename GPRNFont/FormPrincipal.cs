@@ -44,11 +44,6 @@ namespace GPRNFont
                 numericUpDownWidth.Value = 0;
                 numericUpDownHeight.Value = 0;
                 textBoxGlyph.Text = "";
-
-                numericUpDownPosX.Enabled = false;
-                numericUpDownPosY.Enabled = false;
-                numericUpDownWidth.Enabled = false;
-                numericUpDownHeight.Enabled = false;
             }
             else
             {
@@ -56,23 +51,70 @@ namespace GPRNFont
                 numericUpDownPosY.Value = selectedArea.Y;
                 numericUpDownWidth.Value = selectedArea.Width;
                 numericUpDownHeight.Value = selectedArea.Height;
-
-                numericUpDownPosX.Enabled = true;
-                numericUpDownPosY.Enabled = true;
-                numericUpDownWidth.Enabled = true;
-                numericUpDownHeight.Enabled = true;
             }
 
             this.fillingRectData = false;
         }
 
-        private void UpdateGlyphData()
+        private void CalcUnityData(Rectangle selectedArea)
         {
-            var selectedArea = this.selectionManager.GetSelectedArea();
+            if (selectedArea.IsEmpty)
+            {
+                numericUpDownAdvance.Value = 0;
+                numericUpDownUVX.Value = 0;
+                numericUpDownUVY.Value = 0;
+                numericUpDownUVW.Value = 0;
+                numericUpDownUVH.Value = 0;
+                numericUpDownVertX.Value = 0;
+                numericUpDownVertY.Value = 0;
+                numericUpDownVertW.Value = 0;
+                numericUpDownVertH.Value = 0;
+            }
+            else
+            {
+                decimal imgWidth = pictureBoxImagem.Image.Size.Width;
+                decimal imgHeight = pictureBoxImagem.Image.Size.Height;
+                decimal charPosX = selectedArea.X;
+                decimal charPosY = selectedArea.Y;
+                decimal charWidth = selectedArea.Width;
+                decimal charHeight = selectedArea.Height;
 
+                numericUpDownAdvance.Value = charWidth;
+                numericUpDownUVX.Value = 1 / (imgWidth / charWidth) * charPosX / charWidth;
+                numericUpDownUVY.Value = 1 - 1 / (imgHeight / charHeight) * ((charPosY / charHeight) + 1);
+                numericUpDownUVW.Value = 1 / (imgWidth / charWidth);
+                numericUpDownUVH.Value = 1 / (imgHeight / charHeight);
+                numericUpDownVertX.Value = 0;
+                numericUpDownVertY.Value = 0;
+                numericUpDownVertW.Value = charWidth;
+                numericUpDownVertH.Value = -charHeight;
+            }
+        }
+
+        private void EnableTextBoxes(bool enable)
+        {
+            textBoxGlyph.Enabled = enable;
+            numericUpDownPosX.Enabled = enable;
+            numericUpDownPosY.Enabled = enable;
+            numericUpDownWidth.Enabled = enable;
+            numericUpDownHeight.Enabled = enable;
+            numericUpDownIndex.Enabled = enable;
+            numericUpDownAdvance.Enabled = enable;
+            numericUpDownUVX.Enabled = enable;
+            numericUpDownUVY.Enabled = enable;
+            numericUpDownUVW.Enabled = enable;
+            numericUpDownUVH.Enabled = enable;
+            numericUpDownVertX.Enabled = enable;
+            numericUpDownVertY.Enabled = enable;
+            numericUpDownVertW.Enabled = enable;
+            numericUpDownVertH.Enabled = enable;
+        }
+
+        private void UpdateGlyphData(Rectangle selectedArea)
+        {
             this.DrawImageCopy(selectedArea);
-            this.FillRectData(selectedArea);
-            this.textBoxGlyph.Enabled = !selectedArea.IsEmpty;
+            this.CalcUnityData(selectedArea);
+            this.EnableTextBoxes(!selectedArea.IsEmpty);
         }
 
         private void ChangeSelectionRect()
@@ -81,7 +123,7 @@ namespace GPRNFont
                                     Decimal.ToInt32(numericUpDownWidth.Value), Decimal.ToInt32(numericUpDownHeight.Value));
 
             this.selectionManager.ChangeSelectionRect(newSelectedArea);
-            this.DrawImageCopy(newSelectedArea);
+            this.UpdateGlyphData(newSelectedArea);
             pictureBoxImagem.Invalidate();
         }
         
@@ -109,9 +151,10 @@ namespace GPRNFont
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
             this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size);
-            pictureBoxImagem.Invalidate();
+            var selectedArea = this.selectionManager.GetSelectedArea();
 
-            this.UpdateGlyphData();
+            this.FillRectData(selectedArea);
+            this.UpdateGlyphData(selectedArea);
         }
 
         private void pictureBoxImagem_MouseMove(object sender, MouseEventArgs e)
@@ -127,7 +170,10 @@ namespace GPRNFont
 
         private void textBoxGlyph_TextChanged(object sender, EventArgs e)
         {
-            buttonSaveGlyph.Enabled = textBoxGlyph.Text != "";
+            var glyph = textBoxGlyph.Text.ToCharArray();
+            buttonSaveGlyph.Enabled = glyph.Length == 1;
+            if (buttonSaveGlyph.Enabled)
+                numericUpDownIndex.Value = (int) glyph[0];
         }
 
         private void numericUpDownPosX_ValueChanged(object sender, EventArgs e)
