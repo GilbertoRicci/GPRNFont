@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace GPRNFont
 {
@@ -171,7 +172,7 @@ namespace GPRNFont
             this.selectionRect = Rectangle.Empty;
         }
 
-        private int GetClickedLittleSquareIndex(Point point)
+        private int GetLittleSquareIndex(Point point)
         {
             for(var i=0; i<this.littleSquares.Length; i++)
             {
@@ -182,6 +183,28 @@ namespace GPRNFont
             }
 
             return -1;
+        }
+
+        public Cursor GetCursor(Point mousePoint)
+        {
+            var littleSquare = this.GetLittleSquareIndex(mousePoint);
+
+            if (littleSquare == SQUARE_TOP_LEFT || littleSquare == SQUARE_BOTTOM_RIGHT)
+                return Cursors.SizeNWSE;
+
+            if (littleSquare == SQUARE_TOP_CENTER || littleSquare == SQUARE_BOTTOM_CENTER)
+                return Cursors.SizeNS;
+
+            if (littleSquare == SQUARE_TOP_RIGHT || littleSquare == SQUARE_BOTTOM_LEFT)
+                return Cursors.SizeNESW;
+
+            if (littleSquare == SQUARE_CENTER_LEFT || littleSquare == SQUARE_CENTER_RIGHT)
+                return Cursors.SizeWE;
+
+            if (this.selectionRect.Contains(mousePoint))
+                return Cursors.SizeAll;
+
+            return Cursors.Cross;
         }
 
         private bool IsUsingLittleSquare()
@@ -250,7 +273,7 @@ namespace GPRNFont
 
         public void StartSelection(Point startPoint)
         {
-            this.selectedLittleSquare = GetClickedLittleSquareIndex(startPoint);
+            this.selectedLittleSquare = GetLittleSquareIndex(startPoint);
 
             if (this.IsUsingLittleSquare())
                 this.startPoint = this.GetStartPointByLittleSquare();
@@ -311,7 +334,7 @@ namespace GPRNFont
 
         public Rectangle GetSelectedArea()
         {
-            if (!this.selectionRect.IsEmpty)
+            if (this.selectionRect.Width > 0 && this.selectionRect.Height > 0)
                 return this.selectionRect;
 
             return Rectangle.Empty;

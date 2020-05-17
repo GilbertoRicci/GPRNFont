@@ -37,15 +37,7 @@ namespace GPRNFont
         {
             this.fillingRectData = true;
 
-            if (selectedArea.IsEmpty)
-            {
-                numericUpDownPosX.Value = 0;
-                numericUpDownPosY.Value = 0;
-                numericUpDownWidth.Value = 0;
-                numericUpDownHeight.Value = 0;
-                textBoxGlyph.Text = "";
-            }
-            else
+            if (!selectedArea.IsEmpty)
             {
                 numericUpDownPosX.Value = selectedArea.X;
                 numericUpDownPosY.Value = selectedArea.Y;
@@ -58,19 +50,7 @@ namespace GPRNFont
 
         private void CalcUnityData(Rectangle selectedArea)
         {
-            if (selectedArea.IsEmpty)
-            {
-                numericUpDownAdvance.Value = 0;
-                numericUpDownUVX.Value = 0;
-                numericUpDownUVY.Value = 0;
-                numericUpDownUVW.Value = 0;
-                numericUpDownUVH.Value = 0;
-                numericUpDownVertX.Value = 0;
-                numericUpDownVertY.Value = 0;
-                numericUpDownVertW.Value = 0;
-                numericUpDownVertH.Value = 0;
-            }
-            else
+            if (!selectedArea.IsEmpty)
             {
                 decimal imgWidth = pictureBoxImagem.Image.Size.Width;
                 decimal imgHeight = pictureBoxImagem.Image.Size.Height;
@@ -108,6 +88,28 @@ namespace GPRNFont
             numericUpDownVertY.Enabled = enable;
             numericUpDownVertW.Enabled = enable;
             numericUpDownVertH.Enabled = enable;
+
+            if (!enable)
+            {
+                this.fillingRectData = true;
+
+                numericUpDownPosX.Value = 0;
+                numericUpDownPosY.Value = 0;
+                numericUpDownWidth.Value = 0;
+                numericUpDownHeight.Value = 0;
+                textBoxGlyph.Text = "";
+                numericUpDownAdvance.Value = 0;
+                numericUpDownUVX.Value = 0;
+                numericUpDownUVY.Value = 0;
+                numericUpDownUVW.Value = 0;
+                numericUpDownUVH.Value = 0;
+                numericUpDownVertX.Value = 0;
+                numericUpDownVertY.Value = 0;
+                numericUpDownVertW.Value = 0;
+                numericUpDownVertH.Value = 0;
+
+                this.fillingRectData = false;
+            }
         }
 
         private void UpdateGlyphData(Rectangle selectedArea)
@@ -145,6 +147,7 @@ namespace GPRNFont
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
             this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition));
+            this.UpdateGlyphData(this.selectionManager.GetSelectedArea());
             pictureBoxImagem.Invalidate();
         }
 
@@ -159,7 +162,12 @@ namespace GPRNFont
 
         private void pictureBoxImagem_MouseMove(object sender, MouseEventArgs e)
         {
-            this.selectionManager.UpdateSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size);
+            var mousePoint = pictureBoxImagem.PointToClient(MousePosition);
+
+            this.selectionManager.UpdateSelection(mousePoint, pictureBoxImagem.Size);
+
+            Cursor.Current = this.selectionManager.GetCursor(mousePoint);
+
             pictureBoxImagem.Invalidate();
         }
 
