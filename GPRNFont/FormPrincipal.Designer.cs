@@ -33,7 +33,15 @@
             this.toolStripButtonSelecionarImg = new System.Windows.Forms.ToolStripButton();
             this.splitContainerGlyphs = new System.Windows.Forms.SplitContainer();
             this.splitContainerImage = new System.Windows.Forms.SplitContainer();
+            this.splitContainerImgZoom = new System.Windows.Forms.SplitContainer();
             this.pictureBoxImagem = new System.Windows.Forms.PictureBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonZoomPlus = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTextBoxZoom = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabelZoom = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonZoomMinus = new System.Windows.Forms.ToolStripButton();
             this.buttonSaveGlyph = new System.Windows.Forms.Button();
             this.textBoxGlyph = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -78,7 +86,12 @@
             this.splitContainerImage.Panel1.SuspendLayout();
             this.splitContainerImage.Panel2.SuspendLayout();
             this.splitContainerImage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerImgZoom)).BeginInit();
+            this.splitContainerImgZoom.Panel1.SuspendLayout();
+            this.splitContainerImgZoom.Panel2.SuspendLayout();
+            this.splitContainerImgZoom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImagem)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdvance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownIndex)).BeginInit();
@@ -150,8 +163,8 @@
             // splitContainerImage.Panel1
             // 
             this.splitContainerImage.Panel1.AutoScroll = true;
-            this.splitContainerImage.Panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.splitContainerImage.Panel1.Controls.Add(this.pictureBoxImagem);
+            this.splitContainerImage.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainerImage.Panel1.Controls.Add(this.splitContainerImgZoom);
             // 
             // splitContainerImage.Panel2
             // 
@@ -165,6 +178,27 @@
             this.splitContainerImage.Size = new System.Drawing.Size(1060, 413);
             this.splitContainerImage.SplitterDistance = 863;
             this.splitContainerImage.TabIndex = 0;
+            // 
+            // splitContainerImgZoom
+            // 
+            this.splitContainerImgZoom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerImgZoom.IsSplitterFixed = true;
+            this.splitContainerImgZoom.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerImgZoom.Name = "splitContainerImgZoom";
+            this.splitContainerImgZoom.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerImgZoom.Panel1
+            // 
+            this.splitContainerImgZoom.Panel1.AutoScroll = true;
+            this.splitContainerImgZoom.Panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.splitContainerImgZoom.Panel1.Controls.Add(this.pictureBoxImagem);
+            // 
+            // splitContainerImgZoom.Panel2
+            // 
+            this.splitContainerImgZoom.Panel2.Controls.Add(this.toolStrip1);
+            this.splitContainerImgZoom.Size = new System.Drawing.Size(859, 409);
+            this.splitContainerImgZoom.SplitterDistance = 375;
+            this.splitContainerImgZoom.TabIndex = 1;
             // 
             // pictureBoxImagem
             // 
@@ -181,6 +215,79 @@
             this.pictureBoxImagem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseDown);
             this.pictureBoxImagem.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseMove);
             this.pictureBoxImagem.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseUp);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonZoomPlus,
+            this.toolStripSeparator1,
+            this.toolStripTextBoxZoom,
+            this.toolStripLabelZoom,
+            this.toolStripSeparator2,
+            this.toolStripButtonZoomMinus});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 5);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(859, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonZoomPlus
+            // 
+            this.toolStripButtonZoomPlus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonZoomPlus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonZoomPlus.Enabled = false;
+            this.toolStripButtonZoomPlus.Image = global::GPRNFont.Properties.Resources.zoomPlus;
+            this.toolStripButtonZoomPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonZoomPlus.Name = "toolStripButtonZoomPlus";
+            this.toolStripButtonZoomPlus.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonZoomPlus.Text = "Zoom +";
+            this.toolStripButtonZoomPlus.Click += new System.EventHandler(this.toolStripButtonZoomPlus_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripTextBoxZoom
+            // 
+            this.toolStripTextBoxZoom.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripTextBoxZoom.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripTextBoxZoom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBoxZoom.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBoxZoom.Name = "toolStripTextBoxZoom";
+            this.toolStripTextBoxZoom.ReadOnly = true;
+            this.toolStripTextBoxZoom.Size = new System.Drawing.Size(35, 25);
+            this.toolStripTextBoxZoom.Text = "100%";
+            this.toolStripTextBoxZoom.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // toolStripLabelZoom
+            // 
+            this.toolStripLabelZoom.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabelZoom.Name = "toolStripLabelZoom";
+            this.toolStripLabelZoom.Size = new System.Drawing.Size(42, 22);
+            this.toolStripLabelZoom.Text = "Zoom:";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonZoomMinus
+            // 
+            this.toolStripButtonZoomMinus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonZoomMinus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonZoomMinus.Enabled = false;
+            this.toolStripButtonZoomMinus.Image = global::GPRNFont.Properties.Resources.zoomMinus;
+            this.toolStripButtonZoomMinus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonZoomMinus.Name = "toolStripButtonZoomMinus";
+            this.toolStripButtonZoomMinus.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonZoomMinus.Text = "Zoom -";
+            this.toolStripButtonZoomMinus.Click += new System.EventHandler(this.toolStripButtonZoomLess_Click);
             // 
             // buttonSaveGlyph
             // 
@@ -682,12 +789,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).EndInit();
             this.splitContainerGlyphs.ResumeLayout(false);
             this.splitContainerImage.Panel1.ResumeLayout(false);
-            this.splitContainerImage.Panel1.PerformLayout();
             this.splitContainerImage.Panel2.ResumeLayout(false);
             this.splitContainerImage.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerImage)).EndInit();
             this.splitContainerImage.ResumeLayout(false);
+            this.splitContainerImgZoom.Panel1.ResumeLayout(false);
+            this.splitContainerImgZoom.Panel1.PerformLayout();
+            this.splitContainerImgZoom.Panel2.ResumeLayout(false);
+            this.splitContainerImgZoom.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerImgZoom)).EndInit();
+            this.splitContainerImgZoom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImagem)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdvance)).EndInit();
@@ -759,6 +873,14 @@
         private System.Windows.Forms.NumericUpDown numericUpDownWidth;
         private System.Windows.Forms.NumericUpDown numericUpDownPosX;
         private System.Windows.Forms.NumericUpDown numericUpDownPosY;
+        private System.Windows.Forms.SplitContainer splitContainerImgZoom;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonZoomPlus;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxZoom;
+        private System.Windows.Forms.ToolStripLabel toolStripLabelZoom;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonZoomMinus;
     }
 }
 

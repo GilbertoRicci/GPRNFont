@@ -15,6 +15,8 @@ namespace GPRNFont
     {
         private SelectionManager selectionManager;
         private bool fillingRectData;
+        private Image originalImage;
+        private int zoom = 100;
 
         public FormPrincipal()
         {
@@ -23,13 +25,16 @@ namespace GPRNFont
             this.selectionManager = new SelectionManager();
         }
 
-        private void DrawImageCopy(Rectangle selectedArea)
+        private void DrawImageCopy()
         {
+            var selectedArea = new Rectangle(Convert.ToInt32(numericUpDownPosX.Value), Convert.ToInt32(numericUpDownPosY.Value),
+                                                Convert.ToInt32(numericUpDownWidth.Value), Convert.ToInt32(numericUpDownHeight.Value));
+
             pictureBoxPedacoImg.Image = new Bitmap(pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height);
             using (var g = Graphics.FromImage(pictureBoxPedacoImg.Image))
             {
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.DrawImage(pictureBoxImagem.Image, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), selectedArea, GraphicsUnit.Pixel);
+                g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), selectedArea, GraphicsUnit.Pixel);
             }
         }
 
@@ -39,10 +44,10 @@ namespace GPRNFont
 
             if (!selectedArea.IsEmpty)
             {
-                numericUpDownPosX.Value = selectedArea.X;
-                numericUpDownPosY.Value = selectedArea.Y;
-                numericUpDownWidth.Value = selectedArea.Width;
-                numericUpDownHeight.Value = selectedArea.Height;
+                numericUpDownPosX.Value = selectedArea.X * 100 / this.zoom;
+                numericUpDownPosY.Value = selectedArea.Y * 100 / this.zoom;
+                numericUpDownWidth.Value = selectedArea.Width * 100 / this.zoom;
+                numericUpDownHeight.Value = selectedArea.Height * 100 / this.zoom;
             }
 
             this.fillingRectData = false;
@@ -114,7 +119,7 @@ namespace GPRNFont
 
         private void UpdateGlyphData(Rectangle selectedArea)
         {
-            this.DrawImageCopy(selectedArea);
+            this.DrawImageCopy();
             this.CalcUnityData(selectedArea);
             this.EnableTextBoxes(!selectedArea.IsEmpty);
         }
@@ -139,15 +144,32 @@ namespace GPRNFont
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     this.selectionManager.ResetSelection();
-                    pictureBoxImagem.Image = new Bitmap(dlg.FileName);
+                    this.originalImage = new Bitmap(dlg.FileName);
+                    pictureBoxImagem.Image = originalImage;
+
+                    toolStripButtonZoomMinus.Enabled = true;
+                    toolStripButtonZoomPlus.Enabled = true;
                 }
             }
         }
 
+        public void ZoomApply()
+        {
+            this.pictureBoxImagem.Image = new Bitmap(this.originalImage, Convert.ToInt32(originalImage.Width * this.zoom / 100), Convert.ToInt32(originalImage.Height * this.zoom / 100));
+            Graphics grap = Graphics.FromImage(this.pictureBoxImagem.Image);
+            grap.InterpolationMode = InterpolationMode.NearestNeighbor;
+
+            this.toolStripTextBoxZoom.Text = this.zoom + "%";
+            this.selectionManager.ZoomApply(this.zoom);
+
+            pictureBoxImagem.Invalidate();
+        }
+
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
-            this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition));
+            this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), this.zoom);
             this.UpdateGlyphData(this.selectionManager.GetSelectedArea());
+
             pictureBoxImagem.Invalidate();
         }
 
@@ -158,6 +180,8 @@ namespace GPRNFont
 
             this.FillRectData(selectedArea);
             this.UpdateGlyphData(selectedArea);
+
+            pictureBoxImagem.Invalidate();
         }
 
         private void pictureBoxImagem_MouseMove(object sender, MouseEventArgs e)
@@ -173,7 +197,7 @@ namespace GPRNFont
 
         private void pictureBoxImagem_Paint(object sender, PaintEventArgs e)
         {
-            this.selectionManager.DrawSelectionRect(e.Graphics);
+            this.selectionManager.DrawSelectionRect(e.Graphics, 100);
         }
 
         private void textBoxGlyph_TextChanged(object sender, EventArgs e)
@@ -226,6 +250,28 @@ namespace GPRNFont
 
                 this.ChangeSelectionRect();
             }
+        }
+
+        private void toolStripButtonZoomPlus_Click(object sender, EventArgs e)
+        {
+            this.zoom *= 2;
+
+            if (this.zoom >= 800)
+                toolStripButtonZoomPlus.Enabled = false;
+            toolStripButtonZoomMinus.Enabled = true;
+
+            this.ZoomApply();
+        }
+
+        private void toolStripButtonZoomLess_Click(object sender, EventArgs e)
+        {
+            this.zoom /= 2;
+
+            if (this.zoom <= 25)
+                toolStripButtonZoomMinus.Enabled = false;
+            toolStripButtonZoomPlus.Enabled = true;
+
+            this.ZoomApply();
         }
     }
 }
