@@ -78,9 +78,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.listViewGlyphs = new System.Windows.Forms.ListView();
             this.toolStripBarraBotoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).BeginInit();
             this.splitContainerGlyphs.Panel1.SuspendLayout();
+            this.splitContainerGlyphs.Panel2.SuspendLayout();
             this.splitContainerGlyphs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerImage)).BeginInit();
             this.splitContainerImage.Panel1.SuspendLayout();
@@ -140,6 +142,7 @@
             this.splitContainerGlyphs.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainerGlyphs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerGlyphs.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainerGlyphs.IsSplitterFixed = true;
             this.splitContainerGlyphs.Location = new System.Drawing.Point(0, 25);
             this.splitContainerGlyphs.Name = "splitContainerGlyphs";
             this.splitContainerGlyphs.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -147,8 +150,12 @@
             // splitContainerGlyphs.Panel1
             // 
             this.splitContainerGlyphs.Panel1.Controls.Add(this.splitContainerImage);
+            // 
+            // splitContainerGlyphs.Panel2
+            // 
+            this.splitContainerGlyphs.Panel2.Controls.Add(this.listViewGlyphs);
             this.splitContainerGlyphs.Size = new System.Drawing.Size(1060, 593);
-            this.splitContainerGlyphs.SplitterDistance = 413;
+            this.splitContainerGlyphs.SplitterDistance = 416;
             this.splitContainerGlyphs.TabIndex = 1;
             // 
             // splitContainerImage
@@ -175,7 +182,7 @@
             this.splitContainerImage.Panel2.Controls.Add(this.groupBox2);
             this.splitContainerImage.Panel2.Controls.Add(this.pictureBoxPedacoImg);
             this.splitContainerImage.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainerImage.Size = new System.Drawing.Size(1060, 413);
+            this.splitContainerImage.Size = new System.Drawing.Size(1060, 416);
             this.splitContainerImage.SplitterDistance = 863;
             this.splitContainerImage.TabIndex = 0;
             // 
@@ -196,8 +203,8 @@
             // splitContainerImgZoom.Panel2
             // 
             this.splitContainerImgZoom.Panel2.Controls.Add(this.toolStrip1);
-            this.splitContainerImgZoom.Size = new System.Drawing.Size(859, 409);
-            this.splitContainerImgZoom.SplitterDistance = 375;
+            this.splitContainerImgZoom.Size = new System.Drawing.Size(859, 412);
+            this.splitContainerImgZoom.SplitterDistance = 377;
             this.splitContainerImgZoom.TabIndex = 1;
             // 
             // pictureBoxImagem
@@ -228,7 +235,7 @@
             this.toolStripLabelZoom,
             this.toolStripSeparator2,
             this.toolStripButtonZoomMinus});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 5);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 6);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(859, 25);
             this.toolStrip1.TabIndex = 1;
@@ -298,6 +305,7 @@
             this.buttonSaveGlyph.TabIndex = 11;
             this.buttonSaveGlyph.Text = "Save Glyph";
             this.buttonSaveGlyph.UseVisualStyleBackColor = true;
+            this.buttonSaveGlyph.Click += new System.EventHandler(this.buttonSaveGlyph_Click);
             // 
             // textBoxGlyph
             // 
@@ -650,7 +658,7 @@
             // pictureBoxPedacoImg
             // 
             this.pictureBoxPedacoImg.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBoxPedacoImg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxPedacoImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxPedacoImg.Location = new System.Drawing.Point(14, 45);
             this.pictureBoxPedacoImg.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxPedacoImg.MinimumSize = new System.Drawing.Size(100, 100);
@@ -773,6 +781,24 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Y Position:";
             // 
+            // listViewGlyphs
+            // 
+            this.listViewGlyphs.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.listViewGlyphs.AutoArrange = false;
+            this.listViewGlyphs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewGlyphs.HideSelection = false;
+            this.listViewGlyphs.Location = new System.Drawing.Point(0, 0);
+            this.listViewGlyphs.Margin = new System.Windows.Forms.Padding(0);
+            this.listViewGlyphs.MultiSelect = false;
+            this.listViewGlyphs.Name = "listViewGlyphs";
+            this.listViewGlyphs.OwnerDraw = true;
+            this.listViewGlyphs.Size = new System.Drawing.Size(1056, 169);
+            this.listViewGlyphs.TabIndex = 0;
+            this.listViewGlyphs.TileSize = new System.Drawing.Size(141, 141);
+            this.listViewGlyphs.UseCompatibleStateImageBehavior = false;
+            this.listViewGlyphs.View = System.Windows.Forms.View.Tile;
+            this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
+            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -786,6 +812,7 @@
             this.toolStripBarraBotoes.ResumeLayout(false);
             this.toolStripBarraBotoes.PerformLayout();
             this.splitContainerGlyphs.Panel1.ResumeLayout(false);
+            this.splitContainerGlyphs.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).EndInit();
             this.splitContainerGlyphs.ResumeLayout(false);
             this.splitContainerImage.Panel1.ResumeLayout(false);
@@ -881,6 +908,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabelZoom;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButtonZoomMinus;
+        private System.Windows.Forms.ListView listViewGlyphs;
     }
 }
 
