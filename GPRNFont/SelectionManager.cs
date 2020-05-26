@@ -17,7 +17,6 @@ namespace GPRNFont
         private const int SQUARE_BOTTOM_RIGHT = 7;
 
         private Point? startPoint;
-        private int currentZoom = 100;
         private Rectangle selectionRect;
         private bool isMovingRect;
 
@@ -303,7 +302,7 @@ namespace GPRNFont
             }
         }
 
-        public void EndSelection(Point endPoint, Size imgSize)
+        public Rectangle EndSelection(Point endPoint, Size imgSize)
         {
             if (this.isMovingRect)
                 this.StopMoveRect(imgSize);
@@ -318,6 +317,11 @@ namespace GPRNFont
 
                 this.ClearSelectedLittleSquare();
             }
+
+            if (this.selectionRect.Width > 0 && this.selectionRect.Height > 0)
+                return this.selectionRect;
+
+            return Rectangle.Empty;
         }
 
         public void DrawSelectionRect(Graphics g)
@@ -333,35 +337,11 @@ namespace GPRNFont
             }
         }
 
-        public Rectangle GetSelectedArea()
-        {
-            if (this.selectionRect.Width > 0 && this.selectionRect.Height > 0)
-                return this.selectionRect;
-
-            return Rectangle.Empty;
-        }
-
         public void ChangeSelectionRect(Rectangle newSelectionRect)
         {
             this.selectionRect = newSelectionRect;
             if (!this.selectionRect.IsEmpty)
                 this.CreateLittleSquares();
-        }
-
-        public void ZoomApply(int newZoom)
-        {
-            if (!this.GetSelectedArea().IsEmpty)
-            {
-                double doom = (double)newZoom / (double)this.currentZoom;
-
-                this.selectionRect = new Rectangle(Convert.ToInt32(this.selectionRect.X * doom), Convert.ToInt32(this.selectionRect.Y * doom),
-                                       Convert.ToInt32(this.selectionRect.Width * doom), Convert.ToInt32(this.selectionRect.Height * doom));
-
-                this.CreateLittleSquares();
-            }
-
-            this.currentZoom = newZoom;
-
         }
     }
 }

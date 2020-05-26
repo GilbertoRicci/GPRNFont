@@ -18,6 +18,7 @@ namespace GPRNFont
         private SelectionManager selectionManager;
         private bool fillingRectData;
         private Image originalImage;
+        private GlyphData currentGlyph;
         private Dictionary<char, GlyphData> glyphs;
         private int zoom = 100;
 
@@ -31,52 +32,58 @@ namespace GPRNFont
 
         private void DrawImageCopy()
         {
-            var selectedArea = new Rectangle(Convert.ToInt32(numericUpDownPosX.Value), Convert.ToInt32(numericUpDownPosY.Value),
-                                                Convert.ToInt32(numericUpDownWidth.Value), Convert.ToInt32(numericUpDownHeight.Value));
-
-            pictureBoxPedacoImg.Image = new Bitmap(pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height);
-            using (var g = Graphics.FromImage(pictureBoxPedacoImg.Image))
+            if (this.currentGlyph == null)
+                pictureBoxPedacoImg.Image = null;
+            else
             {
-                g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), selectedArea, GraphicsUnit.Pixel);
+                var selectedArea = this.currentGlyph.GetGlyphRect();
+
+                pictureBoxPedacoImg.Image = new Bitmap(pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height);
+                using (var g = Graphics.FromImage(pictureBoxPedacoImg.Image))
+                {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), selectedArea, GraphicsUnit.Pixel);
+                }
             }
+            
         }
 
-        private void FillRectData(Rectangle selectedArea)
+        private void SetTextBoxValues()
         {
-            this.fillingRectData = true;
-
-            if (!selectedArea.IsEmpty)
+            if (this.currentGlyph == null)
             {
-                numericUpDownPosX.Value = selectedArea.X * 100 / this.zoom;
-                numericUpDownPosY.Value = selectedArea.Y * 100 / this.zoom;
-                numericUpDownWidth.Value = selectedArea.Width * 100 / this.zoom;
-                numericUpDownHeight.Value = selectedArea.Height * 100 / this.zoom;
-            }
-
-            this.fillingRectData = false;
-        }
-
-        private void CalcUnityData(Rectangle selectedArea)
-        {
-            if (!selectedArea.IsEmpty)
-            {
-                decimal imgWidth = pictureBoxImagem.Image.Size.Width;
-                decimal imgHeight = pictureBoxImagem.Image.Size.Height;
-                decimal charPosX = selectedArea.X;
-                decimal charPosY = selectedArea.Y;
-                decimal charWidth = selectedArea.Width;
-                decimal charHeight = selectedArea.Height;
-
-                numericUpDownAdvance.Value = charWidth;
-                numericUpDownUVX.Value = 1 / (imgWidth / charWidth) * charPosX / charWidth;
-                numericUpDownUVY.Value = 1 - 1 / (imgHeight / charHeight) * ((charPosY / charHeight) + 1);
-                numericUpDownUVW.Value = 1 / (imgWidth / charWidth);
-                numericUpDownUVH.Value = 1 / (imgHeight / charHeight);
+                textBoxGlyph.Text = "";
+                numericUpDownPosX.Value = 0;
+                numericUpDownPosY.Value = 0;
+                numericUpDownWidth.Value = 1;
+                numericUpDownHeight.Value = 1;
+                numericUpDownAdvance.Value = 0;
+                numericUpDownUVX.Value = 0;
+                numericUpDownUVY.Value = 0;
+                numericUpDownUVW.Value = 0;
+                numericUpDownUVH.Value = 0;
                 numericUpDownVertX.Value = 0;
                 numericUpDownVertY.Value = 0;
-                numericUpDownVertW.Value = charWidth;
-                numericUpDownVertH.Value = -charHeight;
+                numericUpDownVertW.Value = 0;
+                numericUpDownVertH.Value = 0;
+            }
+            else
+            {
+                textBoxGlyph.Text = this.currentGlyph.Glyph == '\0' ? "" : this.currentGlyph.Glyph + "";
+                numericUpDownPosX.Value = this.currentGlyph.XPosition;
+                numericUpDownPosY.Value = this.currentGlyph.YPosition;
+                numericUpDownWidth.Value = this.currentGlyph.Width;
+                numericUpDownHeight.Value = this.currentGlyph.Height;
+                numericUpDownIndex.Value = this.currentGlyph.Index;
+                numericUpDownAdvance.Value = this.currentGlyph.Advance;
+                numericUpDownUVX.Value = this.currentGlyph.UVX;
+                numericUpDownUVY.Value = this.currentGlyph.UVY;
+                numericUpDownUVW.Value = this.currentGlyph.UVW;
+                numericUpDownUVH.Value = this.currentGlyph.UVH;
+                numericUpDownVertX.Value = this.currentGlyph.VertX;
+                numericUpDownVertY.Value = this.currentGlyph.VertY;
+                numericUpDownVertW.Value = this.currentGlyph.VertW;
+                numericUpDownVertH.Value = this.currentGlyph.VertH;
             }
         }
 
@@ -97,41 +104,24 @@ namespace GPRNFont
             numericUpDownVertY.Enabled = enable;
             numericUpDownVertW.Enabled = enable;
             numericUpDownVertH.Enabled = enable;
-
-            if (!enable)
-            {
-                this.fillingRectData = true;
-
-                numericUpDownPosX.Value = 0;
-                numericUpDownPosY.Value = 0;
-                numericUpDownWidth.Value = 1;
-                numericUpDownHeight.Value = 1;
-                textBoxGlyph.Text = "";
-                numericUpDownAdvance.Value = 0;
-                numericUpDownUVX.Value = 0;
-                numericUpDownUVY.Value = 0;
-                numericUpDownUVW.Value = 0;
-                numericUpDownUVH.Value = 0;
-                numericUpDownVertX.Value = 0;
-                numericUpDownVertY.Value = 0;
-                numericUpDownVertW.Value = 0;
-                numericUpDownVertH.Value = 0;
-
-                this.fillingRectData = false;
-            }
         }
 
-        private void UpdateGlyphData(Rectangle selectedArea)
+        private void ShowGlyphData()
         {
+            this.fillingRectData = true;
+
             this.DrawImageCopy();
-            this.CalcUnityData(selectedArea);
-            this.EnableTextBoxes(!selectedArea.IsEmpty);
+            this.SetTextBoxValues();
+            this.EnableTextBoxes(this.currentGlyph != null);
+            
+            this.fillingRectData = false;
         }
 
-        private void ChangeSelectionRect(Rectangle selectedArea)
+        private void ChangeSelectionRect()
         {
-            this.selectionManager.ChangeSelectionRect(selectedArea);
-            this.UpdateGlyphData(selectedArea);
+            var rect = this.currentGlyph == null ? Rectangle.Empty : this.currentGlyph.GetGlyphRect(this.zoom);
+            this.selectionManager.ChangeSelectionRect(rect);
+            this.ShowGlyphData();
             pictureBoxImagem.Invalidate();
         }
         
@@ -154,38 +144,24 @@ namespace GPRNFont
             }
         }
 
+        private void ShowError(string msg)
+        {
+            MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Application.Exit();
+        }
+
         private void ZoomApply()
         {
+            this.toolStripTextBoxZoom.Text = this.zoom + "%";
+
             this.pictureBoxImagem.Image = new Bitmap(this.originalImage, 
                                                         Convert.ToInt32(originalImage.Width * this.zoom / 100),
                                                         Convert.ToInt32(originalImage.Height * this.zoom / 100));
 
-            this.toolStripTextBoxZoom.Text = this.zoom + "%";
-            this.selectionManager.ZoomApply(this.zoom);
+            if(this.currentGlyph != null)
+                this.selectionManager.ChangeSelectionRect(this.currentGlyph.GetGlyphRect(this.zoom));
 
             pictureBoxImagem.Invalidate();
-        }
-
-        private GlyphData CreateGlyphData(char glyph)
-        {
-            return new GlyphData()
-            {
-                Glyph = glyph,
-                XPosition = Convert.ToInt32(numericUpDownPosX.Value),
-                YPosition = Convert.ToInt32(numericUpDownPosY.Value),
-                Width = Convert.ToInt32(numericUpDownWidth.Value),
-                Height = Convert.ToInt32(numericUpDownHeight.Value),
-                Index = Convert.ToInt32(numericUpDownIndex.Value),
-                Advance = Convert.ToInt32(numericUpDownAdvance.Value),
-                UVX = Convert.ToDouble(numericUpDownUVX.Value),
-                UVY = Convert.ToDouble(numericUpDownUVY.Value),
-                UVW = Convert.ToDouble(numericUpDownUVW.Value),
-                UVH = Convert.ToDouble(numericUpDownUVH.Value),
-                VertX = Convert.ToInt32(numericUpDownVertX.Value),
-                VertY = Convert.ToInt32(numericUpDownVertY.Value),
-                VertW = Convert.ToInt32(numericUpDownVertW.Value),
-                VertH = Convert.ToInt32(numericUpDownVertH.Value)
-            };
         }
 
         private void AddGlyphToListView(char glyph)
@@ -204,42 +180,38 @@ namespace GPRNFont
 
         private void SaveGlyph()
         {
-            var glyph = textBoxGlyph.Text[0];
-
-            if (glyphs.ContainsKey(glyph))
-                MessageBox.Show("Glyph '" + glyph + "' is already used.", "GPRNFont", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (this.currentGlyph == null)
+                ShowError("Glyph is empty: 'Save Glyph' button should not be enabled.");
             else
             {
-                this.AddGlyphToListView(glyph);
-                this.glyphs.Add(glyph, this.CreateGlyphData(glyph));
+                var glyph = textBoxGlyph.Text[0];
+
+                if (glyphs.ContainsKey(glyph))
+                    MessageBox.Show("Glyph '" + glyph + "' is already used.", "GPRNFont", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                else
+                {
+                    this.AddGlyphToListView(glyph);
+                    this.glyphs.Add(glyph, this.currentGlyph);
+                }
             }
-        }
-
-        private Rectangle GetRectFromGlyphData()
-        {
-            decimal zoomFactor = (decimal)(this.zoom) / 100;
-
-            return new Rectangle(Decimal.ToInt32(numericUpDownPosX.Value * zoomFactor),
-                                    Decimal.ToInt32(numericUpDownPosY.Value * zoomFactor),
-                                    Decimal.ToInt32(numericUpDownWidth.Value * zoomFactor),
-                                    Decimal.ToInt32(numericUpDownHeight.Value * zoomFactor));
         }
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
             this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition));
-            this.UpdateGlyphData(this.selectionManager.GetSelectedArea());
+
+            this.currentGlyph = null;
+            this.ShowGlyphData();
 
             pictureBoxImagem.Invalidate();
         }
 
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
-            this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size);
-            var selectedArea = this.selectionManager.GetSelectedArea();
+            var selectedArea = this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size);
 
-            this.FillRectData(selectedArea);
-            this.UpdateGlyphData(selectedArea);
+            this.currentGlyph = selectedArea.IsEmpty ? null : new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
+            this.ShowGlyphData();
 
             pictureBoxImagem.Invalidate();
         }
@@ -270,59 +242,71 @@ namespace GPRNFont
 
         private void numericUpDownPosX_ValueChanged(object sender, EventArgs e)
         {
-            var rectFormGlyphData = this.GetRectFromGlyphData();
-
             if (!this.fillingRectData)
             {
-                if (rectFormGlyphData.X + rectFormGlyphData.Width > pictureBoxImagem.Size.Width)
-                    rectFormGlyphData.X = pictureBoxImagem.Size.Width - rectFormGlyphData.Width;
+                if (numericUpDownPosX.Value + numericUpDownWidth.Value > originalImage.Size.Width)
+                {
+                    this.fillingRectData = true;
+                    numericUpDownPosX.Value = originalImage.Size.Width - numericUpDownWidth.Value;
+                    this.fillingRectData = false;
+                }
+                this.currentGlyph.XPosition = Convert.ToInt32(numericUpDownPosX.Value);
 
-                this.ChangeSelectionRect(rectFormGlyphData);
+                this.ChangeSelectionRect();
             }
         }
 
         private void numericUpDownPosY_ValueChanged(object sender, EventArgs e)
         {
-            var rectFormGlyphData = this.GetRectFromGlyphData();
-
             if (!this.fillingRectData)
             {
-                if (rectFormGlyphData.Y + rectFormGlyphData.Height > pictureBoxImagem.Size.Height)
-                    rectFormGlyphData.Y = pictureBoxImagem.Size.Height - rectFormGlyphData.Height;
+                if (numericUpDownPosY.Value + numericUpDownHeight.Value > originalImage.Size.Height)
+                {
+                    this.fillingRectData = true;
+                    numericUpDownPosY.Value = originalImage.Size.Height - numericUpDownHeight.Value;
+                    this.fillingRectData = false;
+                }
+                this.currentGlyph.YPosition = Convert.ToInt32(numericUpDownPosY.Value);
 
-                this.ChangeSelectionRect(rectFormGlyphData);
+                this.ChangeSelectionRect();
             }
         }
 
         private void numericUpDownWidth_ValueChanged(object sender, EventArgs e)
         {
-            var rectFormGlyphData = this.GetRectFromGlyphData();
-
             if (!this.fillingRectData)
             {
-                if (rectFormGlyphData.X + rectFormGlyphData.Width > pictureBoxImagem.Size.Width)
-                    rectFormGlyphData.Width = pictureBoxImagem.Size.Width - rectFormGlyphData.X;
+                if (numericUpDownPosX.Value + numericUpDownWidth.Value > originalImage.Size.Width)
+                {
+                    this.fillingRectData = true;
+                    numericUpDownWidth.Value = originalImage.Size.Width - numericUpDownPosX.Value;
+                    this.fillingRectData = false;
+                }
+                this.currentGlyph.Width = Convert.ToInt32(numericUpDownWidth.Value);
 
-                this.ChangeSelectionRect(rectFormGlyphData);
+                this.ChangeSelectionRect();
             }
         }
 
         private void numericUpDownHeight_ValueChanged(object sender, EventArgs e)
         {
-            var rectFormGlyphData = this.GetRectFromGlyphData();
-
             if (!this.fillingRectData)
             {
-                if (rectFormGlyphData.Y + rectFormGlyphData.Height > pictureBoxImagem.Size.Height)
-                    rectFormGlyphData.Height = pictureBoxImagem.Size.Height - rectFormGlyphData.Y;
+                if (numericUpDownPosY.Value + numericUpDownHeight.Value > originalImage.Size.Height)
+                {
+                    this.fillingRectData = true;
+                    numericUpDownHeight.Value = originalImage.Size.Height - numericUpDownPosY.Value;
+                    this.fillingRectData = false;
+                }
+                this.currentGlyph.Height = Convert.ToInt32(numericUpDownHeight.Value);
 
-                this.ChangeSelectionRect(rectFormGlyphData);
+                this.ChangeSelectionRect();
             }
         }
 
         private void toolStripButtonZoomPlus_Click(object sender, EventArgs e)
         {
-            this.zoom *= 2;
+            this.zoom = this.zoom * 2;
 
             if (this.zoom >= 800)
                 toolStripButtonZoomPlus.Enabled = false;
@@ -333,7 +317,7 @@ namespace GPRNFont
 
         private void toolStripButtonZoomLess_Click(object sender, EventArgs e)
         {
-            this.zoom /= 2;
+            this.zoom = this.zoom / 2;
 
             if (this.zoom <= 25)
                 toolStripButtonZoomMinus.Enabled = false;
