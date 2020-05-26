@@ -52,7 +52,10 @@ namespace GPRNFont
         {
             if (this.currentGlyph == null)
             {
+                textBoxGlyph.Enabled = false;
                 textBoxGlyph.Text = "";
+                buttonSaveGlyph.Enabled = false;
+
                 numericUpDownPosX.Value = 0;
                 numericUpDownPosY.Value = 0;
                 numericUpDownWidth.Value = 1;
@@ -69,7 +72,18 @@ namespace GPRNFont
             }
             else
             {
-                textBoxGlyph.Text = this.currentGlyph.Glyph == '\0' ? "" : this.currentGlyph.Glyph + "";
+                textBoxGlyph.Enabled = true;
+                if (this.currentGlyph.Glyph == '\0')
+                {
+                    textBoxGlyph.Text = "";
+                    buttonSaveGlyph.Enabled = false;
+                }
+                else
+                {
+                    textBoxGlyph.Text = this.currentGlyph.Glyph + "";
+                    buttonSaveGlyph.Enabled = true;
+                }
+
                 numericUpDownPosX.Value = this.currentGlyph.XPosition;
                 numericUpDownPosY.Value = this.currentGlyph.YPosition;
                 numericUpDownWidth.Value = this.currentGlyph.Width;
@@ -124,41 +138,16 @@ namespace GPRNFont
             this.ShowGlyphData();
             pictureBoxImagem.Invalidate();
         }
-        
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog dlg = new OpenFileDialog())
-            {
-                dlg.Title = "Select Image";
-                dlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    this.selectionManager.ResetSelection();
-                    this.originalImage = new Bitmap(dlg.FileName);
-                    pictureBoxImagem.Image = originalImage;
-
-                    toolStripButtonZoomMinus.Enabled = true;
-                    toolStripButtonZoomPlus.Enabled = true;
-                }
-            }
-        }
-
-        private void ShowError(string msg)
-        {
-            MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Application.Exit();
-        }
 
         private void ZoomApply()
         {
             this.toolStripTextBoxZoom.Text = this.zoom + "%";
 
-            this.pictureBoxImagem.Image = new Bitmap(this.originalImage, 
+            this.pictureBoxImagem.Image = new Bitmap(this.originalImage,
                                                         Convert.ToInt32(originalImage.Width * this.zoom / 100),
                                                         Convert.ToInt32(originalImage.Height * this.zoom / 100));
 
-            if(this.currentGlyph != null)
+            if (this.currentGlyph != null)
                 this.selectionManager.ChangeSelectionRect(this.currentGlyph.GetGlyphRect(this.zoom));
 
             pictureBoxImagem.Invalidate();
@@ -186,18 +175,17 @@ namespace GPRNFont
 
         private void SaveGlyph()
         {
-            var glyph = textBoxGlyph.Text[0];
+            var glyph = this.currentGlyph.Glyph;
             DialogResult result = DialogResult.Yes;
 
             if (glyphs.ContainsKey(glyph))
             {
-                result = MessageBox.Show("Glyph '" + glyph + "' is already used. Do you want to override it?", "GPRNFont",
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                result = MessageBox.Show("Glyph '" + glyph + "' is already used. Do you want to override it?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                     this.DeleteGlyph(glyph);
             }
-              
+
             if (result == DialogResult.Yes)
             {
                 this.AddGlyphToListView(glyph);
@@ -207,24 +195,49 @@ namespace GPRNFont
             }
         }
 
-        private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
+        private void UpdateCurrentGlyph(Rectangle selectedArea)
         {
-            this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition));
+            if (selectedArea.IsEmpty)
+                this.currentGlyph = null;
+            else if (this.currentGlyph == null)
+                this.currentGlyph = new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
+            else
+                this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
 
-            this.currentGlyph = null;
             this.ShowGlyphData();
 
             pictureBoxImagem.Invalidate();
         }
 
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = "Select Image";
+                dlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    this.selectionManager.ResetSelection();
+                    this.originalImage = new Bitmap(dlg.FileName);
+                    pictureBoxImagem.Image = originalImage;
+
+                    toolStripButtonZoomMinus.Enabled = true;
+                    toolStripButtonZoomPlus.Enabled = true;
+                }
+            }
+        }
+
+        private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
+        {
+            var selectedArea = this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition));
+            this.UpdateCurrentGlyph(selectedArea);
+        }
+
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
             var selectedArea = this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size);
-
-            this.currentGlyph = selectedArea.IsEmpty ? null : new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
-            this.ShowGlyphData();
-
-            pictureBoxImagem.Invalidate();
+            this.UpdateCurrentGlyph(selectedArea);
         }
 
         private void pictureBoxImagem_MouseMove(object sender, MouseEventArgs e)
@@ -246,9 +259,11 @@ namespace GPRNFont
         private void textBoxGlyph_TextChanged(object sender, EventArgs e)
         {
             var glyph = textBoxGlyph.Text.ToCharArray();
-            buttonSaveGlyph.Enabled = glyph.Length == 1;
-            if (buttonSaveGlyph.Enabled)
-                numericUpDownIndex.Value = (int) glyph[0];
+
+            if (glyph.Length == 1)
+                this.currentGlyph.Glyph = glyph[0];
+
+            this.SetTextBoxValues();
         }
 
         private void numericUpDownPosX_ValueChanged(object sender, EventArgs e)

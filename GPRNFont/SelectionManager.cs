@@ -271,7 +271,15 @@ namespace GPRNFont
                 this.CreateLittleSquares();
         }
 
-        public void StartSelection(Point startPoint)
+        private Rectangle GetSelectedArea()
+        {
+            if (this.selectionRect.Width > 0 && this.selectionRect.Height > 0)
+                return this.selectionRect;
+
+            return Rectangle.Empty;
+        }
+
+        public Rectangle StartSelection(Point startPoint)
         {
             this.selectedLittleSquare = GetLittleSquareIndex(startPoint);
 
@@ -286,6 +294,8 @@ namespace GPRNFont
                 else
                     this.selectionRect = Rectangle.Empty;
             }
+
+            return this.GetSelectedArea();
         }
 
         public void UpdateSelection(Point endPoint, Size imgSize)
@@ -318,10 +328,7 @@ namespace GPRNFont
                 this.ClearSelectedLittleSquare();
             }
 
-            if (this.selectionRect.Width > 0 && this.selectionRect.Height > 0)
-                return this.selectionRect;
-
-            return Rectangle.Empty;
+            return this.GetSelectedArea();
         }
 
         public void DrawSelectionRect(Graphics g)

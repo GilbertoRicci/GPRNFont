@@ -8,12 +8,24 @@ namespace GPRNFont
     {
         private decimal imgWidth;
         private decimal imgHeight;
+        private char glyph;
         private int x;
         private int y;
         private int w;
         private int h;
 
-        public char Glyph { get; set; }
+        public char Glyph
+        {
+            get
+            {
+                return this.glyph;
+            }
+            set
+            {
+                this.glyph = value;
+                this.Index = (int)this.glyph;
+            }
+        }
         public int XPosition
         {
             get
@@ -75,20 +87,13 @@ namespace GPRNFont
 
         public GlyphData(Rectangle selectedArea, Size imageSize, int zoom)
         {
-            double zoomFactor = 100 / (double) zoom;
-
             this.Glyph = '\0';
             this.Index = 0;
-
-            this.x = Convert.ToInt32(selectedArea.X * zoomFactor);
-            this.y = Convert.ToInt32(selectedArea.Y * zoomFactor);
-            this.w = Convert.ToInt32(selectedArea.Width * zoomFactor);
-            this.h = Convert.ToInt32(selectedArea.Height * zoomFactor);
 
             this.imgWidth = imageSize.Width;
             this.imgHeight = imageSize.Height;
 
-            this.CalcUnityData();
+            this.SetGlyphRect(selectedArea, zoom);
         }
 
         private void CalcUnityData()
@@ -102,6 +107,18 @@ namespace GPRNFont
             this.VertY = 0;
             this.VertW = this.Width;
             this.VertH = -this.Width;
+        }
+
+        public void SetGlyphRect(Rectangle rect, int zoom)
+        {
+            double zoomFactor = 100 / (double)zoom;
+
+            this.x = Convert.ToInt32(rect.X * zoomFactor);
+            this.y = Convert.ToInt32(rect.Y * zoomFactor);
+            this.w = Convert.ToInt32(rect.Width * zoomFactor);
+            this.h = Convert.ToInt32(rect.Height * zoomFactor);
+
+            this.CalcUnityData();
         }
 
         public Rectangle GetGlyphRect(int zoom)
