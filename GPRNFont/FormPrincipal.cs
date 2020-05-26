@@ -191,7 +191,8 @@ namespace GPRNFont
                 this.AddGlyphToListView(glyph);
                 this.glyphs.Add(glyph, this.currentGlyph);
 
-                // this.ChangeSelectionRect(new Rectangle());
+                this.currentGlyph = null;
+                this.ChangeSelectionRect();
             }
         }
 
