@@ -174,25 +174,36 @@ namespace GPRNFont
 
             listViewGlyphs.LargeImageList.Images.Add(pictureBoxPedacoImg.Image);
 
-            var lvItem = new ListViewItem(glyph + "", listViewGlyphs.LargeImageList.Images.Count - 1);
-            listViewGlyphs.Items.Add(lvItem);
+            var key = glyph + "";
+            listViewGlyphs.Items.Add(key, key, listViewGlyphs.LargeImageList.Images.Count - 1);
+        }
+
+        private void DeleteGlyph(char glyph)
+        {
+            this.glyphs.Remove(glyph);
+            this.listViewGlyphs.Items.RemoveByKey(glyph + "");
         }
 
         private void SaveGlyph()
         {
-            if (this.currentGlyph == null)
-                ShowError("Glyph is empty: 'Save Glyph' button should not be enabled.");
-            else
-            {
-                var glyph = textBoxGlyph.Text[0];
+            var glyph = textBoxGlyph.Text[0];
+            DialogResult result = DialogResult.Yes;
 
-                if (glyphs.ContainsKey(glyph))
-                    MessageBox.Show("Glyph '" + glyph + "' is already used.", "GPRNFont", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                else
-                {
-                    this.AddGlyphToListView(glyph);
-                    this.glyphs.Add(glyph, this.currentGlyph);
-                }
+            if (glyphs.ContainsKey(glyph))
+            {
+                result = MessageBox.Show("Glyph '" + glyph + "' is already used. Do you want to override it?", "GPRNFont",
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                    this.DeleteGlyph(glyph);
+            }
+              
+            if (result == DialogResult.Yes)
+            {
+                this.AddGlyphToListView(glyph);
+                this.glyphs.Add(glyph, this.currentGlyph);
+
+                // this.ChangeSelectionRect(new Rectangle());
             }
         }
 
