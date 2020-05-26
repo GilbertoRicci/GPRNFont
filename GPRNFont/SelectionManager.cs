@@ -88,20 +88,20 @@ namespace GPRNFont
             this.ClearRectIfIsEmpty();
         }
 
-        private void DrawSelectionRectBorder(Graphics g, Rectangle selectionRectZoom)
+        private void DrawSelectionRectBorder(Graphics g)
         {
             using (var pen = new Pen(Color.Black, 1F)) 
             {
                 pen.DashStyle = DashStyle.Dash;
-                g.DrawRectangle(pen, selectionRectZoom);
+                g.DrawRectangle(pen, this.selectionRect);
             }
         }
 
-        private void DrawSelectionRectFill(Graphics g, Rectangle selectionRectZoom)
+        private void DrawSelectionRectFill(Graphics g)
         {
             using (var brush = new SolidBrush(Color.FromArgb(128, SystemColors.Highlight)))
             {
-                g.FillRectangle(brush, selectionRectZoom);
+                g.FillRectangle(brush, this.selectionRect);
             }
         }
 
@@ -272,9 +272,8 @@ namespace GPRNFont
                 this.CreateLittleSquares();
         }
 
-        public void StartSelection(Point startPoint, int zoom)
+        public void StartSelection(Point startPoint)
         {
-            this.currentZoom = zoom;
             this.selectedLittleSquare = GetLittleSquareIndex(startPoint);
 
             if (this.IsUsingLittleSquare())
@@ -321,17 +320,14 @@ namespace GPRNFont
             }
         }
 
-        public void DrawSelectionRect(Graphics g, int zoom)
+        public void DrawSelectionRect(Graphics g)
         {
-            var rectZoom = new Rectangle(this.selectionRect.X * zoom / 100, this.selectionRect.Y * zoom / 100,
-                                            this.selectionRect.Width * zoom / 100, this.selectionRect.Height * zoom / 100);
-
             if (!this.selectionRect.IsEmpty)
             {
-                this.DrawSelectionRectBorder(g, rectZoom);
+                this.DrawSelectionRectBorder(g);
                 if (!this.isSelecting() || this.IsUsingLittleSquare())
                 {
-                    this.DrawSelectionRectFill(g, rectZoom);
+                    this.DrawSelectionRectFill(g);
                     this.DrawLittleSquares(g);
                 }
             }
@@ -362,9 +358,10 @@ namespace GPRNFont
                                        Convert.ToInt32(this.selectionRect.Width * doom), Convert.ToInt32(this.selectionRect.Height * doom));
 
                 this.CreateLittleSquares();
-
-                this.currentZoom = newZoom;
             }
+
+            this.currentZoom = newZoom;
+
         }
     }
 }

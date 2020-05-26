@@ -694,10 +694,20 @@
             2328306,
             0,
             0});
+            this.numericUpDownHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownHeight.Name = "numericUpDownHeight";
             this.numericUpDownHeight.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownHeight.TabIndex = 14;
             this.numericUpDownHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownHeight.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownHeight.ValueChanged += new System.EventHandler(this.numericUpDownHeight_ValueChanged);
             // 
             // numericUpDownWidth
@@ -709,10 +719,20 @@
             2328306,
             0,
             0});
+            this.numericUpDownWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownWidth.Name = "numericUpDownWidth";
             this.numericUpDownWidth.Size = new System.Drawing.Size(43, 20);
             this.numericUpDownWidth.TabIndex = 13;
             this.numericUpDownWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownWidth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownWidth.ValueChanged += new System.EventHandler(this.numericUpDownWidth_ValueChanged);
             // 
             // numericUpDownPosX
