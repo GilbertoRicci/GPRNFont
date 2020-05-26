@@ -19,7 +19,7 @@ namespace GPRNFont
         private bool fillingRectData;
         private Image originalImage;
         private GlyphData currentGlyph;
-        private Dictionary<char, GlyphData> glyphs;
+        private GlyphsList glyphsList;
         private int zoom = 100;
 
         public FormPrincipal()
@@ -27,7 +27,7 @@ namespace GPRNFont
             InitializeComponent();
             DoubleBuffered = true;
             this.selectionManager = new SelectionManager();
-            this.glyphs = new Dictionary<char, GlyphData>();
+            this.glyphsList = new GlyphsList(listViewGlyphs);
         }
 
         private void DrawImageCopy()
@@ -151,49 +151,6 @@ namespace GPRNFont
                 this.selectionManager.ChangeSelectionRect(this.currentGlyph.GetGlyphRect(this.zoom));
 
             pictureBoxImagem.Invalidate();
-        }
-
-        private void AddGlyphToListView(char glyph)
-        {
-            if (listViewGlyphs.LargeImageList == null)
-            {
-                listViewGlyphs.LargeImageList = new ImageList();
-                listViewGlyphs.LargeImageList.ImageSize = new Size(125, 125);
-            }
-
-            listViewGlyphs.LargeImageList.Images.Add(pictureBoxPedacoImg.Image);
-
-            var key = glyph + "";
-            listViewGlyphs.Items.Add(key, key, listViewGlyphs.LargeImageList.Images.Count - 1);
-        }
-
-        private void DeleteGlyph(char glyph)
-        {
-            this.glyphs.Remove(glyph);
-            this.listViewGlyphs.Items.RemoveByKey(glyph + "");
-        }
-
-        private void SaveGlyph()
-        {
-            var glyph = this.currentGlyph.Glyph;
-            DialogResult result = DialogResult.Yes;
-
-            if (glyphs.ContainsKey(glyph))
-            {
-                result = MessageBox.Show("Glyph '" + glyph + "' is already used. Do you want to override it?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                    this.DeleteGlyph(glyph);
-            }
-
-            if (result == DialogResult.Yes)
-            {
-                this.AddGlyphToListView(glyph);
-                this.glyphs.Add(glyph, this.currentGlyph);
-
-                this.currentGlyph = null;
-                this.ChangeSelectionRect();
-            }
         }
 
         private void UpdateCurrentGlyph(Rectangle selectedArea)
@@ -355,56 +312,16 @@ namespace GPRNFont
 
         private void buttonSaveGlyph_Click(object sender, EventArgs e)
         {
-            this.SaveGlyph();
+            if(this.glyphsList.SaveGlyph(this.currentGlyph, pictureBoxPedacoImg.Image))
+            {
+                this.currentGlyph = null;
+                this.ChangeSelectionRect();
+            }
         }
 
         private void listViewGlyphs_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-            //item background
-            if (e.Item.Selected)
-            {
-                if (listViewGlyphs.Focused)
-                    e.Graphics.FillRectangle(SystemBrushes.Highlight, e.Bounds);
-                else if (!listViewGlyphs.HideSelection)
-                    e.Graphics.FillRectangle(SystemBrushes.Control, e.Bounds);
-            }
-            else
-            {
-                using (SolidBrush br = new SolidBrush(listViewGlyphs.BackColor))
-                {
-                    e.Graphics.FillRectangle(br, e.Bounds);
-                }
-            }
-
-            //item border
-            e.Graphics.DrawRectangle(SystemPens.ControlText, e.Bounds);
-
-            //text background
-            var textRect = new Rectangle(e.Bounds.X + e.Bounds.Width / 3, 4, e.Bounds.Width/3, 20);
-            using (SolidBrush br = new SolidBrush(listViewGlyphs.BackColor))
-            {
-                e.Graphics.FillRectangle(br, textRect);
-            }
-
-            //text border
-            e.Graphics.DrawRectangle(SystemPens.WindowText, textRect);
-
-            //text
-            TextRenderer.DrawText(e.Graphics, e.Item.Text, listViewGlyphs.Font, textRect,
-                                  SystemColors.WindowText, Color.Empty,
-                                  TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding);
-
-            //img background
-            var imgBorderRect = new Rectangle(e.Bounds.X + 4, textRect.Y + textRect.Height + 2, e.Bounds.Width - 8, e.Bounds.Height - textRect.Height - 8);
-            e.Graphics.FillRectangle(SystemBrushes.ControlDark, imgBorderRect);
-
-            //img border
-            e.Graphics.DrawRectangle(SystemPens.ControlText, imgBorderRect);
-
-            //img
-            var imgRect = new Rectangle(imgBorderRect.X + 1, imgBorderRect.Y + 1, imgBorderRect.Width - 2, imgBorderRect.Height - 2);
-            var img = listViewGlyphs.LargeImageList.Images[e.Item.ImageIndex];
-            e.Graphics.DrawImage(img, imgRect, new Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel);
+            this.glyphsList.Draw(e);
         }
     }
 }
