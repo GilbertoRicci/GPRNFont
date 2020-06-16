@@ -275,17 +275,27 @@ namespace GPRNFont
             this.UpdateLittleSquares();
         }
 
-        public Rectangle StartSelection(Point startPoint)
+        private Point RoundPointByZoom(Point point, int zoomX)
         {
-            this.selectedLittleSquare = GetLittleSquareIndex(startPoint);
+            if (zoomX > 1)
+                return new Point((point.X / zoomX) * zoomX, (point.Y / zoomX) * zoomX);
+
+            return point;
+        }
+
+        public Rectangle StartSelection(Point startPoint, int zoomX)
+        {
+            var roundedStartPoint = this.RoundPointByZoom(startPoint, zoomX);
+
+            this.selectedLittleSquare = GetLittleSquareIndex(roundedStartPoint);
 
             if (this.IsUsingLittleSquare())
                 this.startPoint = this.GetStartPointByLittleSquare();
             else
             {
-                this.startPoint = startPoint;
+                this.startPoint = roundedStartPoint;
 
-                if (this.SelectedArea.Contains(startPoint))
+                if (this.SelectedArea.Contains(roundedStartPoint))
                     this.isMovingRect = true;
                 else
                     this.SelectedArea = Rectangle.Empty;
@@ -294,27 +304,31 @@ namespace GPRNFont
             return this.SelectedArea;
         }
 
-        public void UpdateSelection(Point endPoint, Size imgSize)
+        public void UpdateSelection(Point endPoint, Size imgSize, int zoomX)
         {
+            var roundedEndPoint = this.RoundPointByZoom(endPoint, zoomX);
+
             if (this.isMovingRect)
-                this.MoveRect(endPoint);
+                this.MoveRect(roundedEndPoint);
             else
             {
                 if (this.IsSelecting())
-                    this.UpdateSelectionRect(endPoint, imgSize);
+                    this.UpdateSelectionRect(roundedEndPoint, imgSize);
 
                 if (this.IsUsingLittleSquare())
                     this.UpdateLittleSquares();
             }
         }
 
-        public Rectangle EndSelection(Point endPoint, Size imgSize)
+        public Rectangle EndSelection(Point endPoint, Size imgSize, int zoomX)
         {
+            var roundedEndPoint = this.RoundPointByZoom(endPoint, zoomX);
+
             if (this.isMovingRect)
                 this.StopMoveRect(imgSize);
             else if (this.IsSelecting())
             {
-                this.UpdateSelectionRect(endPoint, imgSize);
+                this.UpdateSelectionRect(roundedEndPoint, imgSize);
                 this.UpdateLittleSquares();
                 this.startPoint = null;
             }

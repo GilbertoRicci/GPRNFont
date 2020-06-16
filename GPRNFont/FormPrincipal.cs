@@ -188,13 +188,13 @@ namespace GPRNFont
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
-            var selectedArea = this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition));
+            var selectedArea = this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), this.zoom / 100);
             this.UpdateCurrentGlyph(selectedArea);
         }
 
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
-            var selectedArea = this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size);
+            var selectedArea = this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size, this.zoom / 100);
             this.UpdateCurrentGlyph(selectedArea);
         }
 
@@ -202,7 +202,7 @@ namespace GPRNFont
         {
             var mousePoint = pictureBoxImagem.PointToClient(MousePosition);
 
-            this.selectionManager.UpdateSelection(mousePoint, pictureBoxImagem.Size);
+            this.selectionManager.UpdateSelection(mousePoint, pictureBoxImagem.Size, this.zoom/100);
 
             Cursor.Current = this.selectionManager.GetCursor(mousePoint);
 
