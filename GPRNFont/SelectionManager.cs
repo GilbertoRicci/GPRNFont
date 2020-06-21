@@ -17,25 +17,23 @@ namespace GPRNFont
         private const int SQUARE_BOTTOM_RIGHT = 7;
 
         private Point? startPoint;
-        private Rectangle selectionRect;
         private bool isMovingRect;
 
         private Rectangle[] littleSquares = new Rectangle[8];
         private readonly int littleSquareSize = 6;
         private int selectedLittleSquare = -1;
 
-        private Rectangle SelectedArea
-        { 
+        private Rectangle selectionRect;
+        public Rectangle SelectionRect
+        {
             get
             {
-                if (this.selectionRect.Width > 0 && this.selectionRect.Height > 0)
-                    return this.selectionRect;
-
-                return Rectangle.Empty;
+                return this.selectionRect;
             }
             set
             {
                 this.selectionRect = value;
+                this.UpdateLittleSquares();
             }
         }
 
@@ -49,13 +47,13 @@ namespace GPRNFont
             var p = new Point(endPoint.X, endPoint.Y);
 
             if (this.selectedLittleSquare == SQUARE_TOP_CENTER)
-                p.X = this.SelectedArea.X;
+                p.X = this.selectionRect.X;
             else if (this.selectedLittleSquare == SQUARE_CENTER_LEFT)
-                p.Y = this.SelectedArea.Y;
+                p.Y = this.selectionRect.Y;
             else if (this.selectedLittleSquare == SQUARE_CENTER_RIGHT)
-                p.Y = this.SelectedArea.Y + this.SelectedArea.Height;
+                p.Y = this.selectionRect.Y + this.selectionRect.Height;
             else if(this.selectedLittleSquare == SQUARE_BOTTOM_CENTER)
-                p.X = this.SelectedArea.X + this.SelectedArea.Width;
+                p.X = this.selectionRect.X + this.selectionRect.Width;
 
             return p;
         }
@@ -86,7 +84,7 @@ namespace GPRNFont
             using (var pen = new Pen(Color.Black, 1F)) 
             {
                 pen.DashStyle = DashStyle.Dash;
-                g.DrawRectangle(pen, this.SelectedArea);
+                g.DrawRectangle(pen, this.selectionRect);
             }
         }
 
@@ -94,7 +92,7 @@ namespace GPRNFont
         {
             using (var brush = new SolidBrush(Color.FromArgb(128, SystemColors.Highlight)))
             {
-                g.FillRectangle(brush, this.SelectedArea);
+                g.FillRectangle(brush, this.selectionRect);
             }
         }
 
@@ -106,56 +104,56 @@ namespace GPRNFont
             this.selectedLittleSquare = -1;
         }
 
+        public bool SelectionRectHasArea()
+        {
+            return this.selectionRect.Width > 0 && this.selectionRect.Height > 0;
+        }
+
         private void UpdateLittleSquares()
         {
-            if (this.SelectedArea.IsEmpty)
-                this.ClearLittleSquares();
-            else
-            {
-                var half = this.littleSquareSize / 2;
+            var half = this.littleSquareSize / 2;
 
-                this.littleSquares[SQUARE_TOP_LEFT] = new Rectangle(
-                    this.SelectedArea.X - half,
-                    this.SelectedArea.Y - half,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_TOP_LEFT] = new Rectangle(
+                this.selectionRect.X - half,
+                this.selectionRect.Y - half,
+                this.littleSquareSize, this.littleSquareSize);
 
-                this.littleSquares[SQUARE_TOP_CENTER] = new Rectangle(
-                    this.SelectedArea.X - half + this.SelectedArea.Width / 2,
-                    this.SelectedArea.Y - half,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_TOP_CENTER] = new Rectangle(
+                this.selectionRect.X - half + this.selectionRect.Width / 2,
+                this.selectionRect.Y - half,
+                this.littleSquareSize, this.littleSquareSize);
 
-                this.littleSquares[SQUARE_TOP_RIGHT] = new Rectangle(
-                    this.SelectedArea.X - half + this.SelectedArea.Width,
-                    this.SelectedArea.Y - half,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_TOP_RIGHT] = new Rectangle(
+                this.selectionRect.X - half + this.selectionRect.Width,
+                this.selectionRect.Y - half,
+                this.littleSquareSize, this.littleSquareSize);
 
 
-                this.littleSquares[SQUARE_CENTER_LEFT] = new Rectangle(
-                    this.SelectedArea.X - half,
-                    this.SelectedArea.Y - half + this.SelectedArea.Height / 2,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_CENTER_LEFT] = new Rectangle(
+                this.selectionRect.X - half,
+                this.selectionRect.Y - half + this.selectionRect.Height / 2,
+                this.littleSquareSize, this.littleSquareSize);
 
-                this.littleSquares[SQUARE_CENTER_RIGHT] = new Rectangle(
-                    this.SelectedArea.X - half + this.SelectedArea.Width,
-                    this.SelectedArea.Y - half + this.SelectedArea.Height / 2,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_CENTER_RIGHT] = new Rectangle(
+                this.selectionRect.X - half + this.selectionRect.Width,
+                this.selectionRect.Y - half + this.selectionRect.Height / 2,
+                this.littleSquareSize, this.littleSquareSize);
 
 
-                this.littleSquares[SQUARE_BOTTOM_LEFT] = new Rectangle(
-                    this.SelectedArea.X - half,
-                    this.SelectedArea.Y - half + this.SelectedArea.Height,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_BOTTOM_LEFT] = new Rectangle(
+                this.selectionRect.X - half,
+                this.selectionRect.Y - half + this.selectionRect.Height,
+                this.littleSquareSize, this.littleSquareSize);
 
-                this.littleSquares[SQUARE_BOTTOM_CENTER] = new Rectangle(
-                    this.SelectedArea.X - half + this.SelectedArea.Width / 2,
-                    this.SelectedArea.Y - half + this.SelectedArea.Height,
-                    this.littleSquareSize, this.littleSquareSize);
+            this.littleSquares[SQUARE_BOTTOM_CENTER] = new Rectangle(
+                this.selectionRect.X - half + this.selectionRect.Width / 2,
+                this.selectionRect.Y - half + this.selectionRect.Height,
+                this.littleSquareSize, this.littleSquareSize);
 
-                this.littleSquares[SQUARE_BOTTOM_RIGHT] = new Rectangle(
-                    this.SelectedArea.X - half + this.SelectedArea.Width,
-                    this.SelectedArea.Y - half + this.SelectedArea.Height,
-                    this.littleSquareSize, this.littleSquareSize);
-            }  
+            this.littleSquares[SQUARE_BOTTOM_RIGHT] = new Rectangle(
+                this.selectionRect.X - half + this.selectionRect.Width,
+                this.selectionRect.Y - half + this.selectionRect.Height,
+                this.littleSquareSize, this.littleSquareSize);
         }
 
         private void DrawLittleSquares(Graphics g)
@@ -176,7 +174,8 @@ namespace GPRNFont
         public void ResetSelection()
         {
             this.startPoint = null;
-            this.SelectedArea = Rectangle.Empty;
+            this.selectionRect = Rectangle.Empty;
+            this.ClearLittleSquares();
         }
 
         private int GetLittleSquareIndex(Point point)
@@ -208,13 +207,13 @@ namespace GPRNFont
             if (littleSquare == SQUARE_CENTER_LEFT || littleSquare == SQUARE_CENTER_RIGHT)
                 return Cursors.SizeWE;
 
-            if (this.SelectedArea.Contains(mousePoint))
+            if (this.selectionRect.Contains(mousePoint))
                 return Cursors.SizeAll;
 
             return Cursors.Cross;
         }
 
-        private bool IsUsingLittleSquare()
+        private bool IsResizing()
         {
             return this.selectedLittleSquare >= 0;
         }
@@ -249,30 +248,26 @@ namespace GPRNFont
 
         private void AdjustSelectedArea(Size imgSize)
         {
-            if (this.SelectedArea.X < 0)
+            if (this.selectionRect.X < 0)
             {
-                this.selectionRect.Width += this.SelectedArea.X;
+                this.selectionRect.Width += this.selectionRect.X;
                 this.selectionRect.X = 0;
             }
-            if (this.SelectedArea.Y < 0)
+            if (this.selectionRect.Y < 0)
             {
-                this.selectionRect.Height += this.SelectedArea.Y;
+                this.selectionRect.Height += this.selectionRect.Y;
                 this.selectionRect.Y = 0;
             }
-            if (this.SelectedArea.X + this.SelectedArea.Width > imgSize.Width)
-                this.selectionRect.Width = imgSize.Width - this.SelectedArea.X;
-            if (this.SelectedArea.Y + this.SelectedArea.Height > imgSize.Height)
-                this.selectionRect.Height = imgSize.Height - this.SelectedArea.Y;
+            if (this.selectionRect.X + this.selectionRect.Width > imgSize.Width)
+                this.selectionRect.Width = imgSize.Width - this.selectionRect.X;
+            if (this.selectionRect.Y + this.selectionRect.Height > imgSize.Height)
+                this.selectionRect.Height = imgSize.Height - this.selectionRect.Y;
         }
 
         private void StopMoveRect(Size imgSize)
         {
             this.isMovingRect = false;
-            this.startPoint = null;
-
             this.AdjustSelectedArea(imgSize);
-
-            this.UpdateLittleSquares();
         }
 
         private Point RoundPointByZoom(Point point, int zoomX)
@@ -289,19 +284,19 @@ namespace GPRNFont
 
             this.selectedLittleSquare = GetLittleSquareIndex(roundedStartPoint);
 
-            if (this.IsUsingLittleSquare())
+            if (this.IsResizing())
                 this.startPoint = this.GetStartPointByLittleSquare();
             else
             {
                 this.startPoint = roundedStartPoint;
 
-                if (this.SelectedArea.Contains(roundedStartPoint))
+                if (this.selectionRect.Contains(roundedStartPoint))
                     this.isMovingRect = true;
                 else
-                    this.SelectedArea = Rectangle.Empty;
+                    this.selectionRect = Rectangle.Empty;
             }
 
-            return this.SelectedArea;
+            return this.selectionRect;
         }
 
         public void UpdateSelection(Point endPoint, Size imgSize, int zoomX)
@@ -315,7 +310,7 @@ namespace GPRNFont
                 if (this.IsSelecting())
                     this.UpdateSelectionRect(roundedEndPoint, imgSize);
 
-                if (this.IsUsingLittleSquare())
+                if (this.IsResizing())
                     this.UpdateLittleSquares();
             }
         }
@@ -327,32 +322,29 @@ namespace GPRNFont
             if (this.isMovingRect)
                 this.StopMoveRect(imgSize);
             else if (this.IsSelecting())
-            {
                 this.UpdateSelectionRect(roundedEndPoint, imgSize);
-                this.UpdateLittleSquares();
-                this.startPoint = null;
-            }
 
-            return this.SelectedArea;
+            if (this.SelectionRectHasArea())
+                this.UpdateLittleSquares();
+            else
+                this.ClearLittleSquares();
+
+            this.startPoint = null;
+
+            return this.selectionRect;
         }
 
         public void DrawSelectionRect(Graphics g)
         {
-            if (!this.SelectedArea.IsEmpty)
+            if (this.SelectionRectHasArea())
             {
                 this.DrawSelectionRectBorder(g);
-                if (!this.IsSelecting() || this.IsUsingLittleSquare())
+                if (!this.IsSelecting() || this.IsResizing())
                 {
                     this.DrawSelectionRectFill(g);
                     this.DrawLittleSquares(g);
                 }
             }
-        }
-
-        public void ChangeSelectionRect(Rectangle newSelectedArea)
-        {
-            this.SelectedArea = newSelectedArea;
-            this.UpdateLittleSquares();
         }
     }
 }

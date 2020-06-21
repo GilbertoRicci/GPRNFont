@@ -131,14 +131,6 @@ namespace GPRNFont
             this.fillingRectData = false;
         }
 
-        private void ChangeSelectionRect()
-        {
-            var rect = this.currentGlyph == null ? Rectangle.Empty : this.currentGlyph.GetGlyphRect(this.zoom);
-            this.selectionManager.ChangeSelectionRect(rect);
-            this.ShowGlyphData();
-            pictureBoxImagem.Invalidate();
-        }
-
         private void ZoomApply()
         {
             this.toolStripTextBoxZoom.Text = this.zoom + "%";
@@ -148,22 +140,35 @@ namespace GPRNFont
                                                         Convert.ToInt32(originalImage.Height * this.zoom / 100));
 
             if (this.currentGlyph != null)
-                this.selectionManager.ChangeSelectionRect(this.currentGlyph.GetGlyphRect(this.zoom));
+                this.selectionManager.SelectionRect = this.currentGlyph.GetGlyphRect(this.zoom);
 
             pictureBoxImagem.Invalidate();
         }
 
-        private void UpdateCurrentGlyph(Rectangle selectedArea)
+        private void UpdateCurrentGlyph()
         {
-            if (selectedArea.IsEmpty)
-                this.currentGlyph = null;
-            else if (this.currentGlyph == null)
-                this.currentGlyph = new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
+            if (this.selectionManager.SelectionRectHasArea())
+            {
+                var selectedArea = this.selectionManager.SelectionRect;
+
+                if (this.currentGlyph == null)
+                    this.currentGlyph = new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
+                else
+                    this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
+            }
             else
-                this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
+                this.currentGlyph = null;
 
             this.ShowGlyphData();
 
+            pictureBoxImagem.Invalidate();
+        }
+
+        private void ClearSelection()
+        {
+            this.selectionManager.ResetSelection();
+            this.currentGlyph = null;
+            this.ShowGlyphData();
             pictureBoxImagem.Invalidate();
         }
 
@@ -176,7 +181,7 @@ namespace GPRNFont
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    this.selectionManager.ResetSelection();
+                    this.ClearSelection();
                     this.originalImage = new Bitmap(dlg.FileName);
                     pictureBoxImagem.Image = originalImage;
 
@@ -189,13 +194,13 @@ namespace GPRNFont
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
             var selectedArea = this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), this.zoom / 100);
-            this.UpdateCurrentGlyph(selectedArea);
+            this.UpdateCurrentGlyph();
         }
 
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
             var selectedArea = this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size, this.zoom / 100);
-            this.UpdateCurrentGlyph(selectedArea);
+            this.UpdateCurrentGlyph();
         }
 
         private void pictureBoxImagem_MouseMove(object sender, MouseEventArgs e)
@@ -222,6 +227,13 @@ namespace GPRNFont
                 this.currentGlyph.Glyph = glyph[0];
 
             this.SetTextBoxValues();
+        }
+
+        private void ChangeSelectionRect()
+        {
+            this.selectionManager.SelectionRect = this.currentGlyph.GetGlyphRect(this.zoom);
+            this.ShowGlyphData();
+            pictureBoxImagem.Invalidate();
         }
 
         private void numericUpDownPosX_ValueChanged(object sender, EventArgs e)
@@ -313,10 +325,7 @@ namespace GPRNFont
         private void buttonSaveGlyph_Click(object sender, EventArgs e)
         {
             if(this.glyphsList.SaveGlyph(this.currentGlyph, pictureBoxPedacoImg.Image))
-            {
-                this.currentGlyph = null;
-                this.ChangeSelectionRect();
-            }
+                this.ClearSelection();
         }
 
         private void listViewGlyphs_DrawItem(object sender, DrawListViewItemEventArgs e)
