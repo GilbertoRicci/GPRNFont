@@ -16,10 +16,11 @@ namespace GPRNFont
     public partial class FormPrincipal : Form
     {
         private SelectionManager selectionManager;
-        private bool fillingRectData;
         private Image originalImage;
         private GlyphData currentGlyph;
         private GlyphsList glyphsList;
+        private bool fillingRectData = false;
+        private bool changingTextBoxGlyph = false;
         private int zoom = 100;
 
         public FormPrincipal()
@@ -48,13 +49,21 @@ namespace GPRNFont
             
         }
 
+        private void ChangeTextBoxGlyph(string text)
+        {
+            this.changingTextBoxGlyph = true;
+            textBoxGlyph.Text = text;
+            this.changingTextBoxGlyph = false;
+        }
+
         private void SetTextBoxValues()
         {
             if (this.currentGlyph == null)
             {
                 textBoxGlyph.Enabled = false;
-                textBoxGlyph.Text = "";
+                this.ChangeTextBoxGlyph("");
                 buttonSaveGlyph.Enabled = false;
+                buttonDeleteGlyph.Enabled = false;
 
                 numericUpDownPosX.Value = 0;
                 numericUpDownPosY.Value = 0;
@@ -75,13 +84,15 @@ namespace GPRNFont
                 textBoxGlyph.Enabled = true;
                 if (this.currentGlyph.Glyph == '\0')
                 {
-                    textBoxGlyph.Text = "";
+                    this.ChangeTextBoxGlyph("");
                     buttonSaveGlyph.Enabled = false;
+                    buttonDeleteGlyph.Enabled = false;
                 }
                 else
                 {
-                    textBoxGlyph.Text = this.currentGlyph.Glyph + "";
+                    this.ChangeTextBoxGlyph(this.currentGlyph.Glyph + "");
                     buttonSaveGlyph.Enabled = true;
+                    buttonDeleteGlyph.Enabled = this.glyphsList.GetGlyphData(this.currentGlyph.Glyph) != null;
                 }
 
                 numericUpDownPosX.Value = this.currentGlyph.XPosition;
@@ -270,12 +281,17 @@ namespace GPRNFont
 
         private void textBoxGlyph_TextChanged(object sender, EventArgs e)
         {
-            var glyph = textBoxGlyph.Text.ToCharArray();
+            if (!this.changingTextBoxGlyph)
+            {
+                var glyph = textBoxGlyph.Text.ToCharArray();
 
-            if (glyph.Length == 1)
-                this.currentGlyph.Glyph = glyph[0];
+                if (glyph.Length == 0)
+                    this.currentGlyph.Glyph = '\0';
+                else if (glyph.Length == 1)
+                    this.currentGlyph.Glyph = glyph[0];
 
-            this.SetTextBoxValues();
+                this.SetTextBoxValues();
+            }
         }
 
         private void numericUpDownPosX_ValueChanged(object sender, EventArgs e)
@@ -381,13 +397,9 @@ namespace GPRNFont
             {
                 var glyph = e.Item.Text[0];
                 this.SelectGlyph(glyph);
-                buttonDeleteGlyph.Enabled = true;
             }
             else
-            {
                 this.ClearSelection();
-                buttonDeleteGlyph.Enabled = false;
-            }   
         }
 
         private void buttonDeleteGlyph_Click(object sender, EventArgs e)
