@@ -280,17 +280,15 @@ namespace GPRNFont
 
         public Rectangle StartSelection(Point startPoint, int zoomX)
         {
-            var roundedStartPoint = this.RoundPointByZoom(startPoint, zoomX);
-
-            this.selectedLittleSquare = GetLittleSquareIndex(roundedStartPoint);
+            this.selectedLittleSquare = GetLittleSquareIndex(startPoint);
 
             if (this.IsResizing())
                 this.startPoint = this.GetStartPointByLittleSquare();
             else
             {
-                this.startPoint = roundedStartPoint;
+                this.startPoint = this.RoundPointByZoom(startPoint, zoomX);
 
-                if (this.selectionRect.Contains(roundedStartPoint))
+                if (this.selectionRect.Contains(this.startPoint.Value))
                     this.isMovingRect = true;
                 else
                     this.selectionRect = Rectangle.Empty;
