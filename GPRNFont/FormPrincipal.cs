@@ -227,6 +227,13 @@ namespace GPRNFont
                 }
             }
         }
+
+        private void DeleteGlyph()
+        {
+            var result = MessageBox.Show("Do you want to delete the glyph '" + this.currentGlyph.Glyph + "'?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+                this.glyphsList.DeleteGlyph(this.currentGlyph.Glyph);
+        }
         
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -374,9 +381,18 @@ namespace GPRNFont
             {
                 var glyph = e.Item.Text[0];
                 this.SelectGlyph(glyph);
+                buttonDeleteGlyph.Enabled = true;
             }
             else
+            {
                 this.ClearSelection();
+                buttonDeleteGlyph.Enabled = false;
+            }   
+        }
+
+        private void buttonDeleteGlyph_Click(object sender, EventArgs e)
+        {
+            this.DeleteGlyph();
         }
     }
 }

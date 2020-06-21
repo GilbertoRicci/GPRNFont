@@ -33,7 +33,7 @@ namespace GPRNFont
             listViewGlyphs.Items.Add(key, key, listViewGlyphs.LargeImageList.Images.Count - 1);
         }
 
-        private void DeleteGlyph(char glyph)
+        public void DeleteGlyph(char glyph)
         {
             this.glyphs.Remove(glyph);
             this.listViewGlyphs.Items.RemoveByKey(glyph + "");

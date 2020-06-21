@@ -79,6 +79,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listViewGlyphs = new System.Windows.Forms.ListView();
+            this.buttonDeleteGlyph = new System.Windows.Forms.Button();
             this.toolStripBarraBotoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).BeginInit();
             this.splitContainerGlyphs.Panel1.SuspendLayout();
@@ -163,7 +164,6 @@
             this.splitContainerImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainerImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerImage.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainerImage.IsSplitterFixed = true;
             this.splitContainerImage.Location = new System.Drawing.Point(0, 0);
             this.splitContainerImage.Name = "splitContainerImage";
             // 
@@ -176,6 +176,7 @@
             // splitContainerImage.Panel2
             // 
             this.splitContainerImage.Panel2.AutoScroll = true;
+            this.splitContainerImage.Panel2.Controls.Add(this.buttonDeleteGlyph);
             this.splitContainerImage.Panel2.Controls.Add(this.buttonSaveGlyph);
             this.splitContainerImage.Panel2.Controls.Add(this.textBoxGlyph);
             this.splitContainerImage.Panel2.Controls.Add(this.label9);
@@ -183,7 +184,7 @@
             this.splitContainerImage.Panel2.Controls.Add(this.pictureBoxPedacoImg);
             this.splitContainerImage.Panel2.Controls.Add(this.groupBox1);
             this.splitContainerImage.Size = new System.Drawing.Size(1060, 416);
-            this.splitContainerImage.SplitterDistance = 863;
+            this.splitContainerImage.SplitterDistance = 853;
             this.splitContainerImage.TabIndex = 0;
             // 
             // splitContainerImgZoom
@@ -203,7 +204,7 @@
             // splitContainerImgZoom.Panel2
             // 
             this.splitContainerImgZoom.Panel2.Controls.Add(this.toolStrip1);
-            this.splitContainerImgZoom.Size = new System.Drawing.Size(859, 412);
+            this.splitContainerImgZoom.Size = new System.Drawing.Size(849, 412);
             this.splitContainerImgZoom.SplitterDistance = 377;
             this.splitContainerImgZoom.TabIndex = 1;
             // 
@@ -237,7 +238,7 @@
             this.toolStripButtonZoomMinus});
             this.toolStrip1.Location = new System.Drawing.Point(0, 6);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(859, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(849, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -264,7 +265,6 @@
             this.toolStripTextBoxZoom.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxZoom.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripTextBoxZoom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBoxZoom.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxZoom.Name = "toolStripTextBoxZoom";
             this.toolStripTextBoxZoom.ReadOnly = true;
             this.toolStripTextBoxZoom.Size = new System.Drawing.Size(35, 25);
@@ -299,9 +299,9 @@
             // buttonSaveGlyph
             // 
             this.buttonSaveGlyph.Enabled = false;
-            this.buttonSaveGlyph.Location = new System.Drawing.Point(48, 205);
+            this.buttonSaveGlyph.Location = new System.Drawing.Point(14, 205);
             this.buttonSaveGlyph.Name = "buttonSaveGlyph";
-            this.buttonSaveGlyph.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveGlyph.Size = new System.Drawing.Size(76, 23);
             this.buttonSaveGlyph.TabIndex = 11;
             this.buttonSaveGlyph.Text = "Save Glyph";
             this.buttonSaveGlyph.UseVisualStyleBackColor = true;
@@ -310,7 +310,7 @@
             // textBoxGlyph
             // 
             this.textBoxGlyph.Enabled = false;
-            this.textBoxGlyph.Location = new System.Drawing.Point(54, 16);
+            this.textBoxGlyph.Location = new System.Drawing.Point(63, 15);
             this.textBoxGlyph.MaxLength = 1;
             this.textBoxGlyph.Name = "textBoxGlyph";
             this.textBoxGlyph.Size = new System.Drawing.Size(69, 20);
@@ -321,7 +321,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(11, 19);
+            this.label9.Location = new System.Drawing.Point(20, 18);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(37, 13);
             this.label9.TabIndex = 9;
@@ -335,9 +335,9 @@
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Location = new System.Drawing.Point(10, 392);
+            this.groupBox2.Location = new System.Drawing.Point(14, 392);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(152, 361);
+            this.groupBox2.Size = new System.Drawing.Size(157, 361);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Unity Font Data";
@@ -663,7 +663,7 @@
             this.pictureBoxPedacoImg.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxPedacoImg.MinimumSize = new System.Drawing.Size(100, 100);
             this.pictureBoxPedacoImg.Name = "pictureBoxPedacoImg";
-            this.pictureBoxPedacoImg.Size = new System.Drawing.Size(148, 148);
+            this.pictureBoxPedacoImg.Size = new System.Drawing.Size(157, 148);
             this.pictureBoxPedacoImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPedacoImg.TabIndex = 0;
             this.pictureBoxPedacoImg.TabStop = false;
@@ -678,9 +678,9 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(10, 245);
+            this.groupBox1.Location = new System.Drawing.Point(14, 245);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(152, 141);
+            this.groupBox1.Size = new System.Drawing.Size(157, 141);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Glyph Rectangle";
@@ -820,6 +820,17 @@
             this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
             this.listViewGlyphs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewGlyphs_ItemSelectionChanged);
             // 
+            // buttonDeleteGlyph
+            // 
+            this.buttonDeleteGlyph.Enabled = false;
+            this.buttonDeleteGlyph.Location = new System.Drawing.Point(95, 205);
+            this.buttonDeleteGlyph.Name = "buttonDeleteGlyph";
+            this.buttonDeleteGlyph.Size = new System.Drawing.Size(76, 23);
+            this.buttonDeleteGlyph.TabIndex = 12;
+            this.buttonDeleteGlyph.Text = "Delete Glyph";
+            this.buttonDeleteGlyph.UseVisualStyleBackColor = true;
+            this.buttonDeleteGlyph.Click += new System.EventHandler(this.buttonDeleteGlyph_Click);
+            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -930,6 +941,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButtonZoomMinus;
         private System.Windows.Forms.ListView listViewGlyphs;
+        private System.Windows.Forms.Button buttonDeleteGlyph;
     }
 }
 
