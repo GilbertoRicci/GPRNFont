@@ -131,6 +131,43 @@ namespace GPRNFont
             this.fillingRectData = false;
         }
 
+        private void UpdateCurrentGlyph()
+        {
+            if (this.selectionManager.SelectionRectHasArea())
+            {
+                var selectedArea = this.selectionManager.SelectionRect;
+
+                if (this.currentGlyph == null)
+                    this.currentGlyph = new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
+                else
+                    this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
+            }
+            else
+            {
+                this.currentGlyph = null;
+                listViewGlyphs.SelectedItems.Clear();
+            }
+                
+            this.ShowGlyphData();
+
+            pictureBoxImagem.Invalidate();
+        }
+
+        private void ClearSelection()
+        {
+            this.selectionManager.ResetSelection();
+            this.currentGlyph = null;
+            this.ShowGlyphData();
+            pictureBoxImagem.Invalidate();
+        }
+
+        private void ChangeSelectionRect()
+        {
+            this.selectionManager.SelectionRect = this.currentGlyph.GetGlyphRect(this.zoom);
+            this.ShowGlyphData();
+            pictureBoxImagem.Invalidate();
+        }
+
         private void ZoomApply()
         {
             this.toolStripTextBoxZoom.Text = this.zoom + "%";
@@ -145,34 +182,29 @@ namespace GPRNFont
             pictureBoxImagem.Invalidate();
         }
 
-        private void UpdateCurrentGlyph()
+        private void SelectGlyph(char glyph)
         {
-            if (this.selectionManager.SelectionRectHasArea())
-            {
-                var selectedArea = this.selectionManager.SelectionRect;
+            var glyphData = this.glyphsList.GetGlyphData(glyph);
 
-                if (this.currentGlyph == null)
-                    this.currentGlyph = new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
-                else
-                    this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
-            }
+            if (glyphData == null)
+                MessageBox.Show("Glyph '" + glyph + "' do not exist in glyph list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                this.currentGlyph = null;
+            {
+                this.currentGlyph = new GlyphData(glyphData.GetGlyphRect(), this.originalImage.Size, 100);
+                this.currentGlyph.Glyph = glyph;
+                this.currentGlyph.XPosition = glyphData.XPosition;
+                this.currentGlyph.YPosition = glyphData.YPosition;
+                this.currentGlyph.Width = glyphData.Width;
+                this.currentGlyph.Height = glyphData.Height;
 
-            this.ShowGlyphData();
+                this.selectionManager.SelectionRect = glyphData.GetGlyphRect(this.zoom);
 
-            pictureBoxImagem.Invalidate();
+                this.ShowGlyphData();
+                pictureBoxImagem.Invalidate();
+            }
         }
 
-        private void ClearSelection()
-        {
-            this.selectionManager.ResetSelection();
-            this.currentGlyph = null;
-            this.ShowGlyphData();
-            pictureBoxImagem.Invalidate();
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void OpenFile()
         {
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
@@ -182,6 +214,11 @@ namespace GPRNFont
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     this.ClearSelection();
+                    this.glyphsList.Clear();
+
+                    this.zoom = 100;
+                    toolStripTextBoxZoom.Text = "100%";
+
                     this.originalImage = new Bitmap(dlg.FileName);
                     pictureBoxImagem.Image = originalImage;
 
@@ -190,16 +227,21 @@ namespace GPRNFont
                 }
             }
         }
+        
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            this.OpenFile();
+        }
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
-            var selectedArea = this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), this.zoom / 100);
+            this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), this.zoom / 100);
             this.UpdateCurrentGlyph();
         }
 
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
-            var selectedArea = this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size, this.zoom / 100);
+            this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size, this.zoom / 100);
             this.UpdateCurrentGlyph();
         }
 
@@ -227,13 +269,6 @@ namespace GPRNFont
                 this.currentGlyph.Glyph = glyph[0];
 
             this.SetTextBoxValues();
-        }
-
-        private void ChangeSelectionRect()
-        {
-            this.selectionManager.SelectionRect = this.currentGlyph.GetGlyphRect(this.zoom);
-            this.ShowGlyphData();
-            pictureBoxImagem.Invalidate();
         }
 
         private void numericUpDownPosX_ValueChanged(object sender, EventArgs e)
@@ -331,6 +366,17 @@ namespace GPRNFont
         private void listViewGlyphs_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             this.glyphsList.Draw(e);
+        }
+
+        private void listViewGlyphs_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (e.IsSelected)
+            {
+                var glyph = e.Item.Text[0];
+                this.SelectGlyph(glyph);
+            }
+            else
+                this.ClearSelection();
         }
     }
 }

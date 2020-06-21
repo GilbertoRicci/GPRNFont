@@ -818,6 +818,7 @@
             this.listViewGlyphs.UseCompatibleStateImageBehavior = false;
             this.listViewGlyphs.View = System.Windows.Forms.View.Tile;
             this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
+            this.listViewGlyphs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewGlyphs_ItemSelectionChanged);
             // 
             // FormPrincipal
             // 

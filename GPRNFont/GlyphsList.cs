@@ -61,6 +61,14 @@ namespace GPRNFont
             return result == DialogResult.Yes;
         }
 
+        public GlyphData GetGlyphData(char glyph)
+        {
+            if (this.glyphs.ContainsKey(glyph))
+                return this.glyphs[glyph];
+            
+            return null;
+        }
+
         public void Draw(DrawListViewItemEventArgs e)
         {
             //item background
@@ -108,6 +116,12 @@ namespace GPRNFont
             var imgRect = new Rectangle(imgBorderRect.X + 1, imgBorderRect.Y + 1, imgBorderRect.Width - 2, imgBorderRect.Height - 2);
             var img = listViewGlyphs.LargeImageList.Images[e.Item.ImageIndex];
             e.Graphics.DrawImage(img, imgRect, new Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel);
+        }
+
+        public void Clear()
+        {
+            this.listViewGlyphs.Clear();
+            this.glyphs.Clear();
         }
     }
 }

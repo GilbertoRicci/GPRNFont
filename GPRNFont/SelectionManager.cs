@@ -278,7 +278,7 @@ namespace GPRNFont
             return point;
         }
 
-        public Rectangle StartSelection(Point startPoint, int zoomX)
+        public void StartSelection(Point startPoint, int zoomX)
         {
             this.selectedLittleSquare = GetLittleSquareIndex(startPoint);
 
@@ -293,8 +293,6 @@ namespace GPRNFont
                 else
                     this.selectionRect = Rectangle.Empty;
             }
-
-            return this.selectionRect;
         }
 
         public void UpdateSelection(Point endPoint, Size imgSize, int zoomX)
@@ -313,7 +311,7 @@ namespace GPRNFont
             }
         }
 
-        public Rectangle EndSelection(Point endPoint, Size imgSize, int zoomX)
+        public void EndSelection(Point endPoint, Size imgSize, int zoomX)
         {
             var roundedEndPoint = this.RoundPointByZoom(endPoint, zoomX);
 
@@ -328,8 +326,6 @@ namespace GPRNFont
                 this.ClearLittleSquares();
 
             this.startPoint = null;
-
-            return this.selectionRect;
         }
 
         public void DrawSelectionRect(Graphics g)
