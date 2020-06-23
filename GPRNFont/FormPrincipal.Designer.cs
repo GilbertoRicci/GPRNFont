@@ -30,7 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrincipal));
             this.toolStripBarraBotoes = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonSelecionarImg = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSelectImg = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
             this.splitContainerGlyphs = new System.Windows.Forms.SplitContainer();
             this.splitContainerImage = new System.Windows.Forms.SplitContainer();
             this.splitContainerImgZoom = new System.Windows.Forms.SplitContainer();
@@ -42,6 +43,7 @@
             this.toolStripLabelZoom = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonZoomMinus = new System.Windows.Forms.ToolStripButton();
+            this.buttonDeleteGlyph = new System.Windows.Forms.Button();
             this.buttonSaveGlyph = new System.Windows.Forms.Button();
             this.textBoxGlyph = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -79,7 +81,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listViewGlyphs = new System.Windows.Forms.ListView();
-            this.buttonDeleteGlyph = new System.Windows.Forms.Button();
             this.toolStripBarraBotoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).BeginInit();
             this.splitContainerGlyphs.Panel1.SuspendLayout();
@@ -119,24 +120,36 @@
             // toolStripBarraBotoes
             // 
             this.toolStripBarraBotoes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonSelecionarImg});
+            this.toolStripButtonSelectImg,
+            this.toolStripButtonSaveProject});
             this.toolStripBarraBotoes.Location = new System.Drawing.Point(0, 0);
             this.toolStripBarraBotoes.Name = "toolStripBarraBotoes";
             this.toolStripBarraBotoes.Size = new System.Drawing.Size(1060, 25);
             this.toolStripBarraBotoes.TabIndex = 0;
             this.toolStripBarraBotoes.Text = "Selecionar Imagem...";
             // 
-            // toolStripButtonSelecionarImg
+            // toolStripButtonSelectImg
             // 
-            this.toolStripButtonSelecionarImg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSelecionarImg.Image")));
-            this.toolStripButtonSelecionarImg.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolStripButtonSelecionarImg.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSelecionarImg.Name = "toolStripButtonSelecionarImg";
-            this.toolStripButtonSelecionarImg.Size = new System.Drawing.Size(103, 22);
-            this.toolStripButtonSelecionarImg.Text = "Select Image...";
-            this.toolStripButtonSelecionarImg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolStripButtonSelecionarImg.ToolTipText = "Select image";
-            this.toolStripButtonSelecionarImg.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButtonSelectImg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSelectImg.Image")));
+            this.toolStripButtonSelectImg.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButtonSelectImg.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSelectImg.Name = "toolStripButtonSelectImg";
+            this.toolStripButtonSelectImg.Size = new System.Drawing.Size(91, 22);
+            this.toolStripButtonSelectImg.Text = "New Project";
+            this.toolStripButtonSelectImg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolStripButtonSelectImg.ToolTipText = "Select image";
+            this.toolStripButtonSelectImg.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripButtonSaveProject
+            // 
+            this.toolStripButtonSaveProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSaveProject.Image")));
+            this.toolStripButtonSaveProject.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButtonSaveProject.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSaveProject.Name = "toolStripButtonSaveProject";
+            this.toolStripButtonSaveProject.Size = new System.Drawing.Size(91, 22);
+            this.toolStripButtonSaveProject.Text = "Save Project";
+            this.toolStripButtonSaveProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolStripButtonSaveProject.Click += new System.EventHandler(this.toolStripButtonSaveProject_Click);
             // 
             // splitContainerGlyphs
             // 
@@ -265,6 +278,7 @@
             this.toolStripTextBoxZoom.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxZoom.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripTextBoxZoom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBoxZoom.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxZoom.Name = "toolStripTextBoxZoom";
             this.toolStripTextBoxZoom.ReadOnly = true;
             this.toolStripTextBoxZoom.Size = new System.Drawing.Size(35, 25);
@@ -295,6 +309,17 @@
             this.toolStripButtonZoomMinus.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonZoomMinus.Text = "Zoom -";
             this.toolStripButtonZoomMinus.Click += new System.EventHandler(this.toolStripButtonZoomLess_Click);
+            // 
+            // buttonDeleteGlyph
+            // 
+            this.buttonDeleteGlyph.Enabled = false;
+            this.buttonDeleteGlyph.Location = new System.Drawing.Point(95, 205);
+            this.buttonDeleteGlyph.Name = "buttonDeleteGlyph";
+            this.buttonDeleteGlyph.Size = new System.Drawing.Size(76, 23);
+            this.buttonDeleteGlyph.TabIndex = 12;
+            this.buttonDeleteGlyph.Text = "Delete Glyph";
+            this.buttonDeleteGlyph.UseVisualStyleBackColor = true;
+            this.buttonDeleteGlyph.Click += new System.EventHandler(this.buttonDeleteGlyph_Click);
             // 
             // buttonSaveGlyph
             // 
@@ -820,17 +845,6 @@
             this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
             this.listViewGlyphs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewGlyphs_ItemSelectionChanged);
             // 
-            // buttonDeleteGlyph
-            // 
-            this.buttonDeleteGlyph.Enabled = false;
-            this.buttonDeleteGlyph.Location = new System.Drawing.Point(95, 205);
-            this.buttonDeleteGlyph.Name = "buttonDeleteGlyph";
-            this.buttonDeleteGlyph.Size = new System.Drawing.Size(76, 23);
-            this.buttonDeleteGlyph.TabIndex = 12;
-            this.buttonDeleteGlyph.Text = "Delete Glyph";
-            this.buttonDeleteGlyph.UseVisualStyleBackColor = true;
-            this.buttonDeleteGlyph.Click += new System.EventHandler(this.buttonDeleteGlyph_Click);
-            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -892,7 +906,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStripBarraBotoes;
-        private System.Windows.Forms.ToolStripButton toolStripButtonSelecionarImg;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSelectImg;
         private System.Windows.Forms.SplitContainer splitContainerGlyphs;
         private System.Windows.Forms.SplitContainer splitContainerImage;
         private System.Windows.Forms.PictureBox pictureBoxImagem;
@@ -942,6 +956,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonZoomMinus;
         private System.Windows.Forms.ListView listViewGlyphs;
         private System.Windows.Forms.Button buttonDeleteGlyph;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSaveProject;
     }
 }
 

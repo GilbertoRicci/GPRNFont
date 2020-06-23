@@ -6,15 +6,19 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace GPRNFont
 {
     public partial class FormPrincipal : Form
     {
+        private XmlSerializer xmlSerializer;
+        private string imgPath;
         private SelectionManager selectionManager;
         private Image originalImage;
         private GlyphData currentGlyph;
@@ -29,6 +33,7 @@ namespace GPRNFont
             DoubleBuffered = true;
             this.selectionManager = new SelectionManager();
             this.glyphsList = new GlyphsList(listViewGlyphs);
+            this.xmlSerializer = new XmlSerializer(typeof(Project));
         }
 
         private void DrawImageCopy()
@@ -119,16 +124,6 @@ namespace GPRNFont
             numericUpDownPosY.Enabled = enable;
             numericUpDownWidth.Enabled = enable;
             numericUpDownHeight.Enabled = enable;
-            numericUpDownIndex.Enabled = enable;
-            numericUpDownAdvance.Enabled = enable;
-            numericUpDownUVX.Enabled = enable;
-            numericUpDownUVY.Enabled = enable;
-            numericUpDownUVW.Enabled = enable;
-            numericUpDownUVH.Enabled = enable;
-            numericUpDownVertX.Enabled = enable;
-            numericUpDownVertY.Enabled = enable;
-            numericUpDownVertW.Enabled = enable;
-            numericUpDownVertH.Enabled = enable;
         }
 
         private void ShowGlyphData()
@@ -215,22 +210,24 @@ namespace GPRNFont
             }
         }
 
-        private void OpenFile()
+        private void NewProject()
         {
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
-                dlg.Title = "Select Image";
+                dlg.Title = "New Project";
                 dlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
+                    this.imgPath = dlg.FileName;
+
                     this.ClearSelection();
                     this.glyphsList.Clear();
 
                     this.zoom = 100;
                     toolStripTextBoxZoom.Text = "100%";
 
-                    this.originalImage = new Bitmap(dlg.FileName);
+                    this.originalImage = new Bitmap(this.imgPath);
                     pictureBoxImagem.Image = originalImage;
 
                     toolStripButtonZoomMinus.Enabled = true;
@@ -245,10 +242,29 @@ namespace GPRNFont
             if (result == DialogResult.Yes)
                 this.glyphsList.DeleteGlyph(this.currentGlyph.Glyph);
         }
+
+        private void SaveProject()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Title = "Save Project";
+            dialog.Filter = "GPRNFont Project (*.gfpj) | *.gfpj";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var project = new Project();
+                project.ImagePath = this.imgPath;
+                project.GlyphsBasicData = this.glyphsList.GetGlyphsBasicData();
+
+                using (var writer = new StreamWriter(dialog.FileName))
+                {
+                    xmlSerializer.Serialize(writer, project);
+                }
+            }
+        }
         
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            this.OpenFile();
+            this.NewProject();
         }
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
@@ -405,6 +421,11 @@ namespace GPRNFont
         private void buttonDeleteGlyph_Click(object sender, EventArgs e)
         {
             this.DeleteGlyph();
+        }
+
+        private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
+        {
+            this.SaveProject();
         }
     }
 }

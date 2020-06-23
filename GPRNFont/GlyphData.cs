@@ -8,87 +8,161 @@ namespace GPRNFont
     {
         private decimal imgWidth;
         private decimal imgHeight;
-        private char glyph;
-        private int x;
-        private int y;
-        private int w;
-        private int h;
+        private GlyphBasicData glyphBasicData;
+
+        public GlyphBasicData BasicData
+        {
+            get
+            {
+                return this.glyphBasicData;
+            }
+        }
 
         public char Glyph
         {
             get
             {
-                return this.glyph;
+                return this.glyphBasicData.Glyph;
             }
             set
             {
-                this.glyph = value;
-                this.Index = (int)this.glyph;
+                this.glyphBasicData.Glyph = value;
             }
         }
+
         public int XPosition
         {
             get
             {
-                return this.x;
+                return this.glyphBasicData.XPosition;
             }
             set
             {
-                this.x = value;
-                this.CalcUnityData();
+                this.glyphBasicData.XPosition = value;
             }
         }
+
         public int YPosition
         {
             get
             {
-                return this.y;
+                return this.glyphBasicData.YPosition;
             }
             set
             {
-                this.y = value;
-                this.CalcUnityData();
+                this.glyphBasicData.YPosition = value;
             }
         }
+
         public int Width
         {
             get
             {
-                return this.w;
+                return this.glyphBasicData.Width;
             }
             set
             {
-                this.w = value;
-                this.CalcUnityData();
+                this.glyphBasicData.Width = value;
             }
         }
+
         public int Height
         {
             get
             {
-                return this.h;
+                return this.glyphBasicData.Height;
             }
             set
             {
-                this.h = value;
-                this.CalcUnityData();
+                this.glyphBasicData.Height = value;
             }
         }
-        public int Index { get; set; }
-        public int Advance { get; set; }
-        public decimal UVX { get; set; }
-        public decimal UVY { get; set; }
-        public decimal UVW { get; set; }
-        public decimal UVH { get; set; }
-        public int VertX { get; set; }
-        public int VertY { get; set; }
-        public int VertW { get; set; }
-        public int VertH { get; set; }
+
+        public int Index
+        {
+            get
+            {
+                return (int)this.Glyph;
+            }
+        }
+
+        public int Advance
+        {
+            get
+            {
+                return this.Width;
+            }
+        }
+
+        public decimal UVX
+        {
+            get
+            {
+                return 1 / (this.imgWidth / this.Width) * this.XPosition / this.Width;
+            }
+        }
+
+        public decimal UVY
+        {
+            get
+            {
+                return 1 - 1 / (this.imgHeight / this.Height) * ((this.YPosition / this.Height) + 1);
+            }
+        }
+
+        public decimal UVW
+        {
+            get
+            {
+                return 1 / (this.imgWidth / this.Width);
+            }
+        }
+
+        public decimal UVH
+        {
+            get
+            {
+                return 1 / (this.imgHeight / this.Height);
+            }
+        }
+
+        public int VertX
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public int VertY
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public int VertW
+        {
+            get
+            {
+                return this.Width;
+            }
+        }
+
+        public int VertH
+        {
+            get
+            {
+                return -this.Width;
+            }
+        }
 
         public GlyphData(Rectangle selectedArea, Size imageSize, int zoom)
         {
+            this.glyphBasicData = new GlyphBasicData();
+
             this.Glyph = '\0';
-            this.Index = 0;
 
             this.imgWidth = imageSize.Width;
             this.imgHeight = imageSize.Height;
@@ -96,29 +170,14 @@ namespace GPRNFont
             this.SetGlyphRect(selectedArea, zoom);
         }
 
-        private void CalcUnityData()
-        {
-            this.Advance = this.Width;
-            this.UVX = 1 / (this.imgWidth / this.Width) * this.XPosition / this.Width;
-            this.UVY = 1 - 1 / (this.imgHeight / this.Height) * ((this.YPosition / this.Height) + 1);
-            this.UVW = 1 / (this.imgWidth / this.Width);
-            this.UVH = 1 / (this.imgHeight / this.Height);
-            this.VertX = 0;
-            this.VertY = 0;
-            this.VertW = this.Width;
-            this.VertH = -this.Width;
-        }
-
         public void SetGlyphRect(Rectangle rect, int zoom)
         {
             double zoomFactor = 100 / (double)zoom;
 
-            this.x = Convert.ToInt32(rect.X * zoomFactor);
-            this.y = Convert.ToInt32(rect.Y * zoomFactor);
-            this.w = Convert.ToInt32(rect.Width * zoomFactor);
-            this.h = Convert.ToInt32(rect.Height * zoomFactor);
-
-            this.CalcUnityData();
+            this.XPosition = Convert.ToInt32(rect.X * zoomFactor);
+            this.YPosition = Convert.ToInt32(rect.Y * zoomFactor);
+            this.Width = Convert.ToInt32(rect.Width * zoomFactor);
+            this.Height = Convert.ToInt32(rect.Height * zoomFactor);
         }
 
         public Rectangle GetGlyphRect(int zoom)
