@@ -5,6 +5,6 @@ namespace GPRNFont
     public class Project
     {
         public string ImagePath { get; set; }
-        public List<GlyphBasicData> GlyphsBasicData { get; set; }
+        public List<GlyphData> GlyphsData { get; set; }
     }
 }

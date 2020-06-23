@@ -52,7 +52,6 @@
     <Compile Include="FormPrincipal.Designer.cs">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlyphBasicData.cs" />
     <Compile Include="GlyphData.cs" />
     <Compile Include="GlyphsList.cs" />
     <Compile Include="Program.cs" />

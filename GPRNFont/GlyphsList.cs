@@ -124,9 +124,9 @@ namespace GPRNFont
             this.glyphs.Clear();
         }
 
-        public List<GlyphBasicData> GetGlyphsBasicData()
+        public List<GlyphData> GetGlyphsData()
         {
-            return this.glyphs.Values.Select(p => p.BasicData).ToList();
+            return this.glyphs.Values.ToList();
         }
     }
 }

@@ -104,16 +104,18 @@ namespace GPRNFont
                 numericUpDownPosY.Value = this.currentGlyph.YPosition;
                 numericUpDownWidth.Value = this.currentGlyph.Width;
                 numericUpDownHeight.Value = this.currentGlyph.Height;
-                numericUpDownIndex.Value = this.currentGlyph.Index;
-                numericUpDownAdvance.Value = this.currentGlyph.Advance;
-                numericUpDownUVX.Value = this.currentGlyph.UVX;
-                numericUpDownUVY.Value = this.currentGlyph.UVY;
-                numericUpDownUVW.Value = this.currentGlyph.UVW;
-                numericUpDownUVH.Value = this.currentGlyph.UVH;
-                numericUpDownVertX.Value = this.currentGlyph.VertX;
-                numericUpDownVertY.Value = this.currentGlyph.VertY;
-                numericUpDownVertW.Value = this.currentGlyph.VertW;
-                numericUpDownVertH.Value = this.currentGlyph.VertH;
+
+                //calc unity data
+                numericUpDownIndex.Value = (int)this.currentGlyph.Glyph;
+                numericUpDownAdvance.Value = this.currentGlyph.Width;
+                numericUpDownUVX.Value = 1M / (this.originalImage.Width / this.currentGlyph.Width) * this.currentGlyph.XPosition / this.currentGlyph.Width;
+                numericUpDownUVY.Value = 1M - 1M / (this.originalImage.Height / this.currentGlyph.Height) * ((this.currentGlyph.YPosition / this.currentGlyph.Height) + 1M);
+                numericUpDownUVW.Value = 1M / (this.originalImage.Width / this.currentGlyph.Width);
+                numericUpDownUVH.Value = 1M / (this.originalImage.Height / this.currentGlyph.Height);
+                numericUpDownVertX.Value = 0M;
+                numericUpDownVertY.Value = 0M;
+                numericUpDownVertW.Value = this.currentGlyph.Width;
+                numericUpDownVertH.Value = -this.currentGlyph.Width;
             }
         }
 
@@ -144,9 +146,9 @@ namespace GPRNFont
                 var selectedArea = this.selectionManager.SelectionRect;
 
                 if (this.currentGlyph == null)
-                    this.currentGlyph = new GlyphData(selectedArea, this.originalImage.Size, this.zoom);
-                else
-                    this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
+                    this.currentGlyph = new GlyphData();
+
+                this.currentGlyph.SetGlyphRect(selectedArea, this.zoom);
             }
             else
             {
@@ -196,12 +198,14 @@ namespace GPRNFont
                 MessageBox.Show("Glyph '" + glyph + "' do not exist in glyph list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                this.currentGlyph = new GlyphData(glyphData.GetGlyphRect(), this.originalImage.Size, 100);
-                this.currentGlyph.Glyph = glyph;
-                this.currentGlyph.XPosition = glyphData.XPosition;
-                this.currentGlyph.YPosition = glyphData.YPosition;
-                this.currentGlyph.Width = glyphData.Width;
-                this.currentGlyph.Height = glyphData.Height;
+                this.currentGlyph = new GlyphData
+                {
+                    Glyph = glyph,
+                    XPosition = glyphData.XPosition,
+                    YPosition = glyphData.YPosition,
+                    Width = glyphData.Width,
+                    Height = glyphData.Height
+                };
 
                 this.selectionManager.SelectionRect = glyphData.GetGlyphRect(this.zoom);
 
@@ -251,9 +255,11 @@ namespace GPRNFont
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var project = new Project();
-                project.ImagePath = this.imgPath;
-                project.GlyphsBasicData = this.glyphsList.GetGlyphsBasicData();
+                var project = new Project
+                {
+                    ImagePath = this.imgPath,
+                    GlyphsData = this.glyphsList.GetGlyphsData()
+                };
 
                 using (var writer = new StreamWriter(dialog.FileName))
                 {
