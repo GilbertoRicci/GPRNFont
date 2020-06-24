@@ -100,17 +100,16 @@ namespace GPRNFont
                 numericUpDownWidth.Value = this.currentGlyph.Width;
                 numericUpDownHeight.Value = this.currentGlyph.Height;
 
-                //calc unity data
-                numericUpDownIndex.Value = (int)this.currentGlyph.Glyph;
-                numericUpDownAdvance.Value = this.currentGlyph.Width;
-                numericUpDownUVX.Value = 1M / (this.originalImage.Width / this.currentGlyph.Width) * this.currentGlyph.XPosition / this.currentGlyph.Width;
-                numericUpDownUVY.Value = 1M - 1M / (this.originalImage.Height / this.currentGlyph.Height) * ((this.currentGlyph.YPosition / this.currentGlyph.Height) + 1M);
-                numericUpDownUVW.Value = 1M / (this.originalImage.Width / this.currentGlyph.Width);
-                numericUpDownUVH.Value = 1M / (this.originalImage.Height / this.currentGlyph.Height);
-                numericUpDownVertX.Value = 0M;
-                numericUpDownVertY.Value = 0M;
-                numericUpDownVertW.Value = this.currentGlyph.Width;
-                numericUpDownVertH.Value = -this.currentGlyph.Width;
+                numericUpDownIndex.Value = this.currentGlyph.GetIndex();
+                numericUpDownAdvance.Value = this.currentGlyph.GetAdvance();
+                numericUpDownUVX.Value = this.currentGlyph.GetUVX(this.originalImage.Width);
+                numericUpDownUVY.Value = this.currentGlyph.GetUVY(this.originalImage.Height);
+                numericUpDownUVW.Value = this.currentGlyph.GetUVW(this.originalImage.Width);
+                numericUpDownUVH.Value = this.currentGlyph.GetUVH(this.originalImage.Height);
+                numericUpDownVertX.Value = this.currentGlyph.GetVertX();
+                numericUpDownVertY.Value = this.currentGlyph.GetVertY();
+                numericUpDownVertW.Value = this.currentGlyph.GetVertW();
+                numericUpDownVertH.Value = this.currentGlyph.GetVertH();
             }
         }
 
@@ -309,6 +308,66 @@ namespace GPRNFont
             }
         }
 
+        private string GetFontsettingsText(string fileName)
+        {
+            var fontsettingsText = "";
+
+            using (var reader = new StreamReader(fileName))
+            {
+                var isBetweenCharRectsAndKerningValues = false;
+                var line = reader.ReadLine();
+
+                while (line != null && !isBetweenCharRectsAndKerningValues)
+                {
+                    if (line.Contains("m_LineSpacing"))
+                        fontsettingsText += "  m_LineSpacing: " + this.glyphsList.GetLineSpacing() + Environment.NewLine;
+                    else
+                        fontsettingsText += line + Environment.NewLine;
+
+                    if (line.Contains("m_CharacterRects"))
+                        isBetweenCharRectsAndKerningValues = true;
+
+                    line = reader.ReadLine();
+                }
+
+                if (isBetweenCharRectsAndKerningValues)
+                    foreach (var glyphData in glyphsList.GetGlyphsData())
+                        fontsettingsText += glyphData.GetExportText(this.originalImage.Width, this.originalImage.Height);
+
+                while (line != null)
+                {
+                    if (line.Contains("m_KerningValues"))
+                        isBetweenCharRectsAndKerningValues = false;
+
+                    if (!isBetweenCharRectsAndKerningValues)
+                        fontsettingsText += line + Environment.NewLine;
+
+                    line = reader.ReadLine();
+                }
+            }
+
+            return fontsettingsText;
+        }
+        private void Export()
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Export";
+            dialog.Filter = ".fontsettings file (*.fontsettings) | *.fontsettings";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.WriteAllText(dialog.FileName, this.GetFontsettingsText(dialog.FileName));
+                    MessageBox.Show("Content successfully exported to file " + dialog.FileName + ".", "GPRNFont", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show("Export to file " + dialog.FileName + " failed (" + e.Message + ").", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             this.NewProject();
@@ -478,6 +537,11 @@ namespace GPRNFont
         private void toolStripButtonOpenProject_Click(object sender, EventArgs e)
         {
             this.SelectProject();
+        }
+
+        private void toolStripButtonExport_Click(object sender, EventArgs e)
+        {
+            this.Export();
         }
     }
 }

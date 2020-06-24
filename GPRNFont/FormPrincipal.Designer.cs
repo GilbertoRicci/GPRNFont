@@ -32,6 +32,7 @@
             this.toolStripBarraBotoes = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonSelectImg = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
             this.splitContainerGlyphs = new System.Windows.Forms.SplitContainer();
             this.splitContainerImage = new System.Windows.Forms.SplitContainer();
             this.splitContainerImgZoom = new System.Windows.Forms.SplitContainer();
@@ -81,7 +82,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listViewGlyphs = new System.Windows.Forms.ListView();
-            this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
             this.toolStripBarraBotoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).BeginInit();
             this.splitContainerGlyphs.Panel1.SuspendLayout();
@@ -123,7 +124,8 @@
             this.toolStripBarraBotoes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonSelectImg,
             this.toolStripButtonSaveProject,
-            this.toolStripButtonOpenProject});
+            this.toolStripButtonOpenProject,
+            this.toolStripButtonExport});
             this.toolStripBarraBotoes.Location = new System.Drawing.Point(0, 0);
             this.toolStripBarraBotoes.Name = "toolStripBarraBotoes";
             this.toolStripBarraBotoes.Size = new System.Drawing.Size(1060, 25);
@@ -152,6 +154,16 @@
             this.toolStripButtonSaveProject.Text = "Save Project";
             this.toolStripButtonSaveProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.toolStripButtonSaveProject.Click += new System.EventHandler(this.toolStripButtonSaveProject_Click);
+            // 
+            // toolStripButtonOpenProject
+            // 
+            this.toolStripButtonOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpenProject.Image")));
+            this.toolStripButtonOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOpenProject.Name = "toolStripButtonOpenProject";
+            this.toolStripButtonOpenProject.Size = new System.Drawing.Size(96, 22);
+            this.toolStripButtonOpenProject.Text = "Open Project";
+            this.toolStripButtonOpenProject.ToolTipText = "Open Project";
+            this.toolStripButtonOpenProject.Click += new System.EventHandler(this.toolStripButtonOpenProject_Click);
             // 
             // splitContainerGlyphs
             // 
@@ -847,15 +859,14 @@
             this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
             this.listViewGlyphs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewGlyphs_ItemSelectionChanged);
             // 
-            // toolStripButtonOpenProject
+            // toolStripButtonExport
             // 
-            this.toolStripButtonOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpenProject.Image")));
-            this.toolStripButtonOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonOpenProject.Name = "toolStripButtonOpenProject";
-            this.toolStripButtonOpenProject.Size = new System.Drawing.Size(96, 22);
-            this.toolStripButtonOpenProject.Text = "Open Project";
-            this.toolStripButtonOpenProject.ToolTipText = "Open Project";
-            this.toolStripButtonOpenProject.Click += new System.EventHandler(this.toolStripButtonOpenProject_Click);
+            this.toolStripButtonExport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonExport.Image")));
+            this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonExport.Name = "toolStripButtonExport";
+            this.toolStripButtonExport.Size = new System.Drawing.Size(61, 22);
+            this.toolStripButtonExport.Text = "Export";
+            this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
             // 
             // FormPrincipal
             // 
@@ -970,6 +981,7 @@
         private System.Windows.Forms.Button buttonDeleteGlyph;
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveProject;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpenProject;
+        private System.Windows.Forms.ToolStripButton toolStripButtonExport;
     }
 }
 

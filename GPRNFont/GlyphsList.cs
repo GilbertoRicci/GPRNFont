@@ -128,5 +128,10 @@ namespace GPRNFont
         {
             return this.glyphs.Values.ToList();
         }
+
+        public int GetLineSpacing()
+        {
+            return this.glyphs.Values.Max(x => x.Height);
+        }
     }
 }
