@@ -36,22 +36,17 @@ namespace GPRNFont
             this.xmlSerializer = new XmlSerializer(typeof(Project));
         }
 
-        private void DrawImageCopy()
+        private Image DrawImageCopy(Rectangle area)
         {
-            if (this.currentGlyph == null)
-                pictureBoxPedacoImg.Image = null;
-            else
-            {
-                var selectedArea = this.currentGlyph.GetGlyphRect();
+            var image = new Bitmap(pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height);
 
-                pictureBoxPedacoImg.Image = new Bitmap(pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height);
-                using (var g = Graphics.FromImage(pictureBoxPedacoImg.Image))
-                {
-                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                    g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), selectedArea, GraphicsUnit.Pixel);
-                }
+            using (var g = Graphics.FromImage(image))
+            {
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), area, GraphicsUnit.Pixel);
             }
-            
+
+            return image;
         }
 
         private void ChangeTextBoxGlyph(string text)
@@ -128,11 +123,21 @@ namespace GPRNFont
             numericUpDownHeight.Enabled = enable;
         }
 
+        private void UpdateCurrentGlyphImage()
+        {
+            if (this.currentGlyph == null)
+                pictureBoxPedacoImg.Image = null;
+            else
+            {
+                var selectedArea = this.currentGlyph.GetGlyphRect();
+                pictureBoxPedacoImg.Image = this.DrawImageCopy(selectedArea);
+            }
+        }
+
         private void ShowGlyphData()
         {
             this.fillingRectData = true;
-
-            this.DrawImageCopy();
+            this.UpdateCurrentGlyphImage();
             this.SetTextBoxValues();
             this.EnableTextBoxes(this.currentGlyph != null);
             
@@ -214,6 +219,30 @@ namespace GPRNFont
             }
         }
 
+        private void OpenProject(string imgPath, List<GlyphData> glyphs)
+        {
+            this.imgPath = imgPath;
+
+            this.ClearSelection();
+            this.glyphsList.Clear();
+
+            this.zoom = 100;
+            toolStripTextBoxZoom.Text = "100%";
+
+            this.originalImage = new Bitmap(this.imgPath);
+            pictureBoxImagem.Image = originalImage;
+
+            toolStripButtonZoomMinus.Enabled = true;
+            toolStripButtonZoomPlus.Enabled = true;
+
+            if (glyphs != null)
+                foreach (var glyphData in glyphs)
+                {
+                    var img = this.DrawImageCopy(glyphData.GetGlyphRect(this.zoom));
+                    this.glyphsList.SaveGlyph(glyphData, img);
+                }
+        }
+
         private void NewProject()
         {
             using (OpenFileDialog dlg = new OpenFileDialog())
@@ -222,21 +251,7 @@ namespace GPRNFont
                 dlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
 
                 if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    this.imgPath = dlg.FileName;
-
-                    this.ClearSelection();
-                    this.glyphsList.Clear();
-
-                    this.zoom = 100;
-                    toolStripTextBoxZoom.Text = "100%";
-
-                    this.originalImage = new Bitmap(this.imgPath);
-                    pictureBoxImagem.Image = originalImage;
-
-                    toolStripButtonZoomMinus.Enabled = true;
-                    toolStripButtonZoomPlus.Enabled = true;
-                }
+                    this.OpenProject(dlg.FileName, null);
             }
         }
 
@@ -267,7 +282,33 @@ namespace GPRNFont
                 }
             }
         }
-        
+
+        private void SelectProject()
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Open Project";
+            dialog.Filter = "GPRNFont Project (*.gfpj) | *.gfpj";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Project project = null;
+
+                using (var reader = new StreamReader(dialog.FileName))
+                {
+                    try
+                    {
+                        project = (Project)xmlSerializer.Deserialize(reader);
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        MessageBox.Show("Invalid project file.", "GPRNFont", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                this.OpenProject(project.ImagePath, project.GlyphsData);
+            }
+        }
+
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             this.NewProject();
@@ -432,6 +473,11 @@ namespace GPRNFont
         private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
         {
             this.SaveProject();
+        }
+
+        private void toolStripButtonOpenProject_Click(object sender, EventArgs e)
+        {
+            this.SelectProject();
         }
     }
 }
