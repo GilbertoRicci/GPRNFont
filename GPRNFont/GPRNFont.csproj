@@ -52,6 +52,12 @@
     <Compile Include="FormPrincipal.Designer.cs">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormQuickDivide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormQuickDivide.Designer.cs">
+      <DependentUpon>FormQuickDivide.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlyphData.cs" />
     <Compile Include="GlyphsList.cs" />
     <Compile Include="Program.cs" />
@@ -60,6 +66,9 @@
     <Compile Include="SelectionManager.cs" />
     <EmbeddedResource Include="FormPrincipal.resx">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormQuickDivide.resx">
+      <DependentUpon>FormQuickDivide.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

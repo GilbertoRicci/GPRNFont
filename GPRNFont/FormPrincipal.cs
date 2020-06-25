@@ -368,9 +368,33 @@ namespace GPRNFont
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        public void QuickDivide()
         {
-            this.NewProject();
+            var f = new FormQuickDivide();
+            if(f.ShowDialog() == DialogResult.OK)
+            {
+                this.ClearSelection();
+                this.glyphsList.Clear();
+
+                var glyphCode = 33;
+
+                for (var y=0; y<this.originalImage.Height; y=y+f.GlyphsHeight)
+                {
+                    for (var x= 0; x<this.originalImage.Width; x=x+f.GlyphsWidth)
+                    {
+                        var glyphArea = new Rectangle(x, y, f.GlyphsWidth, f.GlyphsHeight);
+                        var img = this.DrawImageCopy(glyphArea);
+
+                        var glyphData = new GlyphData();
+                        glyphData.Glyph = (char)glyphCode;
+                        glyphData.SetGlyphRect(glyphArea, 100);
+
+                        this.glyphsList.SaveGlyph(glyphData, img);
+
+                        glyphCode++;
+                    }
+                }
+            }
         }
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
@@ -529,6 +553,12 @@ namespace GPRNFont
             this.DeleteGlyph();
         }
 
+
+        private void toolStripButtonNewProject_Click(object sender, EventArgs e)
+        {
+            this.NewProject();
+        }
+
         private void toolStripButtonSaveProject_Click(object sender, EventArgs e)
         {
             this.SaveProject();
@@ -542,6 +572,11 @@ namespace GPRNFont
         private void toolStripButtonExport_Click(object sender, EventArgs e)
         {
             this.Export();
+        }
+
+        private void toolStripButtonQuickDivide_Click(object sender, EventArgs e)
+        {
+            this.QuickDivide();
         }
     }
 }
