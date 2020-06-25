@@ -139,6 +139,7 @@
             this.Name = "FormQuickDivide";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Quick Divide";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownH)).EndInit();

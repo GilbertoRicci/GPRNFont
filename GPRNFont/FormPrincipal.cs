@@ -398,12 +398,14 @@ namespace GPRNFont
         public void QuickDivide()
         {
             this.isDividing = true;
-
+            
             try
             {
                 this.formQuickDivide = new FormQuickDivide(pictureBoxImagem);
                 if (this.formQuickDivide.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+
                     this.ClearSelection();
                     this.glyphsList.Clear();
 
@@ -417,6 +419,7 @@ namespace GPRNFont
                 this.isDividing = false;
                 this.formQuickDivide.Dispose();
                 this.formQuickDivide = null;
+                Cursor.Current = Cursors.Default;
                 pictureBoxImagem.Invalidate();
             }
         }
