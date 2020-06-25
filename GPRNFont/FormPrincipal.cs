@@ -417,6 +417,7 @@ namespace GPRNFont
                 this.isDividing = false;
                 this.formQuickDivide.Dispose();
                 this.formQuickDivide = null;
+                pictureBoxImagem.Invalidate();
             }
         }
 
