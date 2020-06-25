@@ -26,6 +26,8 @@ namespace GPRNFont
         private bool fillingRectData = false;
         private bool changingTextBoxGlyph = false;
         private int zoom = 100;
+        private bool isDividing;
+        private FormQuickDivide formQuickDivide;
 
         public FormPrincipal()
         {
@@ -368,33 +370,79 @@ namespace GPRNFont
             }
         }
 
-        public void QuickDivide()
+        private void ForEachDividedGlyph(Action<int, int> function)
         {
-            var f = new FormQuickDivide();
-            if(f.ShowDialog() == DialogResult.OK)
+            for (var y = 0; y + this.formQuickDivide.GlyphsHeight < this.originalImage.Height; y = y + this.formQuickDivide.GlyphsHeight)
             {
-                this.ClearSelection();
-                this.glyphsList.Clear();
-
-                var glyphCode = 33;
-
-                for (var y=0; y<this.originalImage.Height; y=y+f.GlyphsHeight)
+                for (var x = 0; x + this.formQuickDivide.GlyphsWidth < this.originalImage.Width; x = x + this.formQuickDivide.GlyphsWidth)
                 {
-                    for (var x= 0; x<this.originalImage.Width; x=x+f.GlyphsWidth)
-                    {
-                        var glyphArea = new Rectangle(x, y, f.GlyphsWidth, f.GlyphsHeight);
-                        var img = this.DrawImageCopy(glyphArea);
-
-                        var glyphData = new GlyphData();
-                        glyphData.Glyph = (char)glyphCode;
-                        glyphData.SetGlyphRect(glyphArea, 100);
-
-                        this.glyphsList.SaveGlyph(glyphData, img);
-
-                        glyphCode++;
-                    }
+                    function.Invoke(x, y);
                 }
             }
+        }
+
+        private void CreateDividedGlyph(ref int firstGlyphCode, int x, int y)
+        {
+            var glyphArea = new Rectangle(x, y, this.formQuickDivide.GlyphsWidth, this.formQuickDivide.GlyphsHeight);
+            var img = this.DrawImageCopy(glyphArea);
+
+            var glyphData = new GlyphData();
+            glyphData.Glyph = (char)firstGlyphCode;
+            glyphData.SetGlyphRect(glyphArea, 100);
+
+            this.glyphsList.SaveGlyph(glyphData, img);
+
+            firstGlyphCode++;
+        }
+
+        public void QuickDivide()
+        {
+            this.isDividing = true;
+
+            try
+            {
+                this.formQuickDivide = new FormQuickDivide(pictureBoxImagem);
+                if (this.formQuickDivide.ShowDialog() == DialogResult.OK)
+                {
+                    this.ClearSelection();
+                    this.glyphsList.Clear();
+
+                    var glyphCode = 33;
+
+                    this.ForEachDividedGlyph((x, y) => CreateDividedGlyph(ref glyphCode, x, y));
+                }
+            }
+            finally
+            {
+                this.isDividing = false;
+                this.formQuickDivide.Dispose();
+                this.formQuickDivide = null;
+            }
+        }
+
+        private void DrawGlyphDivision(PaintEventArgs e, int x, int y)
+        {
+            var glyphArea = new Rectangle(x, y, this.formQuickDivide.GlyphsWidth, this.formQuickDivide.GlyphsHeight);
+            var zoomFactor = (double)this.zoom / 100;
+            glyphArea.X = Convert.ToInt32(glyphArea.X * zoomFactor);
+            glyphArea.Y = Convert.ToInt32(glyphArea.Y * zoomFactor);
+            glyphArea.Width = Convert.ToInt32(glyphArea.Width * zoomFactor);
+            glyphArea.Height = Convert.ToInt32(glyphArea.Height * zoomFactor);
+
+            using (var pen = new Pen(Color.Black, 1F))
+            {
+                pen.DashStyle = DashStyle.Dash;
+                e.Graphics.DrawRectangle(pen, glyphArea);
+            }
+            using (var brush = new SolidBrush(Color.FromArgb(128, SystemColors.Highlight)))
+            {
+                e.Graphics.FillRectangle(brush, glyphArea);
+            }
+        }
+
+        private void DrawGlyphsDivision(PaintEventArgs e)
+        {
+            this.ForEachDividedGlyph((x, y) => DrawGlyphDivision(e, x, y));
         }
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
@@ -420,9 +468,13 @@ namespace GPRNFont
             pictureBoxImagem.Invalidate();
         }
 
+
         private void pictureBoxImagem_Paint(object sender, PaintEventArgs e)
         {
-            this.selectionManager.DrawSelectionRect(e.Graphics);
+            if (this.isDividing)
+                this.DrawGlyphsDivision(e);
+            else
+                this.selectionManager.DrawSelectionRect(e.Graphics);
         }
 
         private void textBoxGlyph_TextChanged(object sender, EventArgs e)
@@ -552,7 +604,6 @@ namespace GPRNFont
         {
             this.DeleteGlyph();
         }
-
 
         private void toolStripButtonNewProject_Click(object sender, EventArgs e)
         {

@@ -12,12 +12,20 @@ namespace GPRNFont
 {
     public partial class FormQuickDivide : Form
     {
+        private PictureBox pictureBoxImagem;
+
         public int GlyphsWidth { get; private set; }
         public int GlyphsHeight { get; private set; }
 
-        public FormQuickDivide()
+        public FormQuickDivide(PictureBox pictureBoxImagem)
         {
             InitializeComponent();
+
+            this.pictureBoxImagem = pictureBoxImagem;
+            this.GlyphsWidth = Convert.ToInt32(this.numericUpDownW.Value);
+            this.GlyphsHeight = Convert.ToInt32(this.numericUpDownH.Value);
+
+            this.pictureBoxImagem.Invalidate();
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -29,11 +37,13 @@ namespace GPRNFont
         private void numericUpDownW_ValueChanged(object sender, EventArgs e)
         {
             this.GlyphsWidth = Convert.ToInt32(this.numericUpDownW.Value);
+            this.pictureBoxImagem.Invalidate();
         }
 
         private void numericUpDownH_ValueChanged(object sender, EventArgs e)
         {
             this.GlyphsHeight = Convert.ToInt32(this.numericUpDownH.Value);
+            this.pictureBoxImagem.Invalidate();
         }
     }
 }
