@@ -14,8 +14,30 @@ namespace GPRNFont
     {
         private PictureBox pictureBoxImagem;
 
-        public int GlyphsWidth { get; private set; }
-        public int GlyphsHeight { get; private set; }
+        public int GlyphsWidth
+        { 
+            get
+            {
+                return Convert.ToInt32(this.numericUpDownW.Value);
+            }
+        }
+
+        public int GlyphsHeight
+        {
+            get
+            {
+                return Convert.ToInt32(this.numericUpDownH.Value);
+            }
+        }
+
+        public bool OverrideExistent
+        {
+            get
+            {
+                return checkBoxOverride.Checked;
+            }
+        }
+
         public Rectangle DivisionArea { get; private set; }
 
         public FormQuickDivide(PictureBox pictureBoxImagem, Rectangle divisionArea)
@@ -23,9 +45,6 @@ namespace GPRNFont
             InitializeComponent();
 
             this.pictureBoxImagem = pictureBoxImagem;
-            this.GlyphsWidth = Convert.ToInt32(this.numericUpDownW.Value);
-            this.GlyphsHeight = Convert.ToInt32(this.numericUpDownH.Value);
-
             this.DivisionArea = divisionArea;
 
             this.pictureBoxImagem.Invalidate();
@@ -39,13 +58,11 @@ namespace GPRNFont
 
         private void numericUpDownW_ValueChanged(object sender, EventArgs e)
         {
-            this.GlyphsWidth = Convert.ToInt32(this.numericUpDownW.Value);
             this.pictureBoxImagem.Invalidate();
         }
 
         private void numericUpDownH_ValueChanged(object sender, EventArgs e)
         {
-            this.GlyphsHeight = Convert.ToInt32(this.numericUpDownH.Value);
             this.pictureBoxImagem.Invalidate();
         }
     }

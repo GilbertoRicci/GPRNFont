@@ -383,18 +383,23 @@ namespace GPRNFont
             }
         }
 
-        private void CreateDividedGlyph(ref int firstGlyphCode, int x, int y)
+        private void CreateDividedGlyph(ref int glyphCode, int x, int y)
         {
             var glyphArea = new Rectangle(x, y, this.formQuickDivide.GlyphsWidth, this.formQuickDivide.GlyphsHeight);
             var img = this.DrawImageCopy(glyphArea);
 
             var glyphData = new GlyphData();
-            glyphData.Glyph = (char)firstGlyphCode;
+
+            do
+            {
+                glyphCode++;
+                glyphData.Glyph = (char)glyphCode;
+            }
+            while (this.glyphsList.GetGlyphData(glyphData.Glyph) != null);
+            
             glyphData.SetGlyphRect(glyphArea, 100);
 
             this.glyphsList.SaveGlyph(glyphData, img);
-
-            firstGlyphCode++;
         }
 
         public void QuickDivide()
@@ -413,11 +418,12 @@ namespace GPRNFont
                 if (this.formQuickDivide.ShowDialog() == DialogResult.OK)
                 {
                     Cursor.Current = Cursors.WaitCursor;
-
                     this.ClearSelection();
-                    this.glyphsList.Clear();
 
-                    var glyphCode = 33;
+                    if (this.formQuickDivide.OverrideExistent)
+                        this.glyphsList.Clear();
+
+                    var glyphCode = 32;
 
                     this.ForEachDividedGlyph((x, y) => CreateDividedGlyph(ref glyphCode, x, y));
                 }

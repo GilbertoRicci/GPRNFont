@@ -33,14 +33,16 @@
             this.numericUpDownW = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownH = new System.Windows.Forms.NumericUpDown();
             this.labelH = new System.Windows.Forms.Label();
-            this.labelTitle = new System.Windows.Forms.Label();
+            this.groupBoxGlyphsSize = new System.Windows.Forms.GroupBox();
+            this.checkBoxOverride = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownH)).BeginInit();
+            this.groupBoxGlyphsSize.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(90, 124);
+            this.buttonOK.Location = new System.Drawing.Point(93, 161);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 0;
@@ -51,7 +53,7 @@
             // labelW
             // 
             this.labelW.AutoSize = true;
-            this.labelW.Location = new System.Drawing.Point(40, 47);
+            this.labelW.Location = new System.Drawing.Point(29, 32);
             this.labelW.Name = "labelW";
             this.labelW.Size = new System.Drawing.Size(38, 13);
             this.labelW.TabIndex = 1;
@@ -59,7 +61,7 @@
             // 
             // numericUpDownW
             // 
-            this.numericUpDownW.Location = new System.Drawing.Point(92, 45);
+            this.numericUpDownW.Location = new System.Drawing.Point(81, 30);
             this.numericUpDownW.Maximum = new decimal(new int[] {
             -559939585,
             902409669,
@@ -82,7 +84,7 @@
             // 
             // numericUpDownH
             // 
-            this.numericUpDownH.Location = new System.Drawing.Point(92, 77);
+            this.numericUpDownH.Location = new System.Drawing.Point(81, 62);
             this.numericUpDownH.Maximum = new decimal(new int[] {
             -559939585,
             902409669,
@@ -106,32 +108,43 @@
             // labelH
             // 
             this.labelH.AutoSize = true;
-            this.labelH.Location = new System.Drawing.Point(40, 79);
+            this.labelH.Location = new System.Drawing.Point(29, 64);
             this.labelH.Name = "labelH";
             this.labelH.Size = new System.Drawing.Size(41, 13);
             this.labelH.TabIndex = 3;
             this.labelH.Text = "Height:";
             // 
-            // labelTitle
+            // groupBoxGlyphsSize
             // 
-            this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(15, 15);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(65, 13);
-            this.labelTitle.TabIndex = 5;
-            this.labelTitle.Text = "Glyphs Size:";
+            this.groupBoxGlyphsSize.Controls.Add(this.numericUpDownH);
+            this.groupBoxGlyphsSize.Controls.Add(this.labelW);
+            this.groupBoxGlyphsSize.Controls.Add(this.numericUpDownW);
+            this.groupBoxGlyphsSize.Controls.Add(this.labelH);
+            this.groupBoxGlyphsSize.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxGlyphsSize.Name = "groupBoxGlyphsSize";
+            this.groupBoxGlyphsSize.Size = new System.Drawing.Size(231, 100);
+            this.groupBoxGlyphsSize.TabIndex = 6;
+            this.groupBoxGlyphsSize.TabStop = false;
+            this.groupBoxGlyphsSize.Text = "Glyphs Size";
+            // 
+            // checkBoxOverride
+            // 
+            this.checkBoxOverride.AutoSize = true;
+            this.checkBoxOverride.Location = new System.Drawing.Point(22, 127);
+            this.checkBoxOverride.Name = "checkBoxOverride";
+            this.checkBoxOverride.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxOverride.TabIndex = 7;
+            this.checkBoxOverride.Text = "Override existing glyphs?";
+            this.checkBoxOverride.UseVisualStyleBackColor = true;
             // 
             // FormQuickDivide
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(255, 159);
-            this.Controls.Add(this.labelTitle);
-            this.Controls.Add(this.numericUpDownH);
-            this.Controls.Add(this.labelH);
-            this.Controls.Add(this.numericUpDownW);
-            this.Controls.Add(this.labelW);
+            this.ClientSize = new System.Drawing.Size(255, 196);
+            this.Controls.Add(this.checkBoxOverride);
+            this.Controls.Add(this.groupBoxGlyphsSize);
             this.Controls.Add(this.buttonOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -143,6 +156,8 @@
             this.Text = "Quick Divide";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownH)).EndInit();
+            this.groupBoxGlyphsSize.ResumeLayout(false);
+            this.groupBoxGlyphsSize.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,6 +170,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownW;
         private System.Windows.Forms.NumericUpDown numericUpDownH;
         private System.Windows.Forms.Label labelH;
-        private System.Windows.Forms.Label labelTitle;
+        private System.Windows.Forms.GroupBox groupBoxGlyphsSize;
+        private System.Windows.Forms.CheckBox checkBoxOverride;
     }
 }
