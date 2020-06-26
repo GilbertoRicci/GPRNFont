@@ -300,7 +300,7 @@ namespace GPRNFont
                     {
                         project = (Project)xmlSerializer.Deserialize(reader);
                     }
-                    catch (InvalidOperationException e)
+                    catch (InvalidOperationException)
                     {
                         MessageBox.Show("Invalid project file.", "GPRNFont", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -372,9 +372,11 @@ namespace GPRNFont
 
         private void ForEachDividedGlyph(Action<int, int> function)
         {
-            for (var y = 0; y + this.formQuickDivide.GlyphsHeight < this.originalImage.Height; y = y + this.formQuickDivide.GlyphsHeight)
+            var a = this.formQuickDivide.DivisionArea;
+
+            for (var y = a.Y; y + this.formQuickDivide.GlyphsHeight <= a.Bottom; y = y + this.formQuickDivide.GlyphsHeight)
             {
-                for (var x = 0; x + this.formQuickDivide.GlyphsWidth < this.originalImage.Width; x = x + this.formQuickDivide.GlyphsWidth)
+                for (var x = a.X; x + this.formQuickDivide.GlyphsWidth <= a.Right; x = x + this.formQuickDivide.GlyphsWidth)
                 {
                     function.Invoke(x, y);
                 }
@@ -401,7 +403,13 @@ namespace GPRNFont
             
             try
             {
-                this.formQuickDivide = new FormQuickDivide(pictureBoxImagem);
+                Rectangle divisionArea;
+                if (this.currentGlyph == null)
+                    divisionArea = new Rectangle(new Point(0, 0), this.originalImage.Size);
+                else
+                    divisionArea = this.currentGlyph.GetGlyphRect();
+
+                this.formQuickDivide = new FormQuickDivide(pictureBoxImagem, divisionArea);
                 if (this.formQuickDivide.ShowDialog() == DialogResult.OK)
                 {
                     Cursor.Current = Cursors.WaitCursor;
@@ -424,7 +432,7 @@ namespace GPRNFont
             }
         }
 
-        private void DrawGlyphDivision(PaintEventArgs e, int x, int y)
+        private void DrawGlyphDivision(Graphics g, int x, int y)
         {
             var glyphArea = new Rectangle(x, y, this.formQuickDivide.GlyphsWidth, this.formQuickDivide.GlyphsHeight);
             var zoomFactor = (double)this.zoom / 100;
@@ -433,20 +441,36 @@ namespace GPRNFont
             glyphArea.Width = Convert.ToInt32(glyphArea.Width * zoomFactor);
             glyphArea.Height = Convert.ToInt32(glyphArea.Height * zoomFactor);
 
-            using (var pen = new Pen(Color.Black, 1F))
+            using (var pen = new Pen(Color.Lime, 1F))
             {
                 pen.DashStyle = DashStyle.Dash;
-                e.Graphics.DrawRectangle(pen, glyphArea);
+                g.DrawRectangle(pen, glyphArea);
             }
-            using (var brush = new SolidBrush(Color.FromArgb(128, SystemColors.Highlight)))
+            using (var brush = new SolidBrush(Color.FromArgb(128, Color.Lime)))
             {
-                e.Graphics.FillRectangle(brush, glyphArea);
+                g.FillRectangle(brush, glyphArea);
+            }
+        }
+
+        private void DrawDivisionArea(Graphics g)
+        {
+            using (var pen = new Pen(Color.Red, 1F))
+            {
+                pen.DashStyle = DashStyle.Dash;
+                g.DrawRectangle(pen, this.formQuickDivide.DivisionArea);
+            }
+            using (var brush = new SolidBrush(Color.FromArgb(128, Color.Red)))
+            {
+                g.FillRectangle(brush, this.formQuickDivide.DivisionArea);
             }
         }
 
         private void DrawGlyphsDivision(PaintEventArgs e)
         {
-            this.ForEachDividedGlyph((x, y) => DrawGlyphDivision(e, x, y));
+            var g = e.Graphics;
+
+            this.DrawDivisionArea(g);
+            this.ForEachDividedGlyph((x, y) => DrawGlyphDivision(g, x, y));
         }
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
