@@ -175,6 +175,7 @@ namespace GPRNFont
             pictureBoxImagem.Invalidate();
         }
 
+
         private void ChangeSelectionRect()
         {
             this.selectionManager.SelectionRect = this.currentGlyph.GetGlyphRect(this.zoom);
@@ -217,6 +218,26 @@ namespace GPRNFont
 
                 this.ShowGlyphData();
                 pictureBoxImagem.Invalidate();
+            }
+        }
+
+        private void SaveGlyph()
+        {
+            var glyphData = this.currentGlyph;
+            var glyphImg = pictureBoxPedacoImg.Image;
+
+            var result = DialogResult.Yes;
+            if (this.glyphsList.GetGlyphData(glyphData.Glyph) != null)
+            {
+                result = MessageBox.Show("Glyph '" + glyphData.Glyph + "' is already used. Do you want to override it?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                    this.glyphsList.DeleteGlyph(glyphData.Glyph);
+            }
+
+            if (result == DialogResult.Yes)
+            {
+                this.glyphsList.SaveGlyph(glyphData, glyphImg);
+                this.ClearSelection();
             }
         }
 
@@ -390,13 +411,22 @@ namespace GPRNFont
 
             var glyphData = new GlyphData();
 
-            do
+            if (this.formQuickDivide.CharEnumerator.MoveNext())
+                glyphData.Glyph = this.formQuickDivide.CharEnumerator.Current;
+
+            if (this.glyphsList.GetGlyphData(glyphData.Glyph) != null)
+                glyphData.Glyph = '\0';
+
+            if (glyphData.Glyph == '\0')
             {
-                glyphCode++;
-                glyphData.Glyph = (char)glyphCode;
+                do
+                {
+                    glyphCode++;
+                    glyphData.Glyph = (char)glyphCode;
+                }
+                while (this.glyphsList.GetGlyphData(glyphData.Glyph) != null);
             }
-            while (this.glyphsList.GetGlyphData(glyphData.Glyph) != null);
-            
+
             glyphData.SetGlyphRect(glyphArea, 100);
 
             this.glyphsList.SaveGlyph(glyphData, img);
@@ -614,8 +644,7 @@ namespace GPRNFont
 
         private void buttonSaveGlyph_Click(object sender, EventArgs e)
         {
-            if(this.glyphsList.SaveGlyph(this.currentGlyph, pictureBoxPedacoImg.Image))
-                this.ClearSelection();
+            this.SaveGlyph();
         }
 
         private void listViewGlyphs_DrawItem(object sender, DrawListViewItemEventArgs e)

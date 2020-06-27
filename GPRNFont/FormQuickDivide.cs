@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace GPRNFont
 {
@@ -35,6 +36,18 @@ namespace GPRNFont
             get
             {
                 return checkBoxOverride.Checked;
+            }
+        }
+
+        private IEnumerator<char> charEnumerator;
+        public IEnumerator<char> CharEnumerator
+        {
+            get
+            {
+                if (charEnumerator == null)
+                    charEnumerator = textBoxCharactersList.Text.Distinct<char>().Where(x => !Char.IsWhiteSpace(x) && !Char.IsControl(x)).GetEnumerator();
+
+                return charEnumerator;
             }
         }
 

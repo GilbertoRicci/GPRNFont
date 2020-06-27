@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="labelGlyphsList.Text" xml:space="preserve">
+    <value>Characters in this field will be assigned to each created glyph, in order. Repeated characters, whitespace characters or control characters will be ignored. Glyphs without characters or glyphs with already existent characters will be filled with random characters.</value>
+  </data>
 </root>

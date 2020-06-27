@@ -39,26 +39,17 @@ namespace GPRNFont
             this.listViewGlyphs.Items.RemoveByKey(glyph + "");
         }
 
-        public bool SaveGlyph(GlyphData glyphData, Image image)
+        public void SaveGlyph(GlyphData glyphData, Image image)
         {
             var glyph = glyphData.Glyph;
-            DialogResult result = DialogResult.Yes;
 
             if (glyphs.ContainsKey(glyph))
-            {
-                result = MessageBox.Show("Glyph '" + glyph + "' is already used. Do you want to override it?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                    this.DeleteGlyph(glyph);
-            }
-
-            if (result == DialogResult.Yes)
+                throw new Exception("Glyph '" + glyph + "' already exists in glyphs list.");
+            else
             {
                 this.AddGlyphToListView(glyph, image);
                 this.glyphs.Add(glyph, glyphData);
             }
-
-            return result == DialogResult.Yes;
         }
 
         public GlyphData GetGlyphData(char glyph)
