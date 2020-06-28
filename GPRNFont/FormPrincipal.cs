@@ -38,14 +38,15 @@ namespace GPRNFont
             this.xmlSerializer = new XmlSerializer(typeof(Project));
         }
 
-        private Image DrawImageCopy(Rectangle area)
+        private Image DrawImageCopy(Rectangle area, PictureBox pictureBox)
         {
-            var image = new Bitmap(pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height);
+            var image = new Bitmap(pictureBox.Width, pictureBox.Height);
 
             using (var g = Graphics.FromImage(image))
             {
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBoxPedacoImg.Width, pictureBoxPedacoImg.Height), area, GraphicsUnit.Pixel);
+                g.PixelOffsetMode = PixelOffsetMode.Half;
+                g.DrawImage(this.originalImage, new Rectangle(0, 0, pictureBox.Width, pictureBox.Height), area, GraphicsUnit.Pixel);
             }
 
             return image;
@@ -131,7 +132,7 @@ namespace GPRNFont
             else
             {
                 var selectedArea = this.currentGlyph.GetGlyphRect();
-                pictureBoxPedacoImg.Image = this.DrawImageCopy(selectedArea);
+                pictureBoxPedacoImg.Image = this.DrawImageCopy(selectedArea, pictureBoxPedacoImg);
             }
         }
 
@@ -185,11 +186,9 @@ namespace GPRNFont
 
         private void ZoomApply()
         {
-            this.toolStripTextBoxZoom.Text = this.zoom + "%";
+            toolStripTextBoxZoom.Text = this.zoom + "%";
 
-            this.pictureBoxImagem.Image = new Bitmap(this.originalImage,
-                                                        Convert.ToInt32(originalImage.Width * this.zoom / 100),
-                                                        Convert.ToInt32(originalImage.Height * this.zoom / 100));
+            this.DrawMainImage();
 
             if (this.currentGlyph != null)
                 this.selectionManager.SelectionRect = this.currentGlyph.GetGlyphRect(this.zoom);
@@ -241,6 +240,15 @@ namespace GPRNFont
             }
         }
 
+        private void DrawMainImage()
+        {
+            var zoomFactor = this.zoom / 100.0;
+            pictureBoxImagem.Image = null;
+            pictureBoxImagem.Width = Convert.ToInt32(this.originalImage.Width * zoomFactor);
+            pictureBoxImagem.Height = Convert.ToInt32(this.originalImage.Height * zoomFactor);
+            pictureBoxImagem.Image = this.DrawImageCopy(new Rectangle(new Point(0, 0), this.originalImage.Size), pictureBoxImagem);
+        }
+
         private void OpenProject(string imgPath, List<GlyphData> glyphs)
         {
             this.imgPath = imgPath;
@@ -252,7 +260,7 @@ namespace GPRNFont
             toolStripTextBoxZoom.Text = "100%";
 
             this.originalImage = new Bitmap(this.imgPath);
-            pictureBoxImagem.Image = originalImage;
+            this.DrawMainImage();
 
             toolStripButtonZoomMinus.Enabled = true;
             toolStripButtonZoomPlus.Enabled = true;
@@ -260,7 +268,7 @@ namespace GPRNFont
             if (glyphs != null)
                 foreach (var glyphData in glyphs)
                 {
-                    var img = this.DrawImageCopy(glyphData.GetGlyphRect(this.zoom));
+                    var img = this.DrawImageCopy(glyphData.GetGlyphRect(this.zoom), pictureBoxPedacoImg);
                     this.glyphsList.SaveGlyph(glyphData, img);
                 }
         }
@@ -407,7 +415,7 @@ namespace GPRNFont
         private void CreateDividedGlyph(ref int glyphCode, int x, int y)
         {
             var glyphArea = new Rectangle(x, y, this.formQuickDivide.GlyphsWidth, this.formQuickDivide.GlyphsHeight);
-            var img = this.DrawImageCopy(glyphArea);
+            var img = this.DrawImageCopy(glyphArea, pictureBoxPedacoImg);
 
             var glyphData = new GlyphData();
 
@@ -490,21 +498,26 @@ namespace GPRNFont
 
         private void DrawDivisionArea(Graphics g)
         {
+            var zoomFactor = this.zoom / 100.0;
+            var divisionAreaZ = new Rectangle(
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.X * zoomFactor),
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.Y * zoomFactor),
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.Width * zoomFactor),
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.Height * zoomFactor));
+
             using (var pen = new Pen(Color.Red, 1F))
             {
                 pen.DashStyle = DashStyle.Dash;
-                g.DrawRectangle(pen, this.formQuickDivide.DivisionArea);
+                g.DrawRectangle(pen, divisionAreaZ);
             }
             using (var brush = new SolidBrush(Color.FromArgb(128, Color.Red)))
             {
-                g.FillRectangle(brush, this.formQuickDivide.DivisionArea);
+                g.FillRectangle(brush, divisionAreaZ);
             }
         }
 
-        private void DrawGlyphsDivision(PaintEventArgs e)
+        private void DrawGlyphsDivision(Graphics g)
         {
-            var g = e.Graphics;
-
             this.DrawDivisionArea(g);
             this.ForEachDividedGlyph((x, y) => DrawGlyphDivision(g, x, y));
         }
@@ -535,10 +548,12 @@ namespace GPRNFont
 
         private void pictureBoxImagem_Paint(object sender, PaintEventArgs e)
         {
+            var g = e.Graphics;
+
             if (this.isDividing)
-                this.DrawGlyphsDivision(e);
+                this.DrawGlyphsDivision(g);
             else
-                this.selectionManager.DrawSelectionRect(e.Graphics);
+                this.selectionManager.DrawSelectionRect(g);
         }
 
         private void textBoxGlyph_TextChanged(object sender, EventArgs e)
