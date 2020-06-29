@@ -34,6 +34,7 @@
             this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonQuickDivide = new System.Windows.Forms.ToolStripButton();
             this.splitContainerGlyphs = new System.Windows.Forms.SplitContainer();
             this.splitContainerImage = new System.Windows.Forms.SplitContainer();
             this.splitContainerImgZoom = new System.Windows.Forms.SplitContainer();
@@ -83,7 +84,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listViewGlyphs = new System.Windows.Forms.ListView();
-            this.toolStripButtonQuickDivide = new System.Windows.Forms.ToolStripButton();
             this.toolStripBarraBotoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).BeginInit();
             this.splitContainerGlyphs.Panel1.SuspendLayout();
@@ -175,6 +175,15 @@
             this.toolStripButtonExport.Size = new System.Drawing.Size(61, 22);
             this.toolStripButtonExport.Text = "Export";
             this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
+            // 
+            // toolStripButtonQuickDivide
+            // 
+            this.toolStripButtonQuickDivide.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQuickDivide.Image")));
+            this.toolStripButtonQuickDivide.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonQuickDivide.Name = "toolStripButtonQuickDivide";
+            this.toolStripButtonQuickDivide.Size = new System.Drawing.Size(94, 22);
+            this.toolStripButtonQuickDivide.Text = "Quick Divide";
+            this.toolStripButtonQuickDivide.Click += new System.EventHandler(this.toolStripButtonQuickDivide_Click);
             // 
             // splitContainerGlyphs
             // 
@@ -854,7 +863,6 @@
             // listViewGlyphs
             // 
             this.listViewGlyphs.Alignment = System.Windows.Forms.ListViewAlignment.Left;
-            this.listViewGlyphs.AutoArrange = false;
             this.listViewGlyphs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewGlyphs.HideSelection = false;
             this.listViewGlyphs.Location = new System.Drawing.Point(0, 0);
@@ -869,15 +877,6 @@
             this.listViewGlyphs.View = System.Windows.Forms.View.Tile;
             this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
             this.listViewGlyphs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewGlyphs_ItemSelectionChanged);
-            // 
-            // toolStripButtonQuickDivide
-            // 
-            this.toolStripButtonQuickDivide.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQuickDivide.Image")));
-            this.toolStripButtonQuickDivide.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonQuickDivide.Name = "toolStripButtonQuickDivide";
-            this.toolStripButtonQuickDivide.Size = new System.Drawing.Size(94, 22);
-            this.toolStripButtonQuickDivide.Text = "Quick Divide";
-            this.toolStripButtonQuickDivide.Click += new System.EventHandler(this.toolStripButtonQuickDivide_Click);
             // 
             // FormPrincipal
             // 

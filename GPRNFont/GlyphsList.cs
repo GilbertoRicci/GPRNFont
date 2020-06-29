@@ -21,21 +21,48 @@ namespace GPRNFont
 
         private void AddGlyphToListView(char glyph, Image image)
         {
+            var key = glyph + "";
+
             if (listViewGlyphs.LargeImageList == null)
             {
                 listViewGlyphs.LargeImageList = new ImageList();
                 listViewGlyphs.LargeImageList.ImageSize = new Size(125, 125);
             }
 
-            listViewGlyphs.LargeImageList.Images.Add(image);
+            listViewGlyphs.LargeImageList.Images.Add(key, image);
+            listViewGlyphs.Items.Add(key, key, key);
+        }
 
-            var key = glyph + "";
-            listViewGlyphs.Items.Add(key, key, listViewGlyphs.LargeImageList.Images.Count - 1);
+        public GlyphData GeSelectedGlyphData()
+        {
+            var selectedItems = this.listViewGlyphs.SelectedItems;
+            if (selectedItems.Count == 1)
+            {
+                var selectedText = selectedItems[0].Text;
+                if (selectedText.Length == 1)
+                    return this.glyphs[selectedText[0]];
+            }
+
+            return null;
+        }
+
+        public void EditSelectedGlyph(GlyphData newData, Image newImg)
+        {
+            var selectedGlyphData = GeSelectedGlyphData();
+            
+            selectedGlyphData.SetGlyphRect(newData.GetGlyphRect(), 100);
+
+            var key = selectedGlyphData.Glyph + "";
+            listViewGlyphs.LargeImageList.Images.RemoveByKey(key);
+            listViewGlyphs.LargeImageList.Images.Add(key, newImg);
+
+            this.listViewGlyphs.Invalidate();
         }
 
         public void DeleteGlyph(char glyph)
         {
             this.glyphs.Remove(glyph);
+            this.listViewGlyphs.LargeImageList.Images.RemoveByKey(glyph + "");
             this.listViewGlyphs.Items.RemoveByKey(glyph + "");
         }
 
@@ -58,6 +85,22 @@ namespace GPRNFont
                 return this.glyphs[glyph];
             
             return null;
+        }
+
+        public void Clear()
+        {
+            this.listViewGlyphs.Clear();
+            this.glyphs.Clear();
+        }
+
+        public List<GlyphData> GetGlyphsData()
+        {
+            return this.glyphs.Values.ToList();
+        }
+
+        public int GetLineSpacing()
+        {
+            return this.glyphs.Values.Max(x => x.Height);
         }
 
         public void Draw(DrawListViewItemEventArgs e)
@@ -96,6 +139,7 @@ namespace GPRNFont
                                   SystemColors.WindowText, Color.Empty,
                                   TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding);
 
+
             //img background
             var imgBorderRect = new Rectangle(e.Bounds.X + 4, textRect.Y + textRect.Height + 2, e.Bounds.Width - 8, e.Bounds.Height - textRect.Height - 8);
             e.Graphics.FillRectangle(SystemBrushes.ControlDark, imgBorderRect);
@@ -105,24 +149,8 @@ namespace GPRNFont
 
             //img
             var imgRect = new Rectangle(imgBorderRect.X + 1, imgBorderRect.Y + 1, imgBorderRect.Width - 2, imgBorderRect.Height - 2);
-            var img = listViewGlyphs.LargeImageList.Images[e.Item.ImageIndex];
+            var img = listViewGlyphs.LargeImageList.Images[e.Item.Text];
             e.Graphics.DrawImage(img, imgRect, new Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel);
-        }
-
-        public void Clear()
-        {
-            this.listViewGlyphs.Clear();
-            this.glyphs.Clear();
-        }
-
-        public List<GlyphData> GetGlyphsData()
-        {
-            return this.glyphs.Values.ToList();
-        }
-
-        public int GetLineSpacing()
-        {
-            return this.glyphs.Values.Max(x => x.Height);
-        }
+        }        
     }
 }

@@ -29,6 +29,8 @@ namespace GPRNFont
         private bool isDividing;
         private FormQuickDivide formQuickDivide;
 
+        private double ZoomFactor { get { return this.zoom / 100.0; } }
+
         public FormPrincipal()
         {
             InitializeComponent();
@@ -224,28 +226,46 @@ namespace GPRNFont
         {
             var glyphData = this.currentGlyph;
             var glyphImg = pictureBoxPedacoImg.Image;
+            var selectedGlyphData = this.glyphsList.GeSelectedGlyphData();
 
             var result = DialogResult.Yes;
-            if (this.glyphsList.GetGlyphData(glyphData.Glyph) != null)
+
+            if (selectedGlyphData != null) //editing existing glyph data
             {
-                result = MessageBox.Show("Glyph '" + glyphData.Glyph + "' is already used. Do you want to override it?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                    this.glyphsList.DeleteGlyph(glyphData.Glyph);
+                if (selectedGlyphData.Glyph != glyphData.Glyph) //changing glyph data character
+                    result = MessageBox.Show("Change glyph from '" + selectedGlyphData.Glyph + "' to '" + glyphData.Glyph + "'?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                else
+                {
+                    this.glyphsList.EditSelectedGlyph(glyphData, glyphImg);
+                    result = DialogResult.No;
+                }
             }
 
             if (result == DialogResult.Yes)
             {
-                this.glyphsList.SaveGlyph(glyphData, glyphImg);
-                this.ClearSelection();
+                if (this.glyphsList.GetGlyphData(glyphData.Glyph) != null) //glyph is repeated
+                {
+                    result = MessageBox.Show("Glyph '" + glyphData.Glyph + "' is already used. Do you want to override it?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                        this.glyphsList.DeleteGlyph(glyphData.Glyph);
+                }
+
+                if (result == DialogResult.Yes)
+                {
+                    if (selectedGlyphData != null)
+                        this.glyphsList.DeleteGlyph(selectedGlyphData.Glyph);
+
+                    this.glyphsList.SaveGlyph(glyphData, glyphImg);
+                    this.ClearSelection();
+                }
             }
         }
 
         private void DrawMainImage()
         {
-            var zoomFactor = this.zoom / 100.0;
             pictureBoxImagem.Image = null;
-            pictureBoxImagem.Width = Convert.ToInt32(this.originalImage.Width * zoomFactor);
-            pictureBoxImagem.Height = Convert.ToInt32(this.originalImage.Height * zoomFactor);
+            pictureBoxImagem.Width = Convert.ToInt32(this.originalImage.Width * this.ZoomFactor);
+            pictureBoxImagem.Height = Convert.ToInt32(this.originalImage.Height * this.ZoomFactor);
             pictureBoxImagem.Image = this.DrawImageCopy(new Rectangle(new Point(0, 0), this.originalImage.Size), pictureBoxImagem);
         }
 
@@ -479,11 +499,10 @@ namespace GPRNFont
         private void DrawGlyphDivision(Graphics g, int x, int y)
         {
             var glyphArea = new Rectangle(x, y, this.formQuickDivide.GlyphsWidth, this.formQuickDivide.GlyphsHeight);
-            var zoomFactor = (double)this.zoom / 100;
-            glyphArea.X = Convert.ToInt32(glyphArea.X * zoomFactor);
-            glyphArea.Y = Convert.ToInt32(glyphArea.Y * zoomFactor);
-            glyphArea.Width = Convert.ToInt32(glyphArea.Width * zoomFactor);
-            glyphArea.Height = Convert.ToInt32(glyphArea.Height * zoomFactor);
+            glyphArea.X = Convert.ToInt32(glyphArea.X * this.ZoomFactor);
+            glyphArea.Y = Convert.ToInt32(glyphArea.Y * this.ZoomFactor);
+            glyphArea.Width = Convert.ToInt32(glyphArea.Width * this.ZoomFactor);
+            glyphArea.Height = Convert.ToInt32(glyphArea.Height * this.ZoomFactor);
 
             using (var pen = new Pen(Color.Lime, 1F))
             {
@@ -498,12 +517,11 @@ namespace GPRNFont
 
         private void DrawDivisionArea(Graphics g)
         {
-            var zoomFactor = this.zoom / 100.0;
             var divisionAreaZ = new Rectangle(
-                Convert.ToInt32(this.formQuickDivide.DivisionArea.X * zoomFactor),
-                Convert.ToInt32(this.formQuickDivide.DivisionArea.Y * zoomFactor),
-                Convert.ToInt32(this.formQuickDivide.DivisionArea.Width * zoomFactor),
-                Convert.ToInt32(this.formQuickDivide.DivisionArea.Height * zoomFactor));
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.X * this.ZoomFactor),
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.Y * this.ZoomFactor),
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.Width * this.ZoomFactor),
+                Convert.ToInt32(this.formQuickDivide.DivisionArea.Height * this.ZoomFactor));
 
             using (var pen = new Pen(Color.Red, 1F))
             {
@@ -524,13 +542,13 @@ namespace GPRNFont
 
         private void pictureBoxImagem_MouseDown(object sender, MouseEventArgs e)
         {
-            this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), this.zoom / 100);
+            this.selectionManager.StartSelection(pictureBoxImagem.PointToClient(MousePosition), Convert.ToInt32(this.ZoomFactor));
             this.UpdateCurrentGlyph();
         }
 
         private void pictureBoxImagem_MouseUp(object sender, MouseEventArgs e)
         {
-            this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size, this.zoom / 100);
+            this.selectionManager.EndSelection(pictureBoxImagem.PointToClient(MousePosition), pictureBoxImagem.Size, Convert.ToInt32(this.ZoomFactor));
             this.UpdateCurrentGlyph();
         }
 
@@ -538,13 +556,12 @@ namespace GPRNFont
         {
             var mousePoint = pictureBoxImagem.PointToClient(MousePosition);
 
-            this.selectionManager.UpdateSelection(mousePoint, pictureBoxImagem.Size, this.zoom/100);
+            this.selectionManager.UpdateSelection(mousePoint, pictureBoxImagem.Size, Convert.ToInt32(this.ZoomFactor));
 
             Cursor.Current = this.selectionManager.GetCursor(mousePoint);
 
             pictureBoxImagem.Invalidate();
         }
-
 
         private void pictureBoxImagem_Paint(object sender, PaintEventArgs e)
         {
