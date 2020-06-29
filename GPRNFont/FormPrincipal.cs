@@ -91,14 +91,13 @@ namespace GPRNFont
                 {
                     this.ChangeTextBoxGlyph("");
                     buttonSaveGlyph.Enabled = false;
-                    buttonDeleteGlyph.Enabled = false;
                 }
                 else
                 {
                     this.ChangeTextBoxGlyph(this.currentGlyph.Glyph + "");
                     buttonSaveGlyph.Enabled = true;
-                    buttonDeleteGlyph.Enabled = this.glyphsList.GetGlyphData(this.currentGlyph.Glyph) != null;
                 }
+                buttonDeleteGlyph.Enabled = this.glyphsList.GetSelectedGlyphData() != null;
 
                 numericUpDownPosX.Value = this.currentGlyph.XPosition;
                 numericUpDownPosY.Value = this.currentGlyph.YPosition;
@@ -226,7 +225,7 @@ namespace GPRNFont
         {
             var glyphData = this.currentGlyph;
             var glyphImg = pictureBoxPedacoImg.Image;
-            var selectedGlyphData = this.glyphsList.GeSelectedGlyphData();
+            var selectedGlyphData = this.glyphsList.GetSelectedGlyphData();
 
             var result = DialogResult.Yes;
 
@@ -307,9 +306,11 @@ namespace GPRNFont
 
         private void DeleteGlyph()
         {
-            var result = MessageBox.Show("Do you want to delete the glyph '" + this.currentGlyph.Glyph + "'?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var selectedGlyphData = this.glyphsList.GetSelectedGlyphData();
+
+            var result = MessageBox.Show("Do you want to delete the glyph '" + selectedGlyphData.Glyph + "'?", "GPRNFont", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
-                this.glyphsList.DeleteGlyph(this.currentGlyph.Glyph);
+                this.glyphsList.DeleteGlyph(selectedGlyphData.Glyph);
         }
 
         private void SaveProject()

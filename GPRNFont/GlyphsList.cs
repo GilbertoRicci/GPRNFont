@@ -33,7 +33,7 @@ namespace GPRNFont
             listViewGlyphs.Items.Add(key, key, key);
         }
 
-        public GlyphData GeSelectedGlyphData()
+        public GlyphData GetSelectedGlyphData()
         {
             var selectedItems = this.listViewGlyphs.SelectedItems;
             if (selectedItems.Count == 1)
@@ -48,7 +48,7 @@ namespace GPRNFont
 
         public void EditSelectedGlyph(GlyphData newData, Image newImg)
         {
-            var selectedGlyphData = GeSelectedGlyphData();
+            var selectedGlyphData = GetSelectedGlyphData();
             
             selectedGlyphData.SetGlyphRect(newData.GetGlyphRect(), 100);
 
