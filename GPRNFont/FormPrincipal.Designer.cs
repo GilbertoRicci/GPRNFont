@@ -46,6 +46,7 @@
             this.toolStripLabelZoom = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonZoomMinus = new System.Windows.Forms.ToolStripButton();
+            this.buttonCopyGlyph = new System.Windows.Forms.Button();
             this.buttonDeleteGlyph = new System.Windows.Forms.Button();
             this.buttonSaveGlyph = new System.Windows.Forms.Button();
             this.textBoxGlyph = new System.Windows.Forms.TextBox();
@@ -205,12 +206,14 @@
             this.splitContainerGlyphs.Size = new System.Drawing.Size(1060, 593);
             this.splitContainerGlyphs.SplitterDistance = 416;
             this.splitContainerGlyphs.TabIndex = 1;
+            this.splitContainerGlyphs.TabStop = false;
             // 
             // splitContainerImage
             // 
             this.splitContainerImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainerImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerImage.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainerImage.IsSplitterFixed = true;
             this.splitContainerImage.Location = new System.Drawing.Point(0, 0);
             this.splitContainerImage.Name = "splitContainerImage";
             // 
@@ -223,6 +226,7 @@
             // splitContainerImage.Panel2
             // 
             this.splitContainerImage.Panel2.AutoScroll = true;
+            this.splitContainerImage.Panel2.Controls.Add(this.buttonCopyGlyph);
             this.splitContainerImage.Panel2.Controls.Add(this.buttonDeleteGlyph);
             this.splitContainerImage.Panel2.Controls.Add(this.buttonSaveGlyph);
             this.splitContainerImage.Panel2.Controls.Add(this.textBoxGlyph);
@@ -233,6 +237,7 @@
             this.splitContainerImage.Size = new System.Drawing.Size(1060, 416);
             this.splitContainerImage.SplitterDistance = 853;
             this.splitContainerImage.TabIndex = 0;
+            this.splitContainerImage.TabStop = false;
             // 
             // splitContainerImgZoom
             // 
@@ -254,6 +259,7 @@
             this.splitContainerImgZoom.Size = new System.Drawing.Size(849, 412);
             this.splitContainerImgZoom.SplitterDistance = 377;
             this.splitContainerImgZoom.TabIndex = 1;
+            this.splitContainerImgZoom.TabStop = false;
             // 
             // pictureBoxImagem
             // 
@@ -344,14 +350,25 @@
             this.toolStripButtonZoomMinus.Text = "Zoom -";
             this.toolStripButtonZoomMinus.Click += new System.EventHandler(this.toolStripButtonZoomLess_Click);
             // 
+            // buttonCopyGlyph
+            // 
+            this.buttonCopyGlyph.Enabled = false;
+            this.buttonCopyGlyph.Location = new System.Drawing.Point(67, 205);
+            this.buttonCopyGlyph.Name = "buttonCopyGlyph";
+            this.buttonCopyGlyph.Size = new System.Drawing.Size(51, 23);
+            this.buttonCopyGlyph.TabIndex = 3;
+            this.buttonCopyGlyph.Text = "Copy";
+            this.buttonCopyGlyph.UseVisualStyleBackColor = true;
+            this.buttonCopyGlyph.Click += new System.EventHandler(this.buttonCopyGlyph_Click);
+            // 
             // buttonDeleteGlyph
             // 
             this.buttonDeleteGlyph.Enabled = false;
-            this.buttonDeleteGlyph.Location = new System.Drawing.Point(95, 205);
+            this.buttonDeleteGlyph.Location = new System.Drawing.Point(119, 205);
             this.buttonDeleteGlyph.Name = "buttonDeleteGlyph";
-            this.buttonDeleteGlyph.Size = new System.Drawing.Size(76, 23);
-            this.buttonDeleteGlyph.TabIndex = 12;
-            this.buttonDeleteGlyph.Text = "Delete Glyph";
+            this.buttonDeleteGlyph.Size = new System.Drawing.Size(52, 23);
+            this.buttonDeleteGlyph.TabIndex = 4;
+            this.buttonDeleteGlyph.Text = "Delete";
             this.buttonDeleteGlyph.UseVisualStyleBackColor = true;
             this.buttonDeleteGlyph.Click += new System.EventHandler(this.buttonDeleteGlyph_Click);
             // 
@@ -360,9 +377,9 @@
             this.buttonSaveGlyph.Enabled = false;
             this.buttonSaveGlyph.Location = new System.Drawing.Point(14, 205);
             this.buttonSaveGlyph.Name = "buttonSaveGlyph";
-            this.buttonSaveGlyph.Size = new System.Drawing.Size(76, 23);
-            this.buttonSaveGlyph.TabIndex = 11;
-            this.buttonSaveGlyph.Text = "Save Glyph";
+            this.buttonSaveGlyph.Size = new System.Drawing.Size(52, 23);
+            this.buttonSaveGlyph.TabIndex = 2;
+            this.buttonSaveGlyph.Text = "Save";
             this.buttonSaveGlyph.UseVisualStyleBackColor = true;
             this.buttonSaveGlyph.Click += new System.EventHandler(this.buttonSaveGlyph_Click);
             // 
@@ -373,7 +390,7 @@
             this.textBoxGlyph.MaxLength = 1;
             this.textBoxGlyph.Name = "textBoxGlyph";
             this.textBoxGlyph.Size = new System.Drawing.Size(69, 20);
-            this.textBoxGlyph.TabIndex = 10;
+            this.textBoxGlyph.TabIndex = 1;
             this.textBoxGlyph.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxGlyph.TextChanged += new System.EventHandler(this.textBoxGlyph_TextChanged);
             // 
@@ -760,7 +777,7 @@
             0});
             this.numericUpDownHeight.Name = "numericUpDownHeight";
             this.numericUpDownHeight.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDownHeight.TabIndex = 14;
+            this.numericUpDownHeight.TabIndex = 8;
             this.numericUpDownHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownHeight.Value = new decimal(new int[] {
             1,
@@ -785,7 +802,7 @@
             0});
             this.numericUpDownWidth.Name = "numericUpDownWidth";
             this.numericUpDownWidth.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDownWidth.TabIndex = 13;
+            this.numericUpDownWidth.TabIndex = 7;
             this.numericUpDownWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownWidth.Value = new decimal(new int[] {
             1,
@@ -805,7 +822,7 @@
             0});
             this.numericUpDownPosX.Name = "numericUpDownPosX";
             this.numericUpDownPosX.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDownPosX.TabIndex = 8;
+            this.numericUpDownPosX.TabIndex = 5;
             this.numericUpDownPosX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownPosX.ValueChanged += new System.EventHandler(this.numericUpDownPosX_ValueChanged);
             // 
@@ -820,7 +837,7 @@
             0});
             this.numericUpDownPosY.Name = "numericUpDownPosY";
             this.numericUpDownPosY.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDownPosY.TabIndex = 12;
+            this.numericUpDownPosY.TabIndex = 6;
             this.numericUpDownPosY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownPosY.ValueChanged += new System.EventHandler(this.numericUpDownPosY_ValueChanged);
             // 
@@ -993,6 +1010,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonOpenProject;
         private System.Windows.Forms.ToolStripButton toolStripButtonExport;
         private System.Windows.Forms.ToolStripButton toolStripButtonQuickDivide;
+        private System.Windows.Forms.Button buttonCopyGlyph;
     }
 }
 

@@ -68,6 +68,7 @@ namespace GPRNFont
                 textBoxGlyph.Enabled = false;
                 this.ChangeTextBoxGlyph("");
                 buttonSaveGlyph.Enabled = false;
+                buttonCopyGlyph.Enabled = false;
                 buttonDeleteGlyph.Enabled = false;
 
                 numericUpDownPosX.Value = 0;
@@ -97,6 +98,7 @@ namespace GPRNFont
                     this.ChangeTextBoxGlyph(this.currentGlyph.Glyph + "");
                     buttonSaveGlyph.Enabled = true;
                 }
+                buttonCopyGlyph.Enabled = this.glyphsList.GetSelectedGlyphData() != null;
                 buttonDeleteGlyph.Enabled = this.glyphsList.GetSelectedGlyphData() != null;
 
                 numericUpDownPosX.Value = this.currentGlyph.XPosition;
@@ -302,6 +304,18 @@ namespace GPRNFont
                 if (dlg.ShowDialog() == DialogResult.OK)
                     this.OpenProject(dlg.FileName, null);
             }
+        }
+
+        private void CopyGlyph()
+        {
+            var glyphCode = 33;
+            while (this.glyphsList.GetGlyphData((char)glyphCode) != null)
+                glyphCode++;
+            
+            this.currentGlyph.Glyph = (char)glyphCode;
+
+            this.glyphsList.SaveGlyph(this.currentGlyph, pictureBoxPedacoImg.Image);
+            this.ClearSelection();
         }
 
         private void DeleteGlyph()
@@ -694,6 +708,11 @@ namespace GPRNFont
             }
             else
                 this.ClearSelection();
+        }
+
+        private void buttonCopyGlyph_Click(object sender, EventArgs e)
+        {
+            this.CopyGlyph();
         }
 
         private void buttonDeleteGlyph_Click(object sender, EventArgs e)
