@@ -292,6 +292,10 @@ namespace GPRNFont
                     var img = this.DrawImageCopy(glyphData.GetGlyphRect(this.zoom), pictureBoxPedacoImg);
                     this.glyphsList.SaveGlyph(glyphData, img);
                 }
+
+            this.toolStripButtonSaveProject.Enabled = true;
+            this.toolStripButtonExport.Enabled = true;
+            this.toolStripButtonQuickDivide.Enabled = true;
         }
 
         private void NewProject()
