@@ -30,22 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrincipal));
             this.toolStripBarraBotoes = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonNewProject = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonQuickDivide = new System.Windows.Forms.ToolStripButton();
             this.splitContainerGlyphs = new System.Windows.Forms.SplitContainer();
             this.splitContainerImage = new System.Windows.Forms.SplitContainer();
             this.splitContainerImgZoom = new System.Windows.Forms.SplitContainer();
-            this.pictureBoxImagem = new System.Windows.Forms.PictureBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonZoomPlus = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripTextBoxZoom = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabelZoom = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonZoomMinus = new System.Windows.Forms.ToolStripButton();
             this.buttonCopyGlyph = new System.Windows.Forms.Button();
             this.buttonDeleteGlyph = new System.Windows.Forms.Button();
             this.buttonSaveGlyph = new System.Windows.Forms.Button();
@@ -74,7 +66,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.pictureBoxPedacoImg = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
@@ -85,6 +76,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listViewGlyphs = new System.Windows.Forms.ListView();
+            this.pictureBoxImagem = new System.Windows.Forms.PictureBox();
+            this.toolStripButtonZoomPlus = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonZoomMinus = new System.Windows.Forms.ToolStripButton();
+            this.pictureBoxPedacoImg = new System.Windows.Forms.PictureBox();
+            this.toolStripButtonNewProject = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSaveProject = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonQuickDivide = new System.Windows.Forms.ToolStripButton();
             this.toolStripBarraBotoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGlyphs)).BeginInit();
             this.splitContainerGlyphs.Panel1.SuspendLayout();
@@ -98,7 +98,6 @@
             this.splitContainerImgZoom.Panel1.SuspendLayout();
             this.splitContainerImgZoom.Panel2.SuspendLayout();
             this.splitContainerImgZoom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImagem)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdvance)).BeginInit();
@@ -113,78 +112,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUVW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUVY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUVX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPedacoImg)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImagem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPedacoImg)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripBarraBotoes
             // 
+            this.toolStripBarraBotoes.ImageScalingSize = new System.Drawing.Size(28, 32);
             this.toolStripBarraBotoes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonNewProject,
-            this.toolStripButtonSaveProject,
             this.toolStripButtonOpenProject,
+            this.toolStripButtonSaveProject,
             this.toolStripButtonExport,
             this.toolStripButtonQuickDivide});
             this.toolStripBarraBotoes.Location = new System.Drawing.Point(0, 0);
             this.toolStripBarraBotoes.Name = "toolStripBarraBotoes";
-            this.toolStripBarraBotoes.Size = new System.Drawing.Size(1060, 25);
+            this.toolStripBarraBotoes.Size = new System.Drawing.Size(1060, 39);
             this.toolStripBarraBotoes.TabIndex = 0;
-            this.toolStripBarraBotoes.Text = "Selecionar Imagem...";
-            // 
-            // toolStripButtonNewProject
-            // 
-            this.toolStripButtonNewProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNewProject.Image")));
-            this.toolStripButtonNewProject.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButtonNewProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonNewProject.Name = "toolStripButtonNewProject";
-            this.toolStripButtonNewProject.Size = new System.Drawing.Size(91, 22);
-            this.toolStripButtonNewProject.Text = "New Project";
-            this.toolStripButtonNewProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolStripButtonNewProject.ToolTipText = "New Project";
-            this.toolStripButtonNewProject.Click += new System.EventHandler(this.toolStripButtonNewProject_Click);
-            // 
-            // toolStripButtonSaveProject
-            // 
-            this.toolStripButtonSaveProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSaveProject.Image")));
-            this.toolStripButtonSaveProject.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButtonSaveProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSaveProject.Name = "toolStripButtonSaveProject";
-            this.toolStripButtonSaveProject.Size = new System.Drawing.Size(91, 22);
-            this.toolStripButtonSaveProject.Text = "Save Project";
-            this.toolStripButtonSaveProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolStripButtonSaveProject.Click += new System.EventHandler(this.toolStripButtonSaveProject_Click);
-            // 
-            // toolStripButtonOpenProject
-            // 
-            this.toolStripButtonOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpenProject.Image")));
-            this.toolStripButtonOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonOpenProject.Name = "toolStripButtonOpenProject";
-            this.toolStripButtonOpenProject.Size = new System.Drawing.Size(96, 22);
-            this.toolStripButtonOpenProject.Text = "Open Project";
-            this.toolStripButtonOpenProject.ToolTipText = "Open Project";
-            this.toolStripButtonOpenProject.Click += new System.EventHandler(this.toolStripButtonOpenProject_Click);
-            // 
-            // toolStripButtonExport
-            // 
-            this.toolStripButtonExport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonExport.Image")));
-            this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonExport.Name = "toolStripButtonExport";
-            this.toolStripButtonExport.Size = new System.Drawing.Size(61, 22);
-            this.toolStripButtonExport.Text = "Export";
-            this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
-            // 
-            // toolStripButtonQuickDivide
-            // 
-            this.toolStripButtonQuickDivide.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQuickDivide.Image")));
-            this.toolStripButtonQuickDivide.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonQuickDivide.Name = "toolStripButtonQuickDivide";
-            this.toolStripButtonQuickDivide.Size = new System.Drawing.Size(94, 22);
-            this.toolStripButtonQuickDivide.Text = "Quick Divide";
-            this.toolStripButtonQuickDivide.Click += new System.EventHandler(this.toolStripButtonQuickDivide_Click);
             // 
             // splitContainerGlyphs
             // 
@@ -192,7 +141,7 @@
             this.splitContainerGlyphs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerGlyphs.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainerGlyphs.IsSplitterFixed = true;
-            this.splitContainerGlyphs.Location = new System.Drawing.Point(0, 25);
+            this.splitContainerGlyphs.Location = new System.Drawing.Point(0, 39);
             this.splitContainerGlyphs.Name = "splitContainerGlyphs";
             this.splitContainerGlyphs.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -203,8 +152,8 @@
             // splitContainerGlyphs.Panel2
             // 
             this.splitContainerGlyphs.Panel2.Controls.Add(this.listViewGlyphs);
-            this.splitContainerGlyphs.Size = new System.Drawing.Size(1060, 593);
-            this.splitContainerGlyphs.SplitterDistance = 416;
+            this.splitContainerGlyphs.Size = new System.Drawing.Size(1060, 579);
+            this.splitContainerGlyphs.SplitterDistance = 402;
             this.splitContainerGlyphs.TabIndex = 1;
             this.splitContainerGlyphs.TabStop = false;
             // 
@@ -234,7 +183,7 @@
             this.splitContainerImage.Panel2.Controls.Add(this.groupBox2);
             this.splitContainerImage.Panel2.Controls.Add(this.pictureBoxPedacoImg);
             this.splitContainerImage.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainerImage.Size = new System.Drawing.Size(1060, 416);
+            this.splitContainerImage.Size = new System.Drawing.Size(1060, 402);
             this.splitContainerImage.SplitterDistance = 853;
             this.splitContainerImage.TabIndex = 0;
             this.splitContainerImage.TabStop = false;
@@ -256,26 +205,10 @@
             // splitContainerImgZoom.Panel2
             // 
             this.splitContainerImgZoom.Panel2.Controls.Add(this.toolStrip1);
-            this.splitContainerImgZoom.Size = new System.Drawing.Size(849, 412);
-            this.splitContainerImgZoom.SplitterDistance = 377;
+            this.splitContainerImgZoom.Size = new System.Drawing.Size(849, 398);
+            this.splitContainerImgZoom.SplitterDistance = 364;
             this.splitContainerImgZoom.TabIndex = 1;
             this.splitContainerImgZoom.TabStop = false;
-            // 
-            // pictureBoxImagem
-            // 
-            this.pictureBoxImagem.BackColor = System.Drawing.Color.White;
-            this.pictureBoxImagem.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxImagem.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pictureBoxImagem.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxImagem.Name = "pictureBoxImagem";
-            this.pictureBoxImagem.Size = new System.Drawing.Size(0, 0);
-            this.pictureBoxImagem.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBoxImagem.TabIndex = 0;
-            this.pictureBoxImagem.TabStop = false;
-            this.pictureBoxImagem.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxImagem_Paint);
-            this.pictureBoxImagem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseDown);
-            this.pictureBoxImagem.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseMove);
-            this.pictureBoxImagem.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseUp);
             // 
             // toolStrip1
             // 
@@ -289,23 +222,11 @@
             this.toolStripLabelZoom,
             this.toolStripSeparator2,
             this.toolStripButtonZoomMinus});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 6);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 5);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(849, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButtonZoomPlus
-            // 
-            this.toolStripButtonZoomPlus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonZoomPlus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonZoomPlus.Enabled = false;
-            this.toolStripButtonZoomPlus.Image = global::GPRNFont.Properties.Resources.zoomPlus;
-            this.toolStripButtonZoomPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonZoomPlus.Name = "toolStripButtonZoomPlus";
-            this.toolStripButtonZoomPlus.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonZoomPlus.Text = "Zoom +";
-            this.toolStripButtonZoomPlus.Click += new System.EventHandler(this.toolStripButtonZoomPlus_Click);
             // 
             // toolStripSeparator1
             // 
@@ -318,7 +239,6 @@
             this.toolStripTextBoxZoom.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxZoom.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripTextBoxZoom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBoxZoom.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxZoom.Name = "toolStripTextBoxZoom";
             this.toolStripTextBoxZoom.ReadOnly = true;
             this.toolStripTextBoxZoom.Size = new System.Drawing.Size(35, 25);
@@ -337,18 +257,6 @@
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButtonZoomMinus
-            // 
-            this.toolStripButtonZoomMinus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonZoomMinus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonZoomMinus.Enabled = false;
-            this.toolStripButtonZoomMinus.Image = global::GPRNFont.Properties.Resources.zoomMinus;
-            this.toolStripButtonZoomMinus.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonZoomMinus.Name = "toolStripButtonZoomMinus";
-            this.toolStripButtonZoomMinus.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonZoomMinus.Text = "Zoom -";
-            this.toolStripButtonZoomMinus.Click += new System.EventHandler(this.toolStripButtonZoomLess_Click);
             // 
             // buttonCopyGlyph
             // 
@@ -731,19 +639,6 @@
             this.label10.TabIndex = 10;
             this.label10.Text = "Y:";
             // 
-            // pictureBoxPedacoImg
-            // 
-            this.pictureBoxPedacoImg.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBoxPedacoImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxPedacoImg.Location = new System.Drawing.Point(14, 45);
-            this.pictureBoxPedacoImg.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxPedacoImg.MinimumSize = new System.Drawing.Size(100, 100);
-            this.pictureBoxPedacoImg.Name = "pictureBoxPedacoImg";
-            this.pictureBoxPedacoImg.Size = new System.Drawing.Size(157, 148);
-            this.pictureBoxPedacoImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxPedacoImg.TabIndex = 0;
-            this.pictureBoxPedacoImg.TabStop = false;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.numericUpDownHeight);
@@ -895,6 +790,110 @@
             this.listViewGlyphs.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.listViewGlyphs_DrawItem);
             this.listViewGlyphs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewGlyphs_ItemSelectionChanged);
             // 
+            // pictureBoxImagem
+            // 
+            this.pictureBoxImagem.BackColor = System.Drawing.Color.White;
+            this.pictureBoxImagem.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxImagem.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.pictureBoxImagem.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxImagem.Name = "pictureBoxImagem";
+            this.pictureBoxImagem.Size = new System.Drawing.Size(0, 0);
+            this.pictureBoxImagem.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxImagem.TabIndex = 0;
+            this.pictureBoxImagem.TabStop = false;
+            this.pictureBoxImagem.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxImagem_Paint);
+            this.pictureBoxImagem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseDown);
+            this.pictureBoxImagem.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseMove);
+            this.pictureBoxImagem.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxImagem_MouseUp);
+            // 
+            // toolStripButtonZoomPlus
+            // 
+            this.toolStripButtonZoomPlus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonZoomPlus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonZoomPlus.Enabled = false;
+            this.toolStripButtonZoomPlus.Image = global::GPRNFont.Properties.Resources.zoomPlus;
+            this.toolStripButtonZoomPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonZoomPlus.Name = "toolStripButtonZoomPlus";
+            this.toolStripButtonZoomPlus.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonZoomPlus.Text = "Zoom +";
+            this.toolStripButtonZoomPlus.Click += new System.EventHandler(this.toolStripButtonZoomPlus_Click);
+            // 
+            // toolStripButtonZoomMinus
+            // 
+            this.toolStripButtonZoomMinus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonZoomMinus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonZoomMinus.Enabled = false;
+            this.toolStripButtonZoomMinus.Image = global::GPRNFont.Properties.Resources.zoomMinus;
+            this.toolStripButtonZoomMinus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonZoomMinus.Name = "toolStripButtonZoomMinus";
+            this.toolStripButtonZoomMinus.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonZoomMinus.Text = "Zoom -";
+            this.toolStripButtonZoomMinus.Click += new System.EventHandler(this.toolStripButtonZoomLess_Click);
+            // 
+            // pictureBoxPedacoImg
+            // 
+            this.pictureBoxPedacoImg.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBoxPedacoImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxPedacoImg.Location = new System.Drawing.Point(14, 45);
+            this.pictureBoxPedacoImg.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBoxPedacoImg.MinimumSize = new System.Drawing.Size(100, 100);
+            this.pictureBoxPedacoImg.Name = "pictureBoxPedacoImg";
+            this.pictureBoxPedacoImg.Size = new System.Drawing.Size(157, 148);
+            this.pictureBoxPedacoImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxPedacoImg.TabIndex = 0;
+            this.pictureBoxPedacoImg.TabStop = false;
+            // 
+            // toolStripButtonNewProject
+            // 
+            this.toolStripButtonNewProject.Image = global::GPRNFont.Properties.Resources.icon_new;
+            this.toolStripButtonNewProject.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButtonNewProject.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNewProject.Name = "toolStripButtonNewProject";
+            this.toolStripButtonNewProject.Size = new System.Drawing.Size(103, 36);
+            this.toolStripButtonNewProject.Text = "New Project";
+            this.toolStripButtonNewProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolStripButtonNewProject.ToolTipText = "New Project";
+            this.toolStripButtonNewProject.Click += new System.EventHandler(this.toolStripButtonNewProject_Click);
+            // 
+            // toolStripButtonOpenProject
+            // 
+            this.toolStripButtonOpenProject.Image = global::GPRNFont.Properties.Resources.icon_open;
+            this.toolStripButtonOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOpenProject.Name = "toolStripButtonOpenProject";
+            this.toolStripButtonOpenProject.Size = new System.Drawing.Size(108, 36);
+            this.toolStripButtonOpenProject.Text = "Open Project";
+            this.toolStripButtonOpenProject.ToolTipText = "Open Project";
+            this.toolStripButtonOpenProject.Click += new System.EventHandler(this.toolStripButtonOpenProject_Click);
+            // 
+            // toolStripButtonSaveProject
+            // 
+            this.toolStripButtonSaveProject.Image = global::GPRNFont.Properties.Resources.icon_save;
+            this.toolStripButtonSaveProject.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButtonSaveProject.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSaveProject.Name = "toolStripButtonSaveProject";
+            this.toolStripButtonSaveProject.Size = new System.Drawing.Size(103, 36);
+            this.toolStripButtonSaveProject.Text = "Save Project";
+            this.toolStripButtonSaveProject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolStripButtonSaveProject.Click += new System.EventHandler(this.toolStripButtonSaveProject_Click);
+            // 
+            // toolStripButtonExport
+            // 
+            this.toolStripButtonExport.Image = global::GPRNFont.Properties.Resources.icon_export;
+            this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonExport.Name = "toolStripButtonExport";
+            this.toolStripButtonExport.Size = new System.Drawing.Size(73, 36);
+            this.toolStripButtonExport.Text = "Export";
+            this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
+            // 
+            // toolStripButtonQuickDivide
+            // 
+            this.toolStripButtonQuickDivide.Image = global::GPRNFont.Properties.Resources.icon_quickDivide;
+            this.toolStripButtonQuickDivide.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonQuickDivide.Name = "toolStripButtonQuickDivide";
+            this.toolStripButtonQuickDivide.Size = new System.Drawing.Size(106, 36);
+            this.toolStripButtonQuickDivide.Text = "Quick Divide";
+            this.toolStripButtonQuickDivide.Click += new System.EventHandler(this.toolStripButtonQuickDivide_Click);
+            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -902,9 +901,10 @@
             this.ClientSize = new System.Drawing.Size(1060, 618);
             this.Controls.Add(this.splitContainerGlyphs);
             this.Controls.Add(this.toolStripBarraBotoes);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(250, 300);
             this.Name = "FormPrincipal";
-            this.Text = "GPRNFont";
+            this.Text = "GPRNFont - Unity Custom Font Editor";
             this.toolStripBarraBotoes.ResumeLayout(false);
             this.toolStripBarraBotoes.PerformLayout();
             this.splitContainerGlyphs.Panel1.ResumeLayout(false);
@@ -922,7 +922,6 @@
             this.splitContainerImgZoom.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerImgZoom)).EndInit();
             this.splitContainerImgZoom.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImagem)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -941,13 +940,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUVW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUVY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUVX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPedacoImg)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImagem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPedacoImg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

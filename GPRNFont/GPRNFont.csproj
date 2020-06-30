@@ -99,5 +99,23 @@
   <ItemGroup>
     <None Include="Resources\zoomPlus.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_quickDivide.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
