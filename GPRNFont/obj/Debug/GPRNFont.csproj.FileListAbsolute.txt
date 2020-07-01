@@ -19,3 +19,4 @@ C:\Users\Gilberto\Documents\Desenvolvimento\C#\GPRNFont\GPRNFont\obj\Debug\GPRNF
 C:\Users\Gilberto\Documents\Desenvolvimento\C#\GPRNFont\GPRNFont\obj\Debug\GPRNFont.exe
 C:\Users\Gilberto\Documents\Desenvolvimento\C#\GPRNFont\GPRNFont\obj\Debug\GPRNFont.pdb
 C:\Users\Gilberto\Documents\Desenvolvimento\C#\GPRNFont\GPRNFont\obj\Debug\GPRNFont.FormQuickDivide.resources
+C:\Users\Gilberto\Documents\Desenvolvimento\C#\GPRNFont\GPRNFont\obj\Debug\GPRNFont.FormImport.resources

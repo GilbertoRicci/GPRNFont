@@ -17,7 +17,10 @@ namespace GPRNFont
 {
     public partial class FormPrincipal : Form
     {
-        private XmlSerializer xmlSerializer;
+        public static string[] IMG_EXTENSIONS = { ".jpg", ".jpeg", ".jpe", ".jfif", ".png", ".bmp", ".gif" };
+        public static string[] FONTSETTINGS_EXTENSION = { ".fontsettings" };
+
+    private XmlSerializer xmlSerializer;
         private string imgPath;
         private SelectionManager selectionManager;
         private Image originalImage;
@@ -28,6 +31,7 @@ namespace GPRNFont
         private int zoom = 100;
         private bool isDividing;
         private FormQuickDivide formQuickDivide;
+        private FormImport formImport;
 
         private double ZoomFactor { get { return this.zoom / 100.0; } }
 
@@ -298,12 +302,32 @@ namespace GPRNFont
             this.toolStripButtonQuickDivide.Enabled = true;
         }
 
+        private static string ToExtensionString(string description, string[] extensions)
+        {
+            var str = "";
+
+            foreach (var ext in extensions)
+                str += "*" + ext + ";";
+
+            return description + " (" + str + ") | " + str;
+        }
+
+        public static string GetImageExtensionString()
+        {
+            return ToExtensionString("Image files", IMG_EXTENSIONS);
+        }
+
+        public static string GetFontsettingsExtensionString()
+        {
+            return ToExtensionString(".fontsettings file", FONTSETTINGS_EXTENSION);
+        }
+
         private void NewProject()
         {
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
                 dlg.Title = "New Project";
-                dlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+                dlg.Filter = GetImageExtensionString();
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                     this.OpenProject(dlg.FileName, null);
@@ -422,7 +446,7 @@ namespace GPRNFont
         {
             var dialog = new OpenFileDialog();
             dialog.Title = "Export";
-            dialog.Filter = ".fontsettings file (*.fontsettings) | *.fontsettings";
+            dialog.Filter = GetFontsettingsExtensionString();
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -434,6 +458,17 @@ namespace GPRNFont
                 catch(Exception e)
                 {
                     MessageBox.Show("Export to file " + dialog.FileName + " failed (" + e.Message + ").", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void Import()
+        {
+            using (this.formImport = new FormImport())
+            {
+                if (this.formImport.ShowDialog() == DialogResult.OK)
+                {
+                    this.OpenProject(this.formImport.ImagePath, this.formImport.GlyphDataList);
                 }
             }
         }
@@ -742,6 +777,11 @@ namespace GPRNFont
         private void toolStripButtonExport_Click(object sender, EventArgs e)
         {
             this.Export();
+        }
+
+        private void toolStripButtonImport_Click(object sender, EventArgs e)
+        {
+            this.Import();
         }
 
         private void toolStripButtonQuickDivide_Click(object sender, EventArgs e)

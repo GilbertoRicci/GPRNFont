@@ -90,6 +90,10 @@ namespace GPRNFont
         public void Clear()
         {
             this.listViewGlyphs.Clear();
+
+            if (this.listViewGlyphs.LargeImageList != null)
+                this.listViewGlyphs.LargeImageList.Images.Clear();
+
             this.glyphs.Clear();
         }
 
