@@ -1,7 +1,7 @@
 # GPRNFont
 **Unity Custom Font .fontsettings Generator**
 
-Made on covid-19 quarantine, just for fun.
+Made during covid-19 quarantine, just for fun.
 
 **Create Custom Fonts for Unity without have to fill manually data like "Vert X" or "UV Width". With GPRNFont, you can do it visually using an image.**
 
